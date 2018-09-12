@@ -53,7 +53,12 @@ public class DebugTarget {
             return;
         debugBlocksSent.remove(blockLocation);
         if (((Player) targetSender).isOnline()) {
-            ((Player) targetSender).sendBlockChange(blockLocation, blockLocation.getBlock().getType(), blockLocation.getBlock().getData());
+            try {
+                // 1.13+
+                ((Player) targetSender).sendBlockChange(blockLocation, blockLocation.getBlock().getBlockData());
+            } catch (NoSuchMethodError ex) {
+                ((Player) targetSender).sendBlockChange(blockLocation, blockLocation.getBlock().getType(), blockLocation.getBlock().getData());
+            }
         }
     }
 
@@ -61,7 +66,13 @@ public class DebugTarget {
     public void clearDebugBlocks() {
         for (Location blockLocation : debugBlocksSent) {
             if (((Player) targetSender).isOnline()) {
-                ((Player) targetSender).sendBlockChange(blockLocation, blockLocation.getBlock().getType(), blockLocation.getBlock().getData());
+                try {
+                    // 1.13+
+                    ((Player) targetSender).sendBlockChange(blockLocation, blockLocation.getBlock().getBlockData());
+                } catch (NoSuchMethodError ex) {
+                    // Legacy
+                    ((Player) targetSender).sendBlockChange(blockLocation, blockLocation.getBlock().getType(), blockLocation.getBlock().getData());
+                }
             }
         }
         debugBlocksSent.clear();

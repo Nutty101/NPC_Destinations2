@@ -510,7 +510,15 @@ public class Citizens_Processing {
                     if (((Player) debugOutput.targetSender).isOnline()) {
                         Player player = ((Player) debugOutput.targetSender);
                         if (player.getWorld().equals(pendDestination.getWorld())) {
-                            player.sendBlockChange(pendDestination, pendDestination.getBlock().getType(), pendDestination.getBlock().getData());
+                            try {
+                                // 1.13+
+                                player.sendBlockChange(pendDestination, pendDestination.getBlock().getBlockData());
+                            } catch (NoSuchMethodError ex) {
+                                // Legacy
+                                player.sendBlockChange(pendDestination, pendDestination.getBlock().getType(), pendDestination.getBlock().getData());
+                            }
+
+
                         }
                     }
                 }
@@ -525,7 +533,13 @@ public class Citizens_Processing {
                 if (((Player) debugOutput.targetSender).isOnline()) {
                     Player player = ((Player) debugOutput.targetSender);
                     if (player.getWorld().equals(trait.getPendingDestinations().get(index).getWorld())) {
-                        player.sendBlockChange(trait.getPendingDestinations().get(index), trait.getPendingDestinations().get(index).getBlock().getType(), trait.getPendingDestinations().get(index).getBlock().getData());
+                        try {
+                            // 1.13+
+                            player.sendBlockChange(trait.getPendingDestinations().get(index), trait.getPendingDestinations().get(index).getBlock().getBlockData());
+                        } catch (NoSuchMethodError ex) {
+                            // Legacy
+                            player.sendBlockChange(trait.getPendingDestinations().get(index), trait.getPendingDestinations().get(index).getBlock().getType(), trait.getPendingDestinations().get(index).getBlock().getData());
+                        }
                     }
                 }
             }
