@@ -101,20 +101,11 @@ public class AstarPathFinder {
         Location cleanStart = start.clone();
         Location cleanEnd = end.clone();
 
-        for (byte y = 3; y > -3; y--) {
-            if (start.clone().add(0, y, 0).getBlock().getType().isSolid()) {
-                cleanStart = start.clone().add(0, y, 0);
-                break;
-            }
-        }
+        if (!cleanStart.clone().getBlock().getType().isSolid())
+            cleanStart.add(0, -1, 0);
         
-        for (byte y = 3; y > -3; y--) {
-
-            if (end.clone().add(0, y, 0).getBlock().getType().isSolid()) {
-                cleanEnd = end.clone().add(0, y, 0);
-                break;
-            }
-        }
+        if (!cleanEnd.clone().getBlock().getType().isSolid())
+            cleanEnd.add(0, -1, 0);
 
         // Add to the queue
         PathFindingQueue oQueueItem = new PathFindingQueue();

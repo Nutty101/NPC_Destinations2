@@ -197,6 +197,12 @@ public class Commands_NPC
             return true;
         }
 
+        if (!npc.isSpawned())
+        {
+            destRef.getMessageManager.sendMessage("destinations", sender, "messages.invalid_npc");
+            return true;
+        }
+        
         if (inargs.length > 1) {
             int nLocNum = -1;
 

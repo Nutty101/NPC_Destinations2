@@ -225,4 +225,24 @@ public class MCUtil_1_9_R2 implements MCUtilsBridge {
         return plr.getInventory().getItemInOffHand();
     }
 
+    @SuppressWarnings("deprecation")
+    @Override
+    public void sendClientBlock(Player target, Location blockLocation, Material material) {
+        if (material == null)
+            target.sendBlockChange(blockLocation, blockLocation.getBlock().getType(),blockLocation.getBlock().getData());
+        else
+            target.sendBlockChange(blockLocation, material, (byte) 0);
+    }
+
+    @Override
+    public boolean isHoldingBook(Player player) {
+        switch (player.getInventory().getItemInMainHand().getType()) {
+        case WRITTEN_BOOK:
+        case BOOK_AND_QUILL:
+        case BOOK:
+            return true;
+        default:
+            return false;
+        }
+    }
 }

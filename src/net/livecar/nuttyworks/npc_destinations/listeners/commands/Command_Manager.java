@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.World;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -248,7 +249,12 @@ public class Command_Manager {
                 results.addAll(getStorageReference.getWorldGuardPlugin.getRegionList(world));
             }
         } else {
-            results.add(item);
+            for (DestinationsAddon plugin : getStorageReference.getPluginManager.getPlugins()) {
+                List<String> tabItems = plugin.parseTabItem(item, priorArg);
+                if (tabItems.size() > 0)
+                    results.addAll(tabItems);
+            }
+
         }
         return results;
     }

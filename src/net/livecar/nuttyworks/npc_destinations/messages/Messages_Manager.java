@@ -659,6 +659,7 @@ public class Messages_Manager {
         if (item == null)
             return "";
         if (item.getItemMeta() != null && item.getItemMeta().getDisplayName() != null) {
+            if (!item.getItemMeta().getDisplayName().trim().equals(""))
             return item.getItemMeta().getDisplayName();
         }
         if (item.getType() != null)

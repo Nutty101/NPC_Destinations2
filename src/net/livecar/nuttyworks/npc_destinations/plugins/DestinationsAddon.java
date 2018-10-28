@@ -1,5 +1,8 @@
 package net.livecar.nuttyworks.npc_destinations.plugins;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.bukkit.Material;
 
 import net.citizensnpcs.api.npc.NPC;
@@ -24,6 +27,10 @@ public class DestinationsAddon {
         return ",{\"text\":\"&a?&e\",\"hoverEvent\":{\"action\":\"show_text\",\"value\":\"The developer of this plugin didn't design it right.\"}}";
     }
 
+    public List<String> parseTabItem(String item, String priorArg) {
+        return new ArrayList<String>();
+    }
+    
     public String parseLanguageLine(String message, NPCDestinationsTrait npcTrait, Destination_Setting locationSetting, Material blockMaterial, NPC npc, int ident) {
         return message;
     }

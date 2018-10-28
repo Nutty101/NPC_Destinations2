@@ -10,6 +10,7 @@ import org.bukkit.block.BlockState;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.block.data.Levelled;
 import org.bukkit.block.data.Openable;
+import org.bukkit.block.data.type.Bed;
 import org.bukkit.block.data.type.Slab;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -232,6 +233,40 @@ public class MCUtil_1_13_R2 implements MCUtilsBridge {
     @Override
     public ItemStack getSecondHand(Player plr) {
         return plr.getInventory().getItemInOffHand();
+    }
+
+    @Override
+    public void sendClientBlock(Player target, Location blockLocation, Material material) {
+        if (material == null)
+        {
+            BlockData bData = blockLocation.getBlock().getBlockData().clone();
+            if (blockLocation.getBlock().getBlockData() instanceof Bed)
+            {
+                //Why is this not sending right??
+                Bed tmpBed = ((Bed)bData);
+                
+                ((Bed)bData).setFacing(((Bed)blockLocation.getBlock().getBlockData()).getFacing());
+                ((Bed)bData).setPart(((Bed)blockLocation.getBlock().getBlockData()).getPart());
+            }
+            target.sendBlockChange(blockLocation, bData);
+        }
+        else
+        {
+            BlockData bData = material.createBlockData();
+            target.sendBlockChange(blockLocation, bData);
+        }
+    }
+
+    @Override
+    public boolean isHoldingBook(Player player) {
+        switch (player.getInventory().getItemInMainHand().getType()) {
+        case WRITTEN_BOOK:
+        case WRITABLE_BOOK:
+        case BOOK:
+            return true;
+        default:
+            return false;
+        }
     }
 
 }

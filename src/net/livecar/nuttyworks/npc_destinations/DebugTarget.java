@@ -37,31 +37,29 @@ public class DebugTarget {
         return targetIDS;
     }
 
-    @SuppressWarnings("deprecation")
     public void addDebugBlockSent(Location blockLocation, Material material) {
         if (debugBlocksSent.contains(blockLocation))
             return;
         debugBlocksSent.add(blockLocation);
+
         if (((Player) targetSender).isOnline()) {
-            ((Player) targetSender).sendBlockChange(blockLocation, material, (byte) 0);
+            DestinationsPlugin.Instance.getMCUtils.sendClientBlock((Player) targetSender, blockLocation, material);
         }
     }
 
-    @SuppressWarnings("deprecation")
     public void removeDebugBlockSent(Location blockLocation) {
         if (!debugBlocksSent.contains(blockLocation))
             return;
         debugBlocksSent.remove(blockLocation);
         if (((Player) targetSender).isOnline()) {
-            ((Player) targetSender).sendBlockChange(blockLocation, blockLocation.getBlock().getType(), blockLocation.getBlock().getData());
+            DestinationsPlugin.Instance.getMCUtils.sendClientBlock((Player) targetSender, blockLocation, null);
         }
     }
 
-    @SuppressWarnings("deprecation")
     public void clearDebugBlocks() {
         for (Location blockLocation : debugBlocksSent) {
             if (((Player) targetSender).isOnline()) {
-                ((Player) targetSender).sendBlockChange(blockLocation, blockLocation.getBlock().getType(), blockLocation.getBlock().getData());
+                DestinationsPlugin.Instance.getMCUtils.sendClientBlock((Player) targetSender, blockLocation, null);
             }
         }
         debugBlocksSent.clear();

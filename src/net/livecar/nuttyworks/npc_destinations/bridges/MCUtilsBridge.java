@@ -15,6 +15,8 @@ public interface MCUtilsBridge {
     boolean isWoodDoor(Material mat);
     boolean isMetalDoor(Material mat);
     boolean requiresOpening(Location l);
+    void sendClientBlock(Player target, Location blockLocation, Material material);
+    boolean isHoldingBook(Player player);
     
     inHandLightSource isHoldingTorch(Material mat);
     

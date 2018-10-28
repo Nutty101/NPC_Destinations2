@@ -147,20 +147,18 @@ public class MCUtil_1_11_R1 implements MCUtilsBridge {
     }
 
     @SuppressWarnings("deprecation")
-	@Override
-    public SLABTYPE getSlabType(Block block)
-    {
+    @Override
+    public SLABTYPE getSlabType(Block block) {
         if (block.getType() == Material.DOUBLE_STEP || block.getType() == Material.DOUBLE_STONE_SLAB2 || block.getType() == Material.WOOD_DOUBLE_STEP)
-        	return SLABTYPE.DOUBLE;
-        
-        if (block.getType() == Material.STEP || block.getType() == Material.WOOD_STEP)
-        {
-        	if (block.getData() < 8)
-        		return SLABTYPE.BOTTOM;
-        	else 
-        		return SLABTYPE.TOP;
+            return SLABTYPE.DOUBLE;
+
+        if (block.getType() == Material.STEP || block.getType() == Material.WOOD_STEP) {
+            if (block.getData() < 8)
+                return SLABTYPE.BOTTOM;
+            else
+                return SLABTYPE.TOP;
         }
-        
+
         return SLABTYPE.NONSLAB;
     }
 
@@ -224,4 +222,24 @@ public class MCUtil_1_11_R1 implements MCUtilsBridge {
         return plr.getInventory().getItemInOffHand();
     }
 
+    @SuppressWarnings("deprecation")
+    @Override
+    public void sendClientBlock(Player target, Location blockLocation, Material material) {
+        if (material == null)
+            target.sendBlockChange(blockLocation, blockLocation.getBlock().getType(), blockLocation.getBlock().getData());
+        else
+            target.sendBlockChange(blockLocation, material, (byte) 0);
+    }
+
+    @Override
+    public boolean isHoldingBook(Player player) {
+        switch (player.getInventory().getItemInMainHand().getType()) {
+        case WRITTEN_BOOK:
+        case BOOK_AND_QUILL:
+        case BOOK:
+            return true;
+        default:
+            return false;
+        }
+    }
 }

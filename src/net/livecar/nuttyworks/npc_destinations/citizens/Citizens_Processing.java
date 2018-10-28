@@ -1167,11 +1167,11 @@ public class Citizens_Processing {
             if (key.keyExists("AllowedBlocks." + nCnt)) {
                 String materialType = key.getString("AllowedBlocks." + nCnt);
 
-                try {
-                    trait.AllowedPathBlocks.add(Material.getMaterial(materialType));
-                } catch (Exception err) {
-                    // Just don't add this material
-                }
+                Material allowMat = Material.getMaterial(materialType);
+                if (allowMat != null)
+                    trait.AllowedPathBlocks.add(allowMat);
+                else
+                    this.destRef.getMessageManager.logToConsole(destRef,"Block conversion failure-" + materialType);
             } else {
                 break;
             }
@@ -1341,13 +1341,15 @@ public class Citizens_Processing {
                                 }
                             }
                         } else {
-                            try {
+                            plugin.onLocationLoading(trait.getNPC(), trait, oLoc, key.getRelative("Destinations." + nCnt + ".PluginSettings"));
+                            
+                            /* try {
                                 plugin.onLocationLoading(trait.getNPC(), trait, oLoc, key.getRelative("Destinations." + nCnt + ".PluginSettings"));
                             } catch (Exception err) {
                                 StringWriter sw = new StringWriter();
                                 err.printStackTrace(new PrintWriter(sw));
                                 destRef.getMessageManager.consoleMessage(destRef, "destinations", "Console_Messages.plugin_debug", err.getMessage() + "\n" + sw.toString());
-                            }
+                            } */
                         }
                     }
                 } catch (Exception err) {
