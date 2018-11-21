@@ -1,0 +1,76 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>net.livecar.nuttyworks.npc_destinations</groupId>
+    <artifactId>NPCDestinations-parent</artifactId>
+    <version>2.2.3-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
+    <modules>
+        <module>Api</module>
+        <module>Plugin</module>
+        <module>v1_13_R2</module>
+        <module>v1_12_R1</module>
+        <module>v1_11_R1</module>
+        <module>v1_10_R1</module>
+        <module>v1_9_R2</module>
+        <module>v1_9_R1</module>
+        <module>v1_8_R3</module>
+    </modules>
+
+
+    <name>NPC_Destinations</name>
+    <description>Parent project for NPC Destinations</description>
+    <url>https://github.com/Nutty101/NPC_Destinations2</url>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+    </properties>
+
+    <!-- Common Repositories -->
+    <repositories>
+        <repository>
+            <id>spigot-repo</id>
+            <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
+        </repository>
+        <repository>
+            <id>everything</id>
+            <url>http://repo.citizensnpcs.co/</url>
+        </repository>
+        <repository>
+            <id>betonquest-repo</id>
+            <url>https://betonquest.pl/mvn</url>
+        </repository>
+        <repository>
+            <id>PlotSquared</id>
+            <url>http://ci.athion.net/job/PlotSquared/ws/mvn/</url>
+        </repository>
+        <repository>
+            <id>sk89q-repo</id>
+            <url>http://maven.sk89q.com/repo/</url>
+        </repository>
+        <repository>
+            <id>bundabrg-repo</id>
+            <url>https://repo.worldguard.com.au/repository/maven-public/</url>
+        </repository>
+    </repositories>
+
+    <build>
+        <defaultGoal>clean install</defaultGoal>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.0</version>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
