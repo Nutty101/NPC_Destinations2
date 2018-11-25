@@ -35,7 +35,7 @@ public interface MCUtilsBridge {
         NOLIGHT
     }
     
-    enum SLABTYPE {
+    public enum SLABTYPE {
     	TOP,
     	BOTTOM,
     	DOUBLE,

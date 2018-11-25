@@ -15,7 +15,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.UnsupportedEncodingException;
-import java.nio.charset.StandardCharsets;
 import java.util.logging.Level;
 
 public class Utilities {
@@ -35,8 +34,8 @@ public class Utilities {
         Reader inputStreamReader = null;
         try {
             inputStream = new FileInputStream(file);
-            inputStreamReader = new InputStreamReader(inputStream, StandardCharsets.UTF_8);
-        } catch (FileNotFoundException e) {
+            inputStreamReader = new InputStreamReader(inputStream, "UTF-8");
+        } catch (FileNotFoundException | UnsupportedEncodingException e) {
             e.printStackTrace();
         }
 

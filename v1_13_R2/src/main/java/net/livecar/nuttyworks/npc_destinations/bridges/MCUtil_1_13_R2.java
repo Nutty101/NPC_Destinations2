@@ -208,7 +208,7 @@ public class MCUtil_1_13_R2 implements MCUtilsBridge {
 
         if (oOpenable.isOpen()) {
             oOpenable.setOpen(false);
-            oBlockState.setBlockData(oOpenable);
+            oBlockState.setBlockData((BlockData) oOpenable);
             oBlockState.update();
         }
     }
@@ -220,7 +220,7 @@ public class MCUtil_1_13_R2 implements MCUtilsBridge {
 
         if (!oOpenable.isOpen()) {
             oOpenable.setOpen(true);
-            oBlockState.setBlockData(oOpenable);
+            oBlockState.setBlockData((BlockData) oOpenable);
             oBlockState.update();
         }
     }

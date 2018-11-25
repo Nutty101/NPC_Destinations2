@@ -577,6 +577,37 @@ public class Citizens_Processing {
             }
         }
 
+        //Equipment class lookup
+        Equipment locEquip = trait.getNPC().getTrait(Equipment.class);
+
+        // Lighting V1.19 - Check for torches in either hand
+        if (destRef.getLightPlugin != null) {
+            boolean startLightTask = false;
+            if (locEquip.get(EquipmentSlot.HAND) != null && (destRef.getMCUtils.isHoldingTorch(locEquip.get(EquipmentSlot.HAND).getType()) != inHandLightSource.NOLIGHT )) {
+                startLightTask = true;
+                destRef.getMessageManager.debugMessage(Level.FINE, "NPC:" + trait.getNPC().getId() + "|Lighting");
+
+            }
+            if (destRef.Version >= 10900) {
+                if (locEquip.get(EquipmentSlot.OFF_HAND) != null && (destRef.getMCUtils.isHoldingTorch(locEquip.get(EquipmentSlot.OFF_HAND).getType()) != inHandLightSource.NOLIGHT )) {
+                    destRef.getMessageManager.debugMessage(Level.FINE, "NPC:" + trait.getNPC().getId() + "|Lighting-1_10");
+                    startLightTask = true;
+                }
+            }
+
+            if (startLightTask) {
+                if (trait.lightTask < 1) {
+                    final int npcID = trait.getNPC().getId();
+                    trait.lightTask = Bukkit.getScheduler().scheduleSyncDelayedTask(destRef, new Runnable() {
+                        public void run() {
+                            updateLighting(npcID);
+                        }
+                    }, 10);
+                }
+            }
+        }
+
+
         if (trait.getCurrentAction() != en_CurrentAction.IDLE) {
             // Check the area near the NPC for players. Pause if so
             int traitDistance = 0;
