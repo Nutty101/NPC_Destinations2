@@ -3,20 +3,22 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>net.livecar.nuttyworks.npc_destinations</groupId>
-    <artifactId>NPCDestinations</artifactId>
-    <version>2.2.3-SNAPSHOT</version>
+    <artifactId>NPCDestinations-Parent</artifactId>
+    <version>2.3.0</version>
     <packaging>pom</packaging>
 
     <modules>
-        <module>Api</module>
-        <module>Plugin</module>
-        <module>v1_13_R2</module>
-        <module>v1_12_R1</module>
-        <module>v1_11_R1</module>
-        <module>v1_10_R1</module>
-        <module>v1_9_R2</module>
-        <module>v1_9_R1</module>
-        <module>v1_8_R3</module>
+        <module>NPCDestinations-API</module>
+        <module>NPCDestinations-Plugin</module>
+        <module>NPCDestinations-V1_13_R2</module>
+        <module>NPCDestinations-V1_12_R1</module>
+        <module>NPCDestinations-V1_11_R1</module>
+        <module>NPCDestinations-V1_10_R1</module>
+        <module>NPCDestinations-V1_9_R2</module>
+        <module>NPCDestinations-V1_8_R3</module>
+	<module>NPCDestinations-WG7_0_0</module>
+        <module>NPCDestinations-WG7_0_1</module>
+        <module>NPCDestinations-WG6_2_2</module>
     </modules>
 
 
@@ -37,12 +39,12 @@
             <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
         </repository>
         <repository>
-            <id>everything</id>
-            <url>http://repo.citizensnpcs.co/</url>
+            <id>nuttys-repo</id>
+            <url>http://repo.livecar.net/</url>
         </repository>
         <repository>
-            <id>betonquest-repo</id>
-            <url>https://betonquest.pl/mvn</url>
+            <id>citizensrepo</id>
+            <url>http://repo.citizensnpcs.co/</url>
         </repository>
         <repository>
             <id>PlotSquared</id>
