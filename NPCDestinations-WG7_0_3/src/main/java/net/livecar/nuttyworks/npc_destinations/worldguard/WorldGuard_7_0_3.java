@@ -15,12 +15,13 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import com.sk89q.worldedit.math.BlockVector3;
 import com.sk89q.worldguard.WorldGuard;
+import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import com.sk89q.worldguard.protection.flags.StateFlag;
 import com.sk89q.worldguard.protection.managers.RegionManager;
 import com.sk89q.worldguard.protection.regions.ProtectedCuboidRegion;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 
-public class WorldGuard_7_0_1 implements WorldGuardInterface, Listener {
+public class WorldGuard_7_0_3 implements WorldGuardInterface, Listener {
 
     public static final StateFlag CHUNK_FLAG = new StateFlag("ndest-forcechunk", false);
     private Plugin                destRef    = null;
@@ -29,21 +30,27 @@ public class WorldGuard_7_0_1 implements WorldGuardInterface, Listener {
         try {
             //Validate that BlockVector3 class exists
             Class.forName("com.sk89q.worldedit.math.BlockVector3");
-            //Validate that getWorldByName method exists (New beta's do not have this function anymore)
-            Class.forName("com.sk89q.worldguard.internal.platform.WorldGuardPlatform").getMethod("getWorldByName",(Class<?>[]) null);
-            return true;
         } catch (Exception e) {
             return false;
         }
+
+        try {
+            //Validate that getWorldByName method exists (New beta's do not have this function anymore)
+            Class.forName("com.sk89q.worldguard.internal.platform.WorldGuardPlatform").getMethod("getWorldByName",(Class<?>[]) null);
+            return false;
+        } catch (Exception e) {
+            return true;
+        }
+
     }
 
-    public WorldGuard_7_0_1(Plugin storageRef) {
+    public WorldGuard_7_0_3(Plugin storageRef) {
         destRef = storageRef;
         
     }
 
     public RegionManager getRegionManager(World world) {
-        return WorldGuard.getInstance().getPlatform().getRegionContainer().get(WorldGuard.getInstance().getPlatform().getWorldByName(world.getName()));
+        return WorldGuard.getInstance().getPlatform().getRegionContainer().get(BukkitAdapter.adapt(world));
     }
 
     public void registerFlags() {

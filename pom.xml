@@ -16,8 +16,9 @@
         <module>NPCDestinations-V1_10_R1</module>
         <module>NPCDestinations-V1_9_R2</module>
         <module>NPCDestinations-V1_8_R3</module>
-	<module>NPCDestinations-WG7_0_0</module>
+	    <module>NPCDestinations-WG7_0_0</module>
         <module>NPCDestinations-WG7_0_1</module>
+        <module>NPCDestinations-WG7_0_3</module>
         <module>NPCDestinations-WG6_2_2</module>
     </modules>
 

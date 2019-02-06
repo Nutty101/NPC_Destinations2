@@ -4,6 +4,7 @@ import net.citizensnpcs.Citizens;
 import net.citizensnpcs.api.event.CitizensDisableEvent;
 import net.livecar.nuttyworks.npc_destinations.worldguard.WorldGuard_6_2_2;
 import net.livecar.nuttyworks.npc_destinations.worldguard.WorldGuard_7_0_1;
+import net.livecar.nuttyworks.npc_destinations.worldguard.WorldGuard_7_0_3;
 import net.livecar.nuttyworks.npc_destinations.worldguard.WorldGuardInterface;
 import net.livecar.nuttyworks.npc_destinations.bridges.*;
 import net.livecar.nuttyworks.npc_destinations.citizens.Citizens_Processing;
@@ -141,6 +142,8 @@ public class DestinationsPlugin extends org.bukkit.plugin.java.JavaPlugin implem
                     this.getWorldGuardPlugin = new WorldGuard_6_2_2(this);
                 else if (majorVersion == 7 && WorldGuard_7_0_1.isValidVersion())
                     this.getWorldGuardPlugin = new WorldGuard_7_0_1(this);
+                else if (majorVersion == 7 && WorldGuard_7_0_3.isValidVersion())
+                    this.getWorldGuardPlugin = new WorldGuard_7_0_3(this);
                 this.getWorldGuardPlugin.registerFlags();
             }
         }

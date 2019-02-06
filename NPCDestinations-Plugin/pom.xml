@@ -83,6 +83,13 @@
             <scope>compile</scope>
             <optional>true</optional>
         </dependency>
+        <dependency>
+            <groupId>net.livecar.nuttyworks.npc_destinations</groupId>
+            <artifactId>NPCDestinations-WG7_0_3</artifactId>
+            <version>${project.version}</version>
+            <scope>compile</scope>
+            <optional>true</optional>
+        </dependency>
 
         <!--Bukkit API-->
         <dependency>
