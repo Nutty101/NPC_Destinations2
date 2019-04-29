@@ -236,6 +236,12 @@ public class DestinationsPlugin extends org.bukkit.plugin.java.JavaPlugin implem
             getPathClass = new AstarPathFinder(this);
             getMCUtils = new MCUtil_1_13_R2();
             getMessageManager.consoleMessage(this, "destinations", "console_messages.plugin_version", getServer().getVersion().substring(getServer().getVersion().indexOf('(')));
+        } else if (Bukkit.getServer().getClass().getPackage().getName().endsWith("v1_14_R1")) {
+            Version = 11410;
+            getParticleManager = new PlayParticle_1_14_R1();
+            getPathClass = new AstarPathFinder(this);
+            getMCUtils = new MCUtil_1_14_R1();
+            getMessageManager.consoleMessage(this, "destinations", "console_messages.plugin_version", getServer().getVersion().substring(getServer().getVersion().indexOf('(')));
         } else {
             getMessageManager.consoleMessage(this, "destinations", "console_messages.plugin_unknownversion", getServer().getVersion());
             getServer().getPluginManager().disablePlugin(this);
