@@ -90,6 +90,20 @@
             <scope>compile</scope>
             <optional>true</optional>
         </dependency>
+        <dependency>
+            <groupId>net.livecar.nuttyworks.npc_destinations</groupId>
+            <artifactId>NPCDestinations-PlotSquared_v3</artifactId>
+            <version>${project.version}</version>
+            <scope>compile</scope>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>net.livecar.nuttyworks.npc_destinations</groupId>
+            <artifactId>NPCDestinations-PlotSquared_v4</artifactId>
+            <version>${project.version}</version>
+            <scope>compile</scope>
+            <optional>true</optional>
+        </dependency>
 
         <!--Bukkit API-->
         <dependency>
@@ -159,12 +173,6 @@
             <groupId>com.gamingmesh.jobs</groupId>
             <artifactId>Jobs</artifactId>
             <version>4.8.0</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.intellectualcrafters</groupId>
-            <artifactId>plot</artifactId>
-            <version>18.09.09</version>
             <scope>provided</scope>
         </dependency>
         <dependency>

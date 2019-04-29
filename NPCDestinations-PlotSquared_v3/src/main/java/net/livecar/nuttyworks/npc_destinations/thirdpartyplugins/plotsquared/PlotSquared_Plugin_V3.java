@@ -8,15 +8,8 @@ import com.intellectualcrafters.plot.object.Plot;
 import com.intellectualcrafters.plot.object.PlotPlayer;
 
 import net.citizensnpcs.api.npc.NPC;
-import net.livecar.nuttyworks.npc_destinations.DestinationsPlugin;
 
-public class PlotSquared_Plugin {
-    @SuppressWarnings("unused")
-    private DestinationsPlugin destRef = null;
-
-    public PlotSquared_Plugin(DestinationsPlugin storageRef) {
-        destRef = storageRef;
-    }
+public class PlotSquared_Plugin_V3 implements PlotSquared{
 
     public boolean playerHasPermissions(Player plr) {
         if (plr.hasPermission("plots.destinations.bypass"))

@@ -2,6 +2,9 @@ package net.livecar.nuttyworks.npc_destinations;
 
 import net.citizensnpcs.Citizens;
 import net.citizensnpcs.api.event.CitizensDisableEvent;
+import net.livecar.nuttyworks.npc_destinations.thirdpartyplugins.plotsquared.PlotSquared;
+import net.livecar.nuttyworks.npc_destinations.thirdpartyplugins.plotsquared.PlotSquared_Plugin_V3;
+import net.livecar.nuttyworks.npc_destinations.thirdpartyplugins.plotsquared.PlotSquared_Plugin_V4;
 import net.livecar.nuttyworks.npc_destinations.worldguard.*;
 import net.livecar.nuttyworks.npc_destinations.bridges.*;
 import net.livecar.nuttyworks.npc_destinations.citizens.Citizens_Processing;
@@ -24,7 +27,6 @@ import net.livecar.nuttyworks.npc_destinations.plugins.Plugin_Manager;
 import net.livecar.nuttyworks.npc_destinations.thirdpartyplugins.betonquest.BetonQuest_Interface;
 import net.livecar.nuttyworks.npc_destinations.thirdpartyplugins.betonquest.BetonQuest_Plugin_V1_9;
 import net.livecar.nuttyworks.npc_destinations.thirdpartyplugins.jobsreborn.JobsReborn_Plugin;
-import net.livecar.nuttyworks.npc_destinations.thirdpartyplugins.plotsquared.PlotSquared_Plugin;
 import net.livecar.nuttyworks.npc_destinations.thirdpartyplugins.sentinel.Sentinel_Plugin;
 import net.livecar.nuttyworks.npc_destinations.utilities.Utilities;
 import net.livecar.nuttyworks.npc_destinations.messages.jsonChat;
@@ -78,7 +80,7 @@ public class DestinationsPlugin extends org.bukkit.plugin.java.JavaPlugin implem
     public Utilities                 getUtilitiesClass   = null;
     public Command_Manager           getCommandManager   = null;
     public Citizens_Processing       getCitizensProc     = null;
-    public PlotSquared_Plugin        getPlotSquared      = null;
+    public PlotSquared               getPlotSquared      = null;
     public MCUtilsBridge             getMCUtils          = null;
 
     public void onLoad() {
@@ -301,9 +303,27 @@ public class DestinationsPlugin extends org.bukkit.plugin.java.JavaPlugin implem
             this.getMessageManager.debugMessage(Level.CONFIG, "nuNPCDestinations.onEnable()|plotsquared_NotFound");
             getMessageManager.consoleMessage(this, "destinations", "Console_Messages.plotsquared_notfound");
         } else {
-            this.getPlotSquared = new PlotSquared_Plugin(this);
+
+            if (getPlotSquared == null) {
+                try {
+                    Class.forName("com.github.intellectualsites.plotsquared.plot.flag.Flag");
+                    this.getPlotSquared = new PlotSquared_Plugin_V4();
+                    getMessageManager.consoleMessage(this, "destinations", "Console_Messages.plotsquared_found","V4-" + getServer().getPluginManager().getPlugin("PlotSquared").getDescription().getVersion());
+                } catch (Exception e) {
+                }
+            }
+
+            if (getPlotSquared == null) {
+                try {
+                    Class.forName("com.intellectualcrafters.plot.flag.Flag");
+                    getMessageManager.consoleMessage(this, "destinations", "Console_Messages.plotsquared_found","V3-" + getServer().getPluginManager().getPlugin("PlotSquared").getDescription().getVersion());
+                    this.getPlotSquared = new PlotSquared_Plugin_V3();
+
+                } catch (Exception e) {
+                }
+            }
+
             this.getMessageManager.debugMessage(Level.CONFIG, "nuNPCDestinations.onEnable()|plotsquared_Found");
-            getMessageManager.consoleMessage(this, "destinations", "Console_Messages.plotsquared_found");
         }
 
         if (getServer().getPluginManager().getPlugin("WorldGuard") == null) {
