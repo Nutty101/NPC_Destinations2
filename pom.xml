@@ -10,6 +10,7 @@
     <modules>
         <module>NPCDestinations-API</module>
         <module>NPCDestinations-Plugin</module>
+        <module>NPCDestinations-V1_14_R1</module>
         <module>NPCDestinations-V1_13_R2</module>
         <module>NPCDestinations-V1_12_R1</module>
         <module>NPCDestinations-V1_11_R1</module>
