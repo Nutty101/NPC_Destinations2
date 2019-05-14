@@ -5,12 +5,15 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
+import net.citizensnpcs.api.util.MemoryDataKey;
 import org.bukkit.inventory.ItemStack;
 
 public class Sentinel_LocationSetting {
     public UUID            locationID;
 
     public Date            lastSet           = new Date(0);
+
+    public MemoryDataKey   sentinelSettings = new MemoryDataKey();
 
     public double          range             = 0.0;
     public double          damage            = 0.0;

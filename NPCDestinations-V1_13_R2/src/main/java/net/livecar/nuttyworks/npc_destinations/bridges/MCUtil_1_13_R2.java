@@ -12,8 +12,14 @@ import org.bukkit.block.data.Levelled;
 import org.bukkit.block.data.Openable;
 import org.bukkit.block.data.type.Bed;
 import org.bukkit.block.data.type.Slab;
+import org.bukkit.craftbukkit.v1_13_R2.entity.CraftLivingEntity;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+
+import net.minecraft.server.v1_13_R2.EntityInsentient;
+import net.minecraft.server.v1_13_R2.EntityLiving;
+import net.minecraft.server.v1_13_R2.EntityPlayer;
 
 public class MCUtil_1_13_R2 implements MCUtilsBridge {
 
@@ -223,6 +229,16 @@ public class MCUtil_1_13_R2 implements MCUtilsBridge {
             oBlockState.setBlockData((BlockData) oOpenable);
             oBlockState.update();
         }
+    }
+
+    @Override
+    public boolean setTargetLocation(Entity entity, Double x, Double y, Double z, Float speed) {
+        EntityLiving nmsEntity = ((CraftLivingEntity) entity).getHandle();
+        if (nmsEntity instanceof EntityInsentient) {
+            ((EntityInsentient) nmsEntity).getNavigation().a(x, y, z, speed);
+            return true;
+        }
+        return false;
     }
 
     @Override

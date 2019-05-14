@@ -27,6 +27,13 @@
             <version>1.13.1-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>org.bukkit</groupId>
+            <artifactId>craftbukkit</artifactId>
+            <version>1.13.1-R0.1-SNAPSHOT</version>
+            <scope>provided</scope>
+        </dependency>
+
         <!-- NPC_Destinations API -->
         <dependency>
             <groupId>net.livecar.nuttyworks.npc_destinations</groupId>

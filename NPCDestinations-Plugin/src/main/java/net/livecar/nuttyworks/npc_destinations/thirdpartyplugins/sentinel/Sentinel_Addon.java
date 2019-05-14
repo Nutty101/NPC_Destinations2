@@ -199,6 +199,15 @@ public class Sentinel_Addon extends DestinationsAddon {
         Sentinel_LocationSetting locationConfig = npcSettings.get(npc.getId()).locations.get(location.LocationIdent);
 
         if (locationConfig.locationID != null) {
+
+
+            for (DataKey entry : locationConfig.sentinelSettings.getSubKeys())
+            {
+                Object val = entry.getRaw(locationConfig.sentinelSettings.getPath());
+                storageKey.setRaw("Sentinel.raw." + entry.name(), val);
+            }
+            //storageKey.setRaw("Sentinel.raw", locationConfig.sentinelSettings);
+
             // V1.39 - Sentinel
             storageKey.setLong("Sentinel.lastSet", locationConfig.lastSet.getTime());
 

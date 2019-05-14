@@ -3,6 +3,7 @@ package net.livecar.nuttyworks.npc_destinations.bridges;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -27,7 +28,9 @@ public interface MCUtilsBridge {
     
     void closeOpenable(Block oBlock);
     void openOpenable(Block oBlock);
-    
+
+    boolean setTargetLocation(Entity entity, Double x, Double y, Double z, Float speed);
+
     enum inHandLightSource
     {
         REDSTONE_TORCH,

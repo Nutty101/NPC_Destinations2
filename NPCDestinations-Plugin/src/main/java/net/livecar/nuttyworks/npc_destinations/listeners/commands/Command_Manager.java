@@ -268,16 +268,16 @@ public class Command_Manager {
                 }
             }
         } else if (item.equalsIgnoreCase("<region>") && !priorArg.equalsIgnoreCase("--npc")) {
-            for (World world : getStorageReference.getServer().getWorlds()) {
-                if (currentValue.length() > 0)
-                {
-                    for (String regionname : getStorageReference.getWorldGuardPlugin.getRegionList(world))
-                    {
-                        if (String.valueOf(regionname).toLowerCase().startsWith(currentValue.toLowerCase()))
-                            results.add(regionname);
+            if (getStorageReference.getWorldGuardPlugin != null) {
+                for (World world : getStorageReference.getServer().getWorlds()) {
+                    if (currentValue.length() > 0) {
+                        for (String regionname : getStorageReference.getWorldGuardPlugin.getRegionList(world)) {
+                            if (String.valueOf(regionname).toLowerCase().startsWith(currentValue.toLowerCase()))
+                                results.add(regionname);
+                        }
+                    } else {
+                        results.addAll(getStorageReference.getWorldGuardPlugin.getRegionList(world));
                     }
-                } else {
-                    results.addAll(getStorageReference.getWorldGuardPlugin.getRegionList(world));
                 }
             }
         } else {

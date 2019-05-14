@@ -3,10 +3,14 @@ package net.livecar.nuttyworks.npc_destinations.bridges;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.minecraft.server.v1_11_R1.EntityInsentient;
+import net.minecraft.server.v1_11_R1.EntityLiving;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
+import org.bukkit.craftbukkit.v1_11_R1.entity.CraftLivingEntity;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.material.MaterialData;
@@ -210,6 +214,16 @@ public class MCUtil_1_11_R1 implements MCUtilsBridge {
             oBlockState.setData((MaterialData) oOpenable);
             oBlockState.update();
         }
+    }
+
+    @Override
+    public boolean setTargetLocation(Entity entity, Double x, Double y, Double z, Float speed) {
+        EntityLiving nmsEntity = ((CraftLivingEntity) entity).getHandle();
+        if (nmsEntity instanceof EntityInsentient) {
+            ((EntityInsentient) nmsEntity).getNavigation().a(x, y, z, speed);
+            return true;
+        }
+        return false;
     }
 
     @Override

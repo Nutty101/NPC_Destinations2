@@ -15,6 +15,7 @@ import java.util.UUID;
 
 import java.util.logging.Level;
 
+import net.citizensnpcs.Citizens;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -797,38 +798,6 @@ public class Citizens_Processing {
                 }
             }
 
-            /*
-             * Removed 1.25 - Sticking with the old path finder
-             *
-             * Path overrides to fix npc spinning
-             *
-             * boolean needsOldPathing = false; boolean hasDoors = false; for
-             * (int ncnt = 0; ncnt < 3; ncnt++) { if
-             * ((trait.pendingDestinations.size() - 1) >= ncnt) { Location
-             * locHist = trait.pendingDestinations.get(ncnt); switch
-             * (locHist.getBlock().getType().toString()) { case "GRASS_PATH":
-             * case "SOIL": case "SOUL_SAND": needsOldPathing = true; default:
-             * break; } if (locHist.clone().add(0, 1,
-             * 0).getBlock().getType().toString().toLowerCase().contains("door")
-             * ) { needsOldPathing = false; hasDoors = true; }
-             *
-             * }
-             *
-             * if ((trait.processedDestinations.size() - 1) >= ncnt) { Location
-             * locHist =
-             * trait.processedDestinations.get((trait.processedDestinations.size
-             * () - 1) - ncnt); switch (locHist.getBlock().getType().toString())
-             * { case "GRASS_PATH": case "SOIL": case "SOUL_SAND":
-             * needsOldPathing = true; default: break; } if
-             * (locHist.clone().add(0, 1,
-             * 0).getBlock().getType().toString().toLowerCase().contains("door")
-             * ) { needsOldPathing = false; hasDoors = true; }
-             *
-             * }
-             *
-             * }
-             */
-
             if (destRef.getPathClass.requiresOpening(trait.getPendingDestinations().get(0).clone())) {
                 Location destLoc = trait.getPendingDestinations().get(0).clone().add(0, 1, 0);
 
@@ -917,7 +886,9 @@ public class Citizens_Processing {
 
             destRef.getMessageManager.debugMessage(Level.FINEST, "NPCDestinations_Goal.shouldExecute()|NPC:" + npc.getId() + "|Navigate: " + lastLocation.toString());
 
-            npc.getNavigator().setTarget(lastLocation.add(0, 1, 0));
+            if (!destRef.getMCUtils.setTargetLocation(npc.getEntity(),lastLocation.getX(),lastLocation.getY(),lastLocation.getZ(),npc.getNavigator().getLocalParameters().speed())) {
+                npc.getNavigator().setTarget(lastLocation.add(0, 1, 0));
+            }
             trait.lastNavigationPoint = lastLocation.clone().add(0, 1, 0);
 
             trait.lastPositionChange = LocalDateTime.now();
