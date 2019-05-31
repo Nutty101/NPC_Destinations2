@@ -19,11 +19,11 @@ public class BetonQuest_Plugin_V1_9 implements Listener, BetonQuest_Interface {
         if (versionParts.length == 3) {
             int verID = Integer.parseInt(versionParts[2]);
             if (verID < 4) {
-                Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(storageRef, new BukkitRunnable() {
+                new BukkitRunnable() {
                     public void run() {
                         BetonQuest_Plugin_V1_9.this.onStart();
                     }
-                });
+                }.runTask(destRef);
             } else {
                 BetonQuest_Plugin_V1_9.this.onStart();
             }
@@ -31,11 +31,11 @@ public class BetonQuest_Plugin_V1_9 implements Listener, BetonQuest_Interface {
             if (versionParts[0].equals("1") && versionParts[1].startsWith("10")) {
                 BetonQuest_Plugin_V1_9.this.onStart();
             } else if (versionParts[0].equals("1") && versionParts[1].startsWith("9")) {
-                Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(storageRef, new BukkitRunnable() {
+                new BukkitRunnable() {
                     public void run() {
                         BetonQuest_Plugin_V1_9.this.onStart();
                     }
-                });
+                }.runTask(destRef);
             } else {
                 BetonQuest_Plugin_V1_9.this.onStart();
             }

@@ -55,7 +55,7 @@ public class WorldGuard_6_2_2 implements WorldGuardInterface, Listener {
 
     @SuppressWarnings("deprecation")
     public void checkWorld() {
-        Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(destRef, new BukkitRunnable() {
+        new BukkitRunnable() {
             @Override
             public void run() {
                 for (World world : Bukkit.getServer().getWorlds()) {
@@ -77,7 +77,7 @@ public class WorldGuard_6_2_2 implements WorldGuardInterface, Listener {
                     }
                 }
             }
-        });
+        }.runTask(destRef);
 
     }
 

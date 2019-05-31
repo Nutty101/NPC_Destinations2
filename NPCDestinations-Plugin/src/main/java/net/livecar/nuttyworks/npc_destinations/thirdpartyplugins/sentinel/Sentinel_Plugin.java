@@ -49,12 +49,12 @@ public class Sentinel_Plugin {
         DestinationsPlugin.Instance.getPluginManager.registerPlugin(getSentinelPlugin);
         destRef.getCommandManager.registerCommandClass(Sentinel_Commands.class);
 
-        Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(destRef, new BukkitRunnable() {
+        new BukkitRunnable() {
             @Override
             public void run() {
                 onStart();
             }
-        });
+        }.runTask(destRef);
     }
 
     private void onStart() {

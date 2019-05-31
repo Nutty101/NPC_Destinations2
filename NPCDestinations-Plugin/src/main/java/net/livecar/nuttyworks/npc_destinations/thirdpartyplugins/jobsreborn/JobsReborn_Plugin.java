@@ -10,6 +10,7 @@ import java.util.Map;
 
 import org.bukkit.Bukkit;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.scheduler.BukkitTask;
 
 public class JobsReborn_Plugin {
     public DestinationsPlugin                  destRef       = null;
@@ -23,12 +24,12 @@ public class JobsReborn_Plugin {
         DestinationsPlugin.Instance.getPluginManager.registerPlugin(getJobsPlugin);
         destRef.getCommandManager.registerCommandClass(JobsReborn_Commands.class);
 
-        Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(destRef, new BukkitRunnable() {
+        new BukkitRunnable() {
             @Override
             public void run() {
                 onStart();
             }
-        });
+        }.runTask(destRef);
     }
 
     private void onStart() {
