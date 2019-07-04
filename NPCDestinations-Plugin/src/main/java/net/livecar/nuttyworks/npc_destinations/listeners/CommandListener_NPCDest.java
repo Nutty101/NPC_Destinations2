@@ -18,7 +18,6 @@ import net.livecar.nuttyworks.npc_destinations.DestinationsPlugin;
 import net.livecar.nuttyworks.npc_destinations.api.*;
 import net.livecar.nuttyworks.npc_destinations.plugins.DestinationsAddon;
 
-import org.apache.commons.lang3.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -169,7 +168,7 @@ public class CommandListener_NPCDest {
                 return true;
             }
 
-            if (Level.parse(inargs[1]) != null && !StringUtils.isNumeric(inargs[1])) {
+            if (Level.parse(inargs[1]) != null && !destRef.getUtilitiesClass.isNumeric(inargs[1])) {
                 destRef.debugLogLevel = Level.parse(inargs[1]);
                 destRef.getMessageManager.sendMessage("destinations", sender, "messages.commands_debug_on");
                 return true;
@@ -208,7 +207,7 @@ public class CommandListener_NPCDest {
                     }
 
                     NPC selectedNPC = null;
-                    if (StringUtils.isNumeric(inargs[1])) {
+                    if (destRef.getUtilitiesClass.isNumeric(inargs[1])) {
                         // Adding an NPC by ID
                         selectedNPC = CitizensAPI.getNPCRegistry().getById(Integer.parseInt(inargs[1]));
                     }
@@ -500,7 +499,7 @@ public class CommandListener_NPCDest {
                         if (nLocNum > -1) {
                             long nLength = 0;
                             if (inargs.length == 3) {
-                                if (StringUtils.isNumeric(inargs[2])) {
+                                if (destRef.getUtilitiesClass.isNumeric(inargs[2])) {
                                     nLength = Long.parseLong(inargs[2]) * 1000;
                                 } else {
                                     destRef.getMessageManager.sendMessage("destinations", sender, "messages.commands_goloc_badargs");
@@ -858,7 +857,7 @@ public class CommandListener_NPCDest {
                             }
                         }
 
-                        if (!StringUtils.isNumeric(inargs[1])) {
+                        if (!destRef.getUtilitiesClass.isNumeric(inargs[1])) {
                             destRef.getMessageManager.sendMessage("destinations", sender, "messages.commands_localias_badargs");
                             return true;
                         }
@@ -1150,7 +1149,7 @@ public class CommandListener_NPCDest {
                     }
 
                     if (inargs.length > 1) {
-                        if (StringUtils.isNumeric(inargs[1])) {
+                        if (destRef.getUtilitiesClass.isNumeric(inargs[1])) {
                             destRef.getMessageManager.sendMessage("destinations", sender, "messages.commands_removeblock_badargs", trait);
                         } else {
                             Material material = null;
@@ -1376,7 +1375,7 @@ public class CommandListener_NPCDest {
                             destRef.getMessageManager.sendMessage("destinations", sender, "messages.invalid_npc", trait, null);
                             return true;
                         }
-                        if (inargs.length < 2 || !StringUtils.isNumeric(inargs[1])) {
+                        if (inargs.length < 2 || !destRef.getUtilitiesClass.isNumeric(inargs[1])) {
                             destRef.getMessageManager.sendMessage("destinations", sender, "messages.commands_locmax_badargs", trait);
                             return true;
                         }

@@ -1,7 +1,6 @@
 package net.livecar.nuttyworks.npc_destinations.utilities;
 
 import org.apache.commons.lang.Validate;
-import org.apache.commons.lang3.StringUtils;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.configuration.InvalidConfigurationException;
 
@@ -72,11 +71,13 @@ public class Utilities {
         }
     }
 
-    public static boolean isNumeric(String value) {
-        value = value.replaceAll("-", "").replaceAll("\\.", "");
-        if (value.trim().equals(""))
-            return false;
-        return (StringUtils.isNumeric(value));
+    public boolean isNumeric(String s) {
+        return s != null && s.matches("[-+]?\\d*\\.?\\d+");
+    }
+
+    public boolean containsField(Object object, String fieldName) {
+        return Arrays.stream(object.getClass().getFields())
+                .anyMatch(f -> f.getName().equals(fieldName));
     }
 
     public boolean containsField(Object object, String fieldName) {

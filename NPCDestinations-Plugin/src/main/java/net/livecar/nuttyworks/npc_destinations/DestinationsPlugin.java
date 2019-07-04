@@ -85,6 +85,7 @@ public class DestinationsPlugin extends org.bukkit.plugin.java.JavaPlugin implem
 
     public void onLoad() {
         DestinationsPlugin.Instance = this;
+        getUtilitiesClass = new Utilities(this);
 
         if (getServer().getPluginManager().getPlugin("WorldGuard") == null) {
             getServer().getLogger().log(Level.WARNING, "Worldguard not found, custom flags are not enabled");
@@ -104,15 +105,15 @@ public class DestinationsPlugin extends org.bukkit.plugin.java.JavaPlugin implem
             boolean goodVersion = false;
             try {
                 Integer[] verPart = new Integer[3];
-                if (Utilities.isNumeric(parts[0])) {
+                if (getUtilitiesClass.isNumeric(parts[0])) {
                     verPart[0] = Integer.parseInt(parts[0]);
                 }
 
-                if (Utilities.isNumeric(parts[1])) {
+                if (getUtilitiesClass.isNumeric(parts[1])) {
                     verPart[1] = Integer.parseInt(parts[1]);
                 }
 
-                if (parts.length > 2 && Utilities.isNumeric(parts[2])) {
+                if (parts.length > 2 && getUtilitiesClass.isNumeric(parts[2])) {
                     verPart[2] = Integer.parseInt(parts[2]);
                 }
 
@@ -157,7 +158,6 @@ public class DestinationsPlugin extends org.bukkit.plugin.java.JavaPlugin implem
         getLanguageManager = new Language_Manager(this);
         getMessageManager = new Messages_Manager(this);
         getPluginManager = new Plugin_Manager(this);
-        getUtilitiesClass = new Utilities(this);
         getCommandManager = new Command_Manager(this);
         getCitizensProc = new Citizens_Processing(this);
 
@@ -353,11 +353,11 @@ public class DestinationsPlugin extends org.bukkit.plugin.java.JavaPlugin implem
 
             boolean goodVersion = false;
             Integer[] verPart = new Integer[3];
-            if (Utilities.isNumeric(parts[0])) {
+            if (getUtilitiesClass.isNumeric(parts[0])) {
                 verPart[0] = Integer.parseInt(parts[0]);
             }
 
-            if (Utilities.isNumeric(parts[1])) {
+            if (getUtilitiesClass.isNumeric(parts[1])) {
                 verPart[1] = Integer.parseInt(parts[1]);
             }
 
@@ -365,7 +365,7 @@ public class DestinationsPlugin extends org.bukkit.plugin.java.JavaPlugin implem
                 goodVersion = false;
             } else {
 
-                if (parts.length > 2 && Utilities.isNumeric(parts[2])) {
+                if (parts.length > 2 && getUtilitiesClass.isNumeric(parts[2])) {
                     verPart[2] = Integer.parseInt(parts[2]);
                 }
 

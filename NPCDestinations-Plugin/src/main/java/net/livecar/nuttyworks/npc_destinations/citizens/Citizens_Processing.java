@@ -967,11 +967,12 @@ public class Citizens_Processing {
                             if (!destRef.getPlotSquared.locationInSamePlotAsNPC(npc, oNewDest))
                                 continue;
                         }
+                        int newY = trait.blocksUnderSurface==-1?0-oNewDest.getBlockY():trait.blocksUnderSurface>0?y-trait.blocksUnderSurface:y;
 
                         if (destRef.getWorldGuardPlugin.isInRegion(oNewDest, oLoc.Wandering_Region)) {
                             if (destRef.getPathClass.isLocationWalkable(oNewDest.getBlock().getRelative(0, y, 0).getLocation())) {
                                 if (oLoc.Wandering_UseBlocks && trait.AllowedPathBlocks != null && trait.AllowedPathBlocks.size() > 0) {
-                                    if (trait.AllowedPathBlocks.contains(oNewDest.getBlock().getRelative(0, y, 0).getLocation().getBlock().getType())) {
+                                    if (trait.AllowedPathBlocks.contains(oNewDest.getBlock().getRelative(0, newY, 0).getLocation().getBlock().getType())) {
                                         trait.lastPositionChange = LocalDateTime.now();
                                         trait.setCurrentAction(en_CurrentAction.RANDOM_MOVEMENT);
                                         trait.locationLockUntil = null;
@@ -1007,16 +1008,17 @@ public class Citizens_Processing {
                             .getWanderingDistance() + ", 0, random.nextInt((int)" + (oLoc.getWanderingDistance() * 2) + "-" + oLoc.getWanderingDistance() + ")");
                     oNewDest.add(random.nextInt((int) oLoc.getWanderingDistance() * 2) - oLoc.getWanderingDistance(), 0, random.nextInt((int) oLoc.getWanderingDistance() * 2) - oLoc.getWanderingDistance());
                     if (oLoc.destination.distanceSquared(oNewDest) <= oLoc.getWanderingDistanceSquared()) {
-                        for (byte y = -3; y <= 2; y++) {
+                        for (int y = -3; y <= 2; y++) {
 
                             if (destRef.getPlotSquared != null) {
                                 if (!destRef.getPlotSquared.locationInSamePlotAsNPC(npc, oNewDest))
                                     continue;
                             }
+                            int newY = trait.blocksUnderSurface==-1?0-oNewDest.getBlockY():trait.blocksUnderSurface>0?y-trait.blocksUnderSurface:y;
 
                             if (destRef.getPathClass.isLocationWalkable(oNewDest.getBlock().getRelative(0, y, 0).getLocation(), false, false, false)) {
                                 if (oLoc.Wandering_UseBlocks && trait.AllowedPathBlocks != null && trait.AllowedPathBlocks.size() > 0) {
-                                    if (trait.AllowedPathBlocks.contains(oNewDest.getBlock().getRelative(0, y, 0).getLocation().getBlock().getType())) {
+                                    if (trait.AllowedPathBlocks.contains(oNewDest.getBlock().getRelative(0, newY, 0).getLocation().getBlock().getType())) {
                                         trait.lastPositionChange = LocalDateTime.now();
                                         trait.setCurrentAction(en_CurrentAction.RANDOM_MOVEMENT);
                                         trait.locationLockUntil = null;

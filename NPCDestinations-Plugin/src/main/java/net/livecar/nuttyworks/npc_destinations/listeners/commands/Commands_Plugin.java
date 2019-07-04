@@ -4,7 +4,6 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.logging.Level;
 
-import org.apache.commons.lang3.StringUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
@@ -227,7 +226,7 @@ public class Commands_Plugin
     )
     public boolean npcDest_DebugLog(DestinationsPlugin destinationsRef,CommandSender sender, NPC npc, String[] inargs, boolean isOwner, NPCDestinationsTrait destTrait)
     {
-        if (Level.parse(inargs[1]) != null && !StringUtils.isNumeric(inargs[1])) {
+        if (Level.parse(inargs[1]) != null && !destinationsRef.getUtilitiesClass.isNumeric(inargs[1])) {
 
             if (!"OFF SEVERE WARNING INFO CONFIG FINE FINER FINEST ALL".contains(inargs[1].toUpperCase()))
             {
@@ -293,7 +292,7 @@ public class Commands_Plugin
             }
 
             NPC selectedNPC = null;
-            if (StringUtils.isNumeric(inargs[1])) {
+            if (destRef.getUtilitiesClass.isNumeric(inargs[1])) {
                 // Adding an NPC by ID
                 selectedNPC = CitizensAPI.getNPCRegistry().getById(Integer.parseInt(inargs[1]));
             }

@@ -36,13 +36,13 @@ public class Sentinel_Plugin {
 
         String[] versionSplit = verString.split("\\.");
 
-        if (versionSplit.length > 0 && Utilities.isNumeric(versionSplit[0]))
+        if (versionSplit.length > 0 && storageRef.getUtilitiesClass.isNumeric(versionSplit[0]))
             version[0] = Integer.parseInt(versionSplit[0]);
 
-        if (versionSplit.length > 1 && Utilities.isNumeric(versionSplit[1]))
+        if (versionSplit.length > 1 && storageRef.getUtilitiesClass.isNumeric(versionSplit[1]))
             version[1] = Integer.parseInt(versionSplit[1]);
 
-        if (versionSplit.length > 2 && Utilities.isNumeric(versionSplit[2]))
+        if (versionSplit.length > 2 && storageRef.getUtilitiesClass.isNumeric(versionSplit[2]))
             version[2] = Integer.parseInt(versionSplit[2]);
 
         this.getSentinelPlugin = new Sentinel_Addon(this);

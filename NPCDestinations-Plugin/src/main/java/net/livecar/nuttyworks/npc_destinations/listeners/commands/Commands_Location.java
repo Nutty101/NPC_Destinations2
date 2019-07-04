@@ -3,7 +3,6 @@ package net.livecar.nuttyworks.npc_destinations.listeners.commands;
 import java.util.ArrayList;
 import java.util.UUID;
 
-import org.apache.commons.lang3.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -290,7 +289,7 @@ public class Commands_Location
                 }
             }
 
-            if (!StringUtils.isNumeric(inargs[1])) {
+            if (!destRef.getUtilitiesClass.isNumeric(inargs[1])) {
                 destRef.getMessageManager.sendMessage("destinations", sender, "messages.commands_localias_badargs");
                 return true;
             }
@@ -515,7 +514,7 @@ public class Commands_Location
                 destRef.getMessageManager.sendMessage("destinations", sender, "messages.commands_managed",destTrait, destTrait.NPCLocations.get(nLoc));
                 return true;
             }
-            if (Utilities.isNumeric(inargs[2]))
+            if (destRef.getUtilitiesClass.isNumeric(inargs[2]))
             {
                 int nDist = Integer.parseInt(inargs[2]);
                 destTrait.NPCLocations.get(nLoc).setWanderingDistance(nDist);
@@ -676,7 +675,7 @@ public class Commands_Location
 
         if (inargs.length > 1) {
 
-            if (inargs.length < 2 || !StringUtils.isNumeric(inargs[1])) {
+            if (inargs.length < 2 || !destRef.getUtilitiesClass.isNumeric(inargs[1])) {
                 return false;
             }
 

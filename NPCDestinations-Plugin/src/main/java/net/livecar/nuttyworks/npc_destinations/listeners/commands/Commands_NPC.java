@@ -4,7 +4,6 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.time.LocalDateTime;
 
-import org.apache.commons.lang3.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -231,7 +230,7 @@ public class Commands_NPC
             if (nLocNum > -1) {
                 long nLength = 0;
                 if (inargs.length == 3) {
-                    if (StringUtils.isNumeric(inargs[2])) {
+                    if (destRef.getUtilitiesClass.isNumeric(inargs[2])) {
                         nLength = Long.parseLong(inargs[2]);
                     } else {
                         destRef.getMessageManager.sendMessage("destinations", sender,
@@ -449,7 +448,7 @@ public class Commands_NPC
         }
 
         if (inargs.length > 1) {
-            if (StringUtils.isNumeric(inargs[1])) {
+            if (destRef.getUtilitiesClass.isNumeric(inargs[1])) {
                 destRef.getMessageManager.sendMessage("destinations", sender,"messages.commands_removeblock_badargs", destTrait);
             } else {
                 Material material = null;
@@ -598,7 +597,7 @@ public class Commands_NPC
         if (inargs.length == 1) {
             destTrait.blocksUnderSurface = 0;
         } else {
-            if (Utilities.isNumeric(inargs[1]))
+            if (destRef.getUtilitiesClass.isNumeric(inargs[1]))
                 destTrait.blocksUnderSurface = Integer.parseInt(inargs[1]);
             else
                 return false;
@@ -628,7 +627,7 @@ public class Commands_NPC
         if (inargs.length == 1) {
             destTrait.maxProcessingTime = -1;
         } else {
-            if (Utilities.isNumeric(inargs[1]))
+            if (destRef.getUtilitiesClass.isNumeric(inargs[1]))
                 destTrait.maxProcessingTime = Integer.parseInt(inargs[1]);
             else
                 return false;
