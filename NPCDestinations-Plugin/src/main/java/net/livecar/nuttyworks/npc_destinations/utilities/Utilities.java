@@ -79,9 +79,5 @@ public class Utilities {
         return Arrays.stream(object.getClass().getFields())
                 .anyMatch(f -> f.getName().equals(fieldName));
     }
-
-    public boolean containsField(Object object, String fieldName) {
-        return Arrays.stream(object.getClass().getFields())
-                .anyMatch(f -> f.getName().equals(fieldName));
-    }
+    
 }
