@@ -72,8 +72,6 @@ public class MCUtil_1_14_R1 implements MCUtilsBridge {
     public boolean isLocationWalkable(Location l, Boolean openGates, Boolean openWoodDoors, Boolean openMetalDoors) {
         Block b = l.getBlock();
 
-        Bukkit.getServer().getLogger().log(Level.INFO, "Block: " + b.getType().name());
-
         // Gates
         if (!openGates && (isGate(b.getType()) || isGate(b.getRelative(0, 1, 0).getType())))
             return false;
