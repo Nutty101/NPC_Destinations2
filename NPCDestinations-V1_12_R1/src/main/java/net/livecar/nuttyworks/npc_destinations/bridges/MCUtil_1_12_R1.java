@@ -62,7 +62,10 @@ public class MCUtil_1_12_R1 implements MCUtilsBridge {
         Block b = l.getBlock();
 
         // Gates
-        if (gates.contains(b.getRelative(0, 1, 0).getType()) && openGates) {
+        if (!openGates && (isGate(b.getType()) || isGate(b.getRelative(0, 1, 0).getType())))
+            return false;
+
+        if (gates.contains(b.getRelative(0, 1, 0).getType())) {
             if (gates.contains(b.getRelative(0, 2, 0).getType()) && openGates)
                 return true;
             if (!b.getRelative(0, 2, 0).getType().isSolid())

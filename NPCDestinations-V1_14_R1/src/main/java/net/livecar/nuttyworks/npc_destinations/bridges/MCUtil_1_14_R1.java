@@ -2,7 +2,9 @@ package net.livecar.nuttyworks.npc_destinations.bridges;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -70,8 +72,13 @@ public class MCUtil_1_14_R1 implements MCUtilsBridge {
     public boolean isLocationWalkable(Location l, Boolean openGates, Boolean openWoodDoors, Boolean openMetalDoors) {
         Block b = l.getBlock();
 
+        Bukkit.getServer().getLogger().log(Level.INFO, "Block: " + b.getType().name());
+
         // Gates
-        if (gates.contains(b.getRelative(0, 1, 0).getType()) && openGates) {
+        if (!openGates && (isGate(b.getType()) || isGate(b.getRelative(0, 1, 0).getType())))
+            return false;
+
+        if (gates.contains(b.getRelative(0, 1, 0).getType())) {
             if (gates.contains(b.getRelative(0, 2, 0).getType()) && openGates)
                 return true;
             if (!b.getRelative(0, 2, 0).getType().isSolid())

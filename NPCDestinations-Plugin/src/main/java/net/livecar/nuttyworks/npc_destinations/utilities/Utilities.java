@@ -79,5 +79,5 @@ public class Utilities {
         return Arrays.stream(object.getClass().getFields())
                 .anyMatch(f -> f.getName().equals(fieldName));
     }
-    
+
 }
