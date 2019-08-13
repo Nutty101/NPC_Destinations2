@@ -1051,7 +1051,7 @@ public class Citizens_Processing {
                     destRef.getMessageManager.debugMessage(Level.FINEST, "NPCDestinations_Goal.shouldExecute()|NPC:" + npc.getId() + "|RandomWander");
                     trait.lastPositionChange = LocalDateTime.now();
                     destRef.getPathClass.addToQueue(npc, trait, npc.getEntity().getLocation(), (trait.lastLocation != null ? trait.lastLocation.destination : trait.currentLocation.destination), destRef.maxDistance,
-                            new ArrayList<Material>(), 0, true, true, true, "Destinations.Goal.Random");
+                            new ArrayList<Material>(), 0, trait.OpensGates, trait.OpensWoodDoors, trait.OpensMetalDoors, "Destinations.Goal.Random");
                 } else {
                     trait.setCurrentAction(en_CurrentAction.IDLE);
                 }
