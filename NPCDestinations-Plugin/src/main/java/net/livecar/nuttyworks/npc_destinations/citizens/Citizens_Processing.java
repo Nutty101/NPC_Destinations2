@@ -990,7 +990,7 @@ public class Citizens_Processing {
                                     trait.setCurrentLocation(oLoc);
 
                                     destRef.getPathClass.addToQueue(npc, trait, npc.getEntity().getLocation(), oNewDest.getBlock().getRelative(0, y, 0).getLocation(), destRef.maxDistance, new ArrayList<Material>(), 0,
-                                            true, true, true, "Destinations.Goal.Random");
+                                            trait.OpensGates, trait.OpensWoodDoors, trait.OpensMetalDoors, "Destinations.Goal.Random");
                                 }
                                 return true;
                             }
