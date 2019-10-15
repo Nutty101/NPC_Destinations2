@@ -970,7 +970,7 @@ public class Citizens_Processing {
                         int newY = trait.blocksUnderSurface==-1?0-oNewDest.getBlockY():trait.blocksUnderSurface>0?y-trait.blocksUnderSurface:y;
 
                         if (destRef.getWorldGuardPlugin.isInRegion(oNewDest, oLoc.Wandering_Region)) {
-                            if (destRef.getPathClass.isLocationWalkable(oNewDest.getBlock().getRelative(0, y, 0).getLocation())) {
+                            if (destRef.getPathClass.isLocationWalkable(oNewDest.getBlock().getRelative(0, y, 0).getLocation(),trait.OpensGates,trait.OpensWoodDoors,trait.OpensMetalDoors)) {
                                 if (oLoc.Wandering_UseBlocks && trait.AllowedPathBlocks != null && trait.AllowedPathBlocks.size() > 0) {
                                     if (trait.AllowedPathBlocks.contains(oNewDest.getBlock().getRelative(0, newY, 0).getLocation().getBlock().getType())) {
                                         trait.lastPositionChange = LocalDateTime.now();
@@ -1016,7 +1016,7 @@ public class Citizens_Processing {
                             }
                             int newY = trait.blocksUnderSurface==-1?0-oNewDest.getBlockY():trait.blocksUnderSurface>0?y-trait.blocksUnderSurface:y;
 
-                            if (destRef.getPathClass.isLocationWalkable(oNewDest.getBlock().getRelative(0, y, 0).getLocation(), false, false, false)) {
+                            if (destRef.getPathClass.isLocationWalkable(oNewDest.getBlock().getRelative(0, y, 0).getLocation(), trait.OpensGates, trait.OpensWoodDoors, trait.OpensMetalDoors)) {
                                 if (oLoc.Wandering_UseBlocks && trait.AllowedPathBlocks != null && trait.AllowedPathBlocks.size() > 0) {
                                     if (trait.AllowedPathBlocks.contains(oNewDest.getBlock().getRelative(0, newY, 0).getLocation().getBlock().getType())) {
                                         trait.lastPositionChange = LocalDateTime.now();

@@ -21,7 +21,6 @@ import org.bukkit.inventory.ItemStack;
 
 import net.minecraft.server.v1_14_R1.EntityInsentient;
 import net.minecraft.server.v1_14_R1.EntityLiving;
-import net.minecraft.server.v1_14_R1.EntityPlayer;
 
 public class MCUtil_1_14_R1 implements MCUtilsBridge {
 

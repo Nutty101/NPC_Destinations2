@@ -12,10 +12,10 @@ import org.bukkit.block.data.Levelled;
 import org.bukkit.block.data.Openable;
 import org.bukkit.block.data.type.Bed;
 import org.bukkit.block.data.type.Slab;
-import org.bukkit.craftbukkit.v1_14_R1.entity.CraftLivingEntity;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.craftbukkit.v1_14_R1.entity.CraftLivingEntity;
 
 import net.minecraft.server.v1_14_R1.EntityInsentient;
 import net.minecraft.server.v1_14_R1.EntityLiving;
