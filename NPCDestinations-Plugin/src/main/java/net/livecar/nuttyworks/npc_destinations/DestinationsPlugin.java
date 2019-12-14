@@ -191,69 +191,67 @@ public class DestinationsPlugin extends org.bukkit.plugin.java.JavaPlugin implem
         if (Bukkit.getServer().getClass().getPackage().getName().endsWith("v1_8_R3")) {
             Version = 10808;
             getParticleManager = new PlayParticle_1_8_R3();
-            getPathClass = new AstarPathFinder(this);
             getMCUtils = new MCUtil_1_8_R3();
             getMessageManager.consoleMessage(this, "destinations", "console_messages.plugin_version", getServer().getVersion().substring(getServer().getVersion().indexOf('(')));
         } else if (Bukkit.getServer().getClass().getPackage().getName().endsWith("v1_9_R2")) {
             Version = 10902;
             getParticleManager = new PlayParticle_1_9_R2();
-            getPathClass = new AstarPathFinder(this);
             getMCUtils = new MCUtil_1_9_R2();
             getMessageManager.consoleMessage(this, "destinations", "console_messages.plugin_version", getServer().getVersion().substring(getServer().getVersion().indexOf('(')));
         } else if (Bukkit.getServer().getClass().getPackage().getName().endsWith("v1_10_R1")) {
             Version = 11000;
             getParticleManager = new PlayParticle_1_10_R1();
-            getPathClass = new AstarPathFinder(this);
             getMCUtils = new MCUtil_1_10_R1();
             getMessageManager.consoleMessage(this, "destinations", "console_messages.plugin_version", getServer().getVersion().substring(getServer().getVersion().indexOf('(')));
         } else if (Bukkit.getServer().getClass().getPackage().getName().endsWith("v1_11_R1") && getServer().getVersion().endsWith("MC: 1.11)")) {
             Version = 11100;
             getParticleManager = new PlayParticle_1_11_R1();
-            getPathClass = new AstarPathFinder(this);
             getMCUtils = new MCUtil_1_11_R1();
             getMessageManager.consoleMessage(this, "destinations", "console_messages.plugin_version", getServer().getVersion().substring(getServer().getVersion().indexOf('(')));
         } else if (Bukkit.getServer().getClass().getPackage().getName().endsWith("v1_11_R1") && getServer().getVersion().endsWith("MC: 1.11.1)")) {
             Version = 11110;
             getParticleManager = new PlayParticle_1_11_R1();
-            getPathClass = new AstarPathFinder(this);
             getMCUtils = new MCUtil_1_11_R1();
             getMessageManager.consoleMessage(this, "destinations", "console_messages.plugin_version", getServer().getVersion().substring(getServer().getVersion().indexOf('(')));
         } else if (Bukkit.getServer().getClass().getPackage().getName().endsWith("v1_11_R1") && getServer().getVersion().endsWith("MC: 1.11.2)")) {
             Version = 11120;
             getParticleManager = new PlayParticle_1_11_R1();
-            getPathClass = new AstarPathFinder(this);
             getMCUtils = new MCUtil_1_11_R1();
             getMessageManager.consoleMessage(this, "destinations", "console_messages.plugin_version", getServer().getVersion().substring(getServer().getVersion().indexOf('(')));
         } else if (Bukkit.getServer().getClass().getPackage().getName().endsWith("v1_12_R1")) {
             Version = 11200;
             getParticleManager = new PlayParticle_1_12_R1();
-            getPathClass = new AstarPathFinder(this);
             getMCUtils = new MCUtil_1_12_R1();
             getMessageManager.consoleMessage(this, "destinations", "console_messages.plugin_version", getServer().getVersion().substring(getServer().getVersion().indexOf('(')));
         } else if (Bukkit.getServer().getClass().getPackage().getName().endsWith("v1_13_R2")) {
             Version = 11310;
             getParticleManager = new PlayParticle_1_13_R2();
-            getPathClass = new AstarPathFinder(this);
             getMCUtils = new MCUtil_1_13_R2();
             getMessageManager.consoleMessage(this, "destinations", "console_messages.plugin_version", getServer().getVersion().substring(getServer().getVersion().indexOf('(')));
         } else if (Bukkit.getServer().getClass().getPackage().getName().endsWith("v1_14_R1")) {
             Version = 11410;
             getParticleManager = new PlayParticle_1_14_R1();
-            getPathClass = new AstarPathFinder(this);
             getMCUtils = new MCUtil_1_14_R1();
             getMessageManager.consoleMessage(this, "destinations", "console_messages.plugin_version", getServer().getVersion().substring(getServer().getVersion().indexOf('(')));
         } else if (Bukkit.getServer().getClass().getPackage().getName().endsWith("v1_14_R2")) {
             Version = 11420;
             getParticleManager = new PlayParticle_1_14_R2();
-            getPathClass = new AstarPathFinder(this);
             getMCUtils = new MCUtil_1_14_R2();
+            getMessageManager.consoleMessage(this, "destinations", "console_messages.plugin_version", getServer().getVersion().substring(getServer().getVersion().indexOf('(')));
+        } else if (Bukkit.getServer().getClass().getPackage().getName().endsWith("v1_15_R1")) {
+            Version = 11420;
+            getParticleManager = new PlayParticle_1_15_R1();
+            getMCUtils = new MCUtil_1_15_R1();
             getMessageManager.consoleMessage(this, "destinations", "console_messages.plugin_version", getServer().getVersion().substring(getServer().getVersion().indexOf('(')));
         } else {
             getMessageManager.consoleMessage(this, "destinations", "console_messages.plugin_unknownversion", getServer().getVersion());
             getServer().getPluginManager().disablePlugin(this);
             return;
         }
-
+    
+        getPathClass = new AstarPathFinder(this);
+    
+    
         // Init links to other plugins
         if (getServer().getPluginManager().getPlugin("Citizens") == null || getServer().getPluginManager().getPlugin("Citizens").isEnabled() == false || !(getServer().getPluginManager().getPlugin("Citizens") instanceof Citizens)) {
             this.getMessageManager.debugMessage(Level.CONFIG, "nuNPCDestinations.onEnable()|CitizensNotFound");

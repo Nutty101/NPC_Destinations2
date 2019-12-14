@@ -31,15 +31,17 @@ public class Command_Manager {
     public boolean onCommand(CommandSender sender, String[] inargs) {
 
         int npcid = -1;
+        boolean npcArgFound = false;  //GitIssue #43
         NPCDestinationsTrait npcTrait = null;
 
         List<String> sList = new ArrayList<String>();
         for (int nCnt = 0; nCnt < inargs.length; nCnt++) {
-            if (inargs[nCnt].equalsIgnoreCase("--npc")) {
+            if (inargs[nCnt].equalsIgnoreCase("--npc") && !npcArgFound) {
                 // Npc ID should be the next one
                 if (inargs.length >= nCnt + 2) {
                     npcid = Integer.parseInt(inargs[nCnt + 1]);
                     nCnt++;
+                    npcArgFound = true;
                 }
             } else {
                 sList.add(inargs[nCnt]);
@@ -159,15 +161,17 @@ public class Command_Manager {
     }
 
     public List<String> onTabComplete(CommandSender sender, String[] arguments) {
-        List<String> results = new ArrayList<String>();
+        List<String> results = new ArrayList<>();
         Boolean isPlayer = (sender instanceof Player);
+        Boolean npcArgFound = false;
 
         List<String> sList = new ArrayList<String>();
         for (int nCnt = 0; nCnt < arguments.length; nCnt++) {
-            if (arguments[nCnt].equalsIgnoreCase("--npc")) {
+            if (arguments[nCnt].equalsIgnoreCase("--npc") && !npcArgFound) {
                 // Npc ID should be the next one
                 if (arguments.length >= nCnt + 2) {
                     nCnt++;
+                    npcArgFound = true;
                 }
             } else {
                 sList.add(arguments[nCnt]);

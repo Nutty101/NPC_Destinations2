@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
+import java.util.regex.Matcher;
 
 public class Messages_Manager {
     private List<LogDetail>    logHistory;
@@ -105,7 +106,7 @@ public class Messages_Manager {
         String[] messages = this.getResultMessage(langFile, msgKey.toLowerCase());
 
         for (int nCnt = 0; nCnt < messages.length; nCnt++) {
-            messages[nCnt] = messages[nCnt].replaceAll("<message>", extendedMessage);
+            messages[nCnt] = messages[nCnt].replaceAll("<message>", Matcher.quoteReplacement(extendedMessage));
         }
         return messages;
     }
@@ -121,7 +122,7 @@ public class Messages_Manager {
 
         for (int nCnt = 0; nCnt < messages.length; nCnt++) {
             String messageLine = parseMessage(sender, langFile, messages[nCnt], npcTrait, locationSetting, material, npc, ident);
-            messageLine = messageLine.replaceAll("<message>", rawMessage);
+            messageLine = messageLine.replaceAll("<message>", Matcher.quoteReplacement(rawMessage));
             processedMessages.add(messageLine);
         }
         return processedMessages.toArray(new String[processedMessages.size()]);
@@ -250,7 +251,7 @@ public class Messages_Manager {
                             targetList += debugTargetLine;
                         }
                     }
-                    message = replaceAll(message, "<debug.targetlist>", targetList);
+                    message = replaceAll(message, "<debug.targetlist>", Matcher.quoteReplacement(targetList));
                 }
             }
         }

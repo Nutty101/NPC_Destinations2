@@ -19,9 +19,6 @@ public class Citizens_Goal extends BehaviorGoalAdapter {
     public void onFinish(NavigationCompleteEvent event) {
         if (event.getNPC() == this.npc) {
             this.forceFinish = true;
-            // NPCDestinations_Trait localNPCDestinations_Trait =
-            // (NPCDestinations_Trait)
-            // event.getNPC().getTrait(NPCDestinations_Trait.class);
         }
     }
 
