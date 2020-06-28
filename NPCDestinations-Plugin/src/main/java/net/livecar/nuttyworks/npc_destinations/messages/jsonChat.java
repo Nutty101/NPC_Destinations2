@@ -1,5 +1,6 @@
 package net.livecar.nuttyworks.npc_destinations.messages;
 
+import net.md_5.bungee.chat.ComponentSerializer;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
@@ -24,9 +25,15 @@ public class jsonChat {
     public void sendJsonMessage(CommandSender player, String jsonMsg) {
         sendMessage(player, ChatColor.translateAlternateColorCodes('&', jsonMsg));
     }
-
-    @SuppressWarnings("rawtypes")
+    
     private void sendMessage(CommandSender player, String jsonMsg) {
+        if (destRef.Version < 11200)
+            sendMessageLess12(player, jsonMsg);
+        player.spigot().sendMessage(ComponentSerializer.parse(jsonMsg));
+    }
+    
+    @SuppressWarnings("rawtypes")
+    private void sendMessageLess12(CommandSender player, String jsonMsg) {
         try {
             String version = Bukkit.getServer().getClass().getPackage().getName().replace(".", ",").split(",")[3];
             Object nmsPlayer = player.getClass().getMethod("getHandle").invoke(player);

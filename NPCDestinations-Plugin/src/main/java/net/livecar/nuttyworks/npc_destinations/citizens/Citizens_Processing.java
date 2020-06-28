@@ -498,6 +498,7 @@ public class Citizens_Processing {
 
                     SkinnableEntity skinnable = trait.getNPC().getEntity() instanceof SkinnableEntity ? (SkinnableEntity) trait.getNPC().getEntity() : null;
                     if (skinnable != null) {
+                        
                         Skin.get(skinnable).applyAndRespawn(skinnable);
 
                     }

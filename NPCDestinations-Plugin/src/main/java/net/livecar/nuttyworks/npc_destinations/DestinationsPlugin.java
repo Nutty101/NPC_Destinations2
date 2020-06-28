@@ -239,9 +239,14 @@ public class DestinationsPlugin extends org.bukkit.plugin.java.JavaPlugin implem
             getMCUtils = new MCUtil_1_14_R2();
             getMessageManager.consoleMessage(this, "destinations", "console_messages.plugin_version", getServer().getVersion().substring(getServer().getVersion().indexOf('(')));
         } else if (Bukkit.getServer().getClass().getPackage().getName().endsWith("v1_15_R1")) {
-            Version = 11420;
+            Version = 11520;
             getParticleManager = new PlayParticle_1_15_R1();
             getMCUtils = new MCUtil_1_15_R1();
+            getMessageManager.consoleMessage(this, "destinations", "console_messages.plugin_version", getServer().getVersion().substring(getServer().getVersion().indexOf('(')));
+        } else if (Bukkit.getServer().getClass().getPackage().getName().endsWith("v1_16_R1")) {
+            Version = 11610;
+            getParticleManager = new PlayParticle_1_16_R1();
+            getMCUtils = new MCUtil_1_16_R1();
             getMessageManager.consoleMessage(this, "destinations", "console_messages.plugin_version", getServer().getVersion().substring(getServer().getVersion().indexOf('(')));
         } else {
             getMessageManager.consoleMessage(this, "destinations", "console_messages.plugin_unknownversion", getServer().getVersion());

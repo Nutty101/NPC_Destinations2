@@ -16,9 +16,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -449,12 +447,39 @@ public class Messages_Manager {
             if (message.toLowerCase().contains("<location.current>")) {
                 boolean bFound = false;
                 for (int nCnt = 0; nCnt < npcTrait.NPCLocations.size(); nCnt++) {
+                    boolean locationBlocked = false;
+                    for (DestinationsAddon plugin : destRef.getPluginManager.getPlugins()) {
+                        if (npcTrait.enabledPlugins.contains(plugin.getActionName())) {
+                            try {
+                                if (!plugin.isDestinationEnabled(npcTrait.getNPC(), npcTrait, npcTrait.NPCLocations.get(nCnt))) {
+                                    locationBlocked = true;
+                                    break;
+                                }
+                            } catch (Exception err) {
+                                StringWriter sw = new StringWriter();
+                                err.printStackTrace(new PrintWriter(sw));
+                
+                                destRef.getMessageManager.consoleMessage(destRef, "destinations", "Console_Messages.plugin_debug", err.getMessage() + "\n" + sw.toString());
+                            }
+                        }
+                    }
+                    
                     if (npcTrait.NPCLocations.get(nCnt).equals(locationSetting) && locationSetting.equals(npcTrait.currentLocation)) {
-                        message = replaceAll(message, "<location.current>", "{\"text\":\"" + Integer.toString(nCnt) + "\",\"color\":\"aqua\",\"clickEvent\":{\"action\":\"suggest_command\",\"value\":\"" + locationSetting.LocationIdent
+                        String linkColor = "aqua";
+                        if (locationBlocked)
+                            linkColor = "yellow";
+                        message = replaceAll(message, "<location.current>", "{\"text\":\"" + Integer.toString(nCnt) + "\",\"color\":\"" + linkColor + "\",\"clickEvent\":{\"action\":\"suggest_command\",\"value\":\"" + locationSetting.LocationIdent
                                 .toString() + "\"},\"hoverEvent\":{\"action\":\"show_text\",\"value\":\"" + this.getResultMessage(langFile, "result_Messages.current_location")[0] + "\n&eID: " + locationSetting.LocationIdent.toString()
                                 + "\"}}");
                         bFound = true;
                         break;
+                    } else if (npcTrait.NPCLocations.get(nCnt).equals(locationSetting)) {
+                        String linkColor = "white";
+                        if (locationBlocked)
+                            linkColor = "red";
+                        message = replaceAll(message, "<location.current>", "{\"text\":\"<location.id>\",\"color\":\"" + linkColor + "\",\"clickEvent\":{\"action\":\"suggest_command\",\"value\":\"" + locationSetting.LocationIdent.toString()
+                                + "\"},\"hoverEvent\":{\"action\":\"show_text\",\"value\":\"&eID: " + locationSetting.LocationIdent.toString() + "\"}}");
+                        bFound = true;
                     }
                 }
 

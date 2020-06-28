@@ -2,7 +2,6 @@ package net.livecar.nuttyworks.npc_destinations.thirdpartyplugins.betonquest;
 
 import net.livecar.nuttyworks.npc_destinations.DestinationsPlugin;
 
-import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
 import org.bukkit.scheduler.BukkitRunnable;
 import pl.betoncraft.betonquest.BetonQuest;
@@ -14,7 +13,7 @@ public class BetonQuest_Plugin_V1_9 implements Listener, BetonQuest_Interface {
     public BetonQuest_Plugin_V1_9(DestinationsPlugin storageRef) {
         destRef = storageRef;
 
-        String[] versionParts = destRef.getServer().getPluginManager().getPlugin("BetonQuest").getDescription().getVersion().split("\\.");
+        String[] versionParts = destRef.getServer().getPluginManager().getPlugin("BetonQuest").getDescription().getVersion().replaceAll("[A-Za-z\\-]","").split("\\.");
 
         if (versionParts.length == 3) {
             int verID = Integer.parseInt(versionParts[2]);
