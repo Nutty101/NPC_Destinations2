@@ -1,25 +1,26 @@
 package net.livecar.nuttyworks.npc_destinations.thirdpartyplugins.betonquest;
 
-import java.util.UUID;
-
-import org.apache.commons.lang.math.NumberUtils;
 import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.npc.NPC;
 import net.livecar.nuttyworks.npc_destinations.citizens.NPCDestinationsTrait;
+import org.apache.commons.lang.math.NumberUtils;
 import pl.betoncraft.betonquest.Instruction;
-import pl.betoncraft.betonquest.InstructionParseException;
 import pl.betoncraft.betonquest.api.Condition;
+import pl.betoncraft.betonquest.exceptions.InstructionParseException;
+import pl.betoncraft.betonquest.exceptions.QuestRuntimeException;
 
-public class Condition_CurrentLocation_V1_9 extends Condition
+import java.util.UUID;
+
+public class Condition_CurrentLocation extends Condition
 {
 	private UUID destUUID;
 	private int destID;
 	private int targetNPC;
 
-	public Condition_CurrentLocation_V1_9(Instruction instruction) throws InstructionParseException
+	public Condition_CurrentLocation(Instruction instruction) throws InstructionParseException
 	{
-		super(instruction);
-		//<npcid> <loc#> 
+		super(instruction,true);
+		//<npcid> <loc#>
 
 		if (instruction.size() < 2)
 		{
@@ -43,34 +44,33 @@ public class Condition_CurrentLocation_V1_9 extends Condition
 
 		throw new InstructionParseException("Values should be numeric (NPCID) (LOC# / OR LocationGUID)" );
 	}
-
-	public boolean check(String playerID)
-	{
+	
+	@Override
+	protected Boolean execute(String playerID) throws QuestRuntimeException {
 		//Validate that the NPC exists
 		NPC npc = CitizensAPI.getNPCRegistry().getById(targetNPC);
 		if (npc == null) {
 			// specified number doesn't exist.
-			BetonQuest_Plugin_V1_9.destRef.getMessageManager.consoleMessage(BetonQuest_Plugin_V1_9.destRef,"destinations","Console_Messages.betonquest_error","Condition_CurrentLoc references invalid NPC ID " + targetNPC);
+			BetonQuest_Plugin.destRef.getMessageManager.consoleMessage(BetonQuest_Plugin.destRef,"destinations","Console_Messages.betonquest_error","Condition_CurrentLoc references invalid NPC ID " + targetNPC);
 			return false;
 		}
-
+		
 		NPCDestinationsTrait trait = null;
 		if (!npc.hasTrait(NPCDestinationsTrait.class)) {
-			BetonQuest_Plugin_V1_9.destRef.getMessageManager.consoleMessage(BetonQuest_Plugin_V1_9.destRef,"destinations","Console_Messages.betonquest_error","Condition_CurrentLoc references NPC (" + targetNPC + "), but lacks the NPCDestination trait.");
+			BetonQuest_Plugin.destRef.getMessageManager.consoleMessage(BetonQuest_Plugin.destRef,"destinations","Console_Messages.betonquest_error","Condition_CurrentLoc references NPC (" + targetNPC + "), but lacks the NPCDestination trait.");
 			return false;
 		} else
 			trait = npc.getTrait(NPCDestinationsTrait.class);
-
+		
 		if (destID > -1)
 		{
 			if (destID >= trait.NPCLocations.size())
 			{
-				BetonQuest_Plugin_V1_9.destRef.getMessageManager.consoleMessage(BetonQuest_Plugin_V1_9.destRef,"destinations","Console_Messages.betonquest_error","Condition_CurrentLoc references NPC (" + targetNPC + ") but is missing location (" + destID + ")");
+				BetonQuest_Plugin.destRef.getMessageManager.consoleMessage(BetonQuest_Plugin.destRef,"destinations","Console_Messages.betonquest_error","Condition_CurrentLoc references NPC (" + targetNPC + ") but is missing location (" + destID + ")");
 				return false;
 			}
-
+			
 			return trait.NPCLocations.get(destID).destination.toString().equals(trait.currentLocation.destination.toString());
 		} else return trait.currentLocation.LocationIdent.toString().equalsIgnoreCase(destUUID.toString());
-
 	}
 }

@@ -1,10 +1,9 @@
 package net.livecar.nuttyworks.npc_destinations.listeners;
 
+import net.livecar.nuttyworks.npc_destinations.DestinationsPlugin;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
-
-import net.livecar.nuttyworks.npc_destinations.DestinationsPlugin;
 
 public class PlayerJoinListener_NPCDest implements org.bukkit.event.Listener {
 

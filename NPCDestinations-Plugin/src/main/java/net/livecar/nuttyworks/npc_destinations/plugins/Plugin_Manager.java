@@ -1,13 +1,14 @@
 package net.livecar.nuttyworks.npc_destinations.plugins;
 
+import net.livecar.nuttyworks.npc_destinations.DestinationsPlugin;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import net.livecar.nuttyworks.npc_destinations.DestinationsPlugin;
-
 public class Plugin_Manager {
-    private HashMap<String, DestinationsAddon> pluginRegistration = new HashMap<>();
-    private DestinationsPlugin                 destRef            = null;
+    private HashMap<String, DestinationsAddon> pluginRegistration;
+    private DestinationsAddon                  timePlugin         = null;
+    private DestinationsPlugin                 destRef;
 
     public Plugin_Manager(DestinationsPlugin storageRef) {
         pluginRegistration = new HashMap<>();
@@ -23,11 +24,13 @@ public class Plugin_Manager {
     }
 
     public ArrayList<DestinationsAddon> getPlugins() {
-        return new ArrayList<DestinationsAddon>(pluginRegistration.values());
+        return new ArrayList<>(pluginRegistration.values());
     }
 
     public DestinationsAddon getPluginByName(String actionName) {
         return pluginRegistration.get(actionName.toUpperCase());
     }
 
+    public DestinationsAddon getTimePlugin() { return timePlugin; }
+    
 }

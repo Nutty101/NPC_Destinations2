@@ -2,12 +2,11 @@ package net.livecar.nuttyworks.npc_destinations.messages;
 
 import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.npc.NPC;
-import net.livecar.nuttyworks.npc_destinations.citizens.NPCDestinationsTrait;
-import net.livecar.nuttyworks.npc_destinations.plugins.DestinationsAddon;
 import net.livecar.nuttyworks.npc_destinations.DebugTarget;
 import net.livecar.nuttyworks.npc_destinations.DestinationsPlugin;
 import net.livecar.nuttyworks.npc_destinations.api.Destination_Setting;
-
+import net.livecar.nuttyworks.npc_destinations.citizens.NPCDestinationsTrait;
+import net.livecar.nuttyworks.npc_destinations.plugins.DestinationsAddon;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -117,9 +116,9 @@ public class Messages_Manager {
         List<String> processedMessages = new ArrayList<String>();
 
         String[] messages = this.getResultMessage(langFile, msgKey.toLowerCase());
-
-        for (int nCnt = 0; nCnt < messages.length; nCnt++) {
-            String messageLine = parseMessage(sender, langFile, messages[nCnt], npcTrait, locationSetting, material, npc, ident);
+    
+        for (String message : messages) {
+            String messageLine = parseMessage(sender, langFile, message, npcTrait, locationSetting, material, npc, ident);
             messageLine = messageLine.replaceAll("<message>", Matcher.quoteReplacement(rawMessage));
             processedMessages.add(messageLine);
         }
@@ -387,8 +386,8 @@ public class Messages_Manager {
                         message = replaceAll(message, "<setting.statusmessage>", this.getResultMessage(langFile, "result_Messages.action_no_processing")[0]);
                         break;
                     case SET_LOCATION:
-                        if (npcTrait.locationLockUntil != null) {
-                            Duration procTime = Duration.between(LocalDateTime.now(),npcTrait.locationLockUntil);
+                        if (npcTrait.getLocationLockUntil() != null) {
+                            Duration procTime = Duration.between(LocalDateTime.now(),npcTrait.getLocationLockUntil());
                             int hours = (int) Math.abs(procTime.getSeconds() / 3600);
                             int minutes = (int) Math.abs((procTime.getSeconds() % 3600) / 60);
                             int seconds = (int) Math.abs(procTime.getSeconds() % 60);

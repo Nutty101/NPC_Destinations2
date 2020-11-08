@@ -26,8 +26,9 @@ public interface MCUtilsBridge {
     ItemStack getMainHand(Player plr);
     ItemStack getSecondHand(Player plr);
     
+    boolean isOpenable(Block oBlock);
     void closeOpenable(Block oBlock);
-    void openOpenable(Block oBlock);
+    boolean openOpenable(Block oBlock);
 
     boolean setTargetLocation(Entity entity, Double x, Double y, Double z, Float speed);
 

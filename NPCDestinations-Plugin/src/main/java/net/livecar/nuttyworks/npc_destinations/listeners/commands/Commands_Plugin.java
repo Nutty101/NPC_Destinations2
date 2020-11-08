@@ -1,16 +1,5 @@
 package net.livecar.nuttyworks.npc_destinations.listeners.commands;
 
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.logging.Level;
-
-import org.bukkit.ChatColor;
-import org.bukkit.Material;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
-
 import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.npc.NPC;
 import net.citizensnpcs.api.trait.trait.Owner;
@@ -18,6 +7,16 @@ import net.livecar.nuttyworks.npc_destinations.DebugTarget;
 import net.livecar.nuttyworks.npc_destinations.DestinationsPlugin;
 import net.livecar.nuttyworks.npc_destinations.citizens.Citizens_Utilities;
 import net.livecar.nuttyworks.npc_destinations.citizens.NPCDestinationsTrait;
+import org.bukkit.ChatColor;
+import org.bukkit.Material;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
+
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.logging.Level;
 
 public class Commands_Plugin
 {
@@ -143,25 +142,21 @@ public class Commands_Plugin
         } else {
             messageLevel = "console_messages";
         }
-
-        for (Iterator<NPC> npcIter = net.citizensnpcs.api.CitizensAPI.getNPCRegistry().iterator(); npcIter
-                .hasNext();) {
-            NPC npcItem = npcIter.next();
+    
+        for (NPC npcItem : CitizensAPI.getNPCRegistry()) {
             if ((npcItem != null) && (npcItem.hasTrait(NPCDestinationsTrait.class))) {
-                if (inargs.length > 1)
-                {
+                if (inargs.length > 1) {
                     String npcName = npcItem.getName().toLowerCase();
                     if (!npcName.contains(inargs[1].toLowerCase()))
                         continue;
                 }
-
+            
                 if (!npcItem.isSpawned()) {
                     destinationsRef.getMessageManager.sendMessage("destinations", sender,
                             messageLevel + ".commands_allstatus_notspawned", npcItem);
                 } else {
                     NPCDestinationsTrait oCurTrait = npcItem.getTrait(NPCDestinationsTrait.class);
-                    switch (oCurTrait.getRequestedAction())
-                    {
+                    switch (oCurTrait.getRequestedAction()) {
                         case NORMAL_PROCESSING:
                             switch (oCurTrait.getCurrentAction()) {
                                 case IDLE:
@@ -204,9 +199,9 @@ public class Commands_Plugin
                             break;
                         default:
                             break;
-
+                    
                     }
-
+                
                 }
             }
         }

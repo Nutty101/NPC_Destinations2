@@ -1,27 +1,27 @@
 package net.livecar.nuttyworks.npc_destinations.listeners.commands;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import org.bukkit.command.CommandSender;
-
 import net.citizensnpcs.api.npc.NPC;
 import net.livecar.nuttyworks.npc_destinations.DestinationsPlugin;
 import net.livecar.nuttyworks.npc_destinations.citizens.NPCDestinationsTrait;
+import org.bukkit.command.CommandSender;
+
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
 public class Command_Record {
-    public String    commandName       = "";
-    public String    groupName         = "";
-    public String    languageFile      = "";
-    public String[]  commandPermission = new String[] { "" };
-    public String    helpMessage       = "";
-    public String[]  arguments         = null;
-    public Boolean   allowConsole      = false;
-    public int       minArguments      = 0;
-    public int       maxArguments      = 50;
+    public String    commandName;
+    public String    groupName;
+    public String    languageFile;
+    public String[]  commandPermission;
+    public String    helpMessage;
+    public String[]  arguments;
+    public Boolean   allowConsole;
+    public int       minArguments;
+    public int       maxArguments;
 
-    private Class<?> commandClass      = null;
-    private Method   commandMethod     = null;
+    private Class<?> commandClass;
+    private Method   commandMethod;
 
     public Command_Record(String commandName, String groupName, String languageFile, String[] commandPermission, String helpMessage, Boolean allowConsole, int minArguments, int maxArguments, String[] arguments, Class<?> commandClass,
                           String commandMethod) {

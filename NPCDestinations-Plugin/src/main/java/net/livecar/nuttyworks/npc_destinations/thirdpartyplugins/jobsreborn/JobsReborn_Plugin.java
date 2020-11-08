@@ -2,20 +2,16 @@ package net.livecar.nuttyworks.npc_destinations.thirdpartyplugins.jobsreborn;
 
 import com.gamingmesh.jobs.Jobs;
 import com.gamingmesh.jobs.container.Job;
-
 import net.livecar.nuttyworks.npc_destinations.DestinationsPlugin;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import org.bukkit.Bukkit;
-import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.scheduler.BukkitTask;
-
 public class JobsReborn_Plugin {
-    public DestinationsPlugin                  destRef       = null;
-    public JobsReborn_Addon                    getJobsPlugin = null;
-    public Map<Integer, JobsReborn_NPCSetting> npcSettings   = new HashMap<Integer, JobsReborn_NPCSetting>();
+    public DestinationsPlugin                  destRef;
+    public JobsReborn_Addon                    getJobsPlugin;
+    public Map<Integer, JobsReborn_NPCSetting> npcSettings   = new HashMap<>();
 
     @SuppressWarnings("deprecation")
     public JobsReborn_Plugin(DestinationsPlugin storageRef) {

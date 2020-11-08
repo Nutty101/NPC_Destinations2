@@ -1,12 +1,11 @@
 package net.livecar.nuttyworks.npc_destinations.thirdpartyplugins.jobsreborn;
 
-import org.bukkit.Material;
-
 import net.citizensnpcs.api.npc.NPC;
 import net.citizensnpcs.api.util.DataKey;
 import net.livecar.nuttyworks.npc_destinations.api.Destination_Setting;
 import net.livecar.nuttyworks.npc_destinations.citizens.NPCDestinationsTrait;
 import net.livecar.nuttyworks.npc_destinations.plugins.DestinationsAddon;
+import org.bukkit.Material;
 
 public class JobsReborn_Addon extends DestinationsAddon {
     public JobsReborn_Plugin pluginReference = null;
@@ -49,9 +48,9 @@ public class JobsReborn_Addon extends DestinationsAddon {
                 JobsReborn_LocationSetting locSetting = pluginReference.npcSettings.get(npc.getId()).locations.get(locationSetting.LocationIdent);
 
                 if (message.toLowerCase().contains("<location.jobname>"))
-                    message = message.replaceAll("<location\\.jobname>", locSetting.jobs_Name);
+                    message = message.replaceAll("<location\\.jobname>", locSetting.jobs_Name==null?"Unset":locSetting.jobs_Name);
                 if (message.toLowerCase().contains("<location.jobmax>")) {
-                    if (locSetting.jobs_Name.trim().equalsIgnoreCase("")) {
+                    if (locSetting.jobs_Name != null && locSetting.jobs_Name.trim().equalsIgnoreCase("")) {
                         message = message.replaceAll("<location\\.jobmax>", "Inactive, no job name");
                     } else if (locSetting.jobs_Greater) {
                         if (locSetting.jobs_Max == -1) {
@@ -125,7 +124,6 @@ public class JobsReborn_Addon extends DestinationsAddon {
         }
         locationConfig.locationID = location.LocationIdent;
         npcSetting.locations.put(location.LocationIdent, locationConfig);
-        return;
     }
 
     public void onLocationSaving(NPC npc, NPCDestinationsTrait npcTrait, Destination_Setting location, DataKey storageKey) {
@@ -140,7 +138,6 @@ public class JobsReborn_Addon extends DestinationsAddon {
             storageKey.setString("JobsReborn.JobName", locationConfig.jobs_Name);
             storageKey.setInt("JobsReborn.JobMax", locationConfig.jobs_Greater ? locationConfig.jobs_Max : 0 - locationConfig.jobs_Max);
         }
-        return;
     }
 
     public boolean onNavigationReached(NPC npc, NPCDestinationsTrait npcTrait, Destination_Setting location) {
@@ -152,6 +149,6 @@ public class JobsReborn_Addon extends DestinationsAddon {
     }
 
     public void onEnableChanged(NPC npc, NPCDestinationsTrait npcTrait, boolean enabled) {
-        return;
+    
     }
 }

@@ -1,25 +1,21 @@
 package net.livecar.nuttyworks.npc_destinations.bridges;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import net.minecraft.server.v1_13_R2.EntityInsentient;
+import net.minecraft.server.v1_13_R2.EntityLiving;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.Tag;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.block.data.Levelled;
 import org.bukkit.block.data.Openable;
-import org.bukkit.block.data.type.*;
+import org.bukkit.block.data.type.Bed;
+import org.bukkit.block.data.type.Slab;
 import org.bukkit.craftbukkit.v1_13_R2.entity.CraftLivingEntity;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
-import org.bukkit.event.world.ChunkUnloadEvent;
 import org.bukkit.inventory.ItemStack;
-
-import net.minecraft.server.v1_13_R2.EntityInsentient;
-import net.minecraft.server.v1_13_R2.EntityLiving;
-import net.minecraft.server.v1_13_R2.EntityPlayer;
 
 public class MCUtil_1_13_R2 implements MCUtilsBridge {
 
@@ -146,33 +142,42 @@ public class MCUtil_1_13_R2 implements MCUtilsBridge {
     @Override
     public boolean isGate(Material mat)
     {
-        if (mat.getClass().isAssignableFrom(Gate.class))
-            return true;
+        switch (mat)
+        {
+            case ACACIA_FENCE_GATE:
+            case BIRCH_FENCE_GATE:
+            case DARK_OAK_FENCE_GATE:
+            case JUNGLE_FENCE_GATE:
+            case OAK_FENCE_GATE:
+            case SPRUCE_FENCE_GATE:
+                return true;
+        }
         return false;
     }
     
     @Override
     public boolean isWoodDoor(Material mat) {
-        if (mat.getClass().isAssignableFrom(Door.class)) {
-            if (!mat.toString().contains("METAL"))
-                return true;
-        }
-        return false;
+        return Tag.WOODEN_DOORS.isTagged(mat);
     }
     
     @Override
     public boolean isMetalDoor(Material mat) {
-        if (mat.getClass().isAssignableFrom(Door.class)) {
-            if (mat.toString().contains("METAL"))
-                return true;
-        }
-        return false;
+        return Tag.DOORS.isTagged(mat) && !Tag.WOODEN_DOORS.isTagged(mat);
     }
     
     public boolean isFence(Material mat)
     {
-        if (mat.getClass().isAssignableFrom(Fence.class))
-            return true;
+        switch (mat)
+        {
+            case ACACIA_FENCE:
+            case BIRCH_FENCE:
+            case DARK_OAK_FENCE:
+            case JUNGLE_FENCE:
+            case NETHER_BRICK_FENCE:
+            case OAK_FENCE:
+            case SPRUCE_FENCE:
+                return true;
+        }
         return false;
     }
     
@@ -186,29 +191,41 @@ public class MCUtil_1_13_R2 implements MCUtilsBridge {
 
         return inHandLightSource.NOLIGHT;
     }
-
+    
+    @Override
+    public boolean isOpenable(Block oBlock)
+    {
+        BlockState oBlockState = oBlock.getState();
+        return oBlockState.getBlockData() instanceof Openable;
+    }
+    
     @Override
     public void closeOpenable(Block oBlock) {
         BlockState oBlockState = oBlock.getState();
         Openable oOpenable = (Openable) oBlockState.getBlockData();
-
+        
         if (oOpenable.isOpen()) {
             oOpenable.setOpen(false);
-            oBlockState.setBlockData((BlockData) oOpenable);
+            oBlockState.setBlockData(oOpenable);
             oBlockState.update();
         }
     }
-
+    
     @Override
-    public void openOpenable(Block oBlock) {
+    public boolean openOpenable(Block oBlock) {
         BlockState oBlockState = oBlock.getState();
+        if (!(oBlockState.getBlockData() instanceof Openable))
+            return false;
+        
         Openable oOpenable = (Openable) oBlockState.getBlockData();
-
+        
         if (!oOpenable.isOpen()) {
             oOpenable.setOpen(true);
-            oBlockState.setBlockData((BlockData) oOpenable);
+            oBlockState.setBlockData(oOpenable);
             oBlockState.update();
+            return true;
         }
+        return false;
     }
 
     @Override
@@ -238,9 +255,6 @@ public class MCUtil_1_13_R2 implements MCUtilsBridge {
             BlockData bData = blockLocation.getBlock().getBlockData().clone();
             if (blockLocation.getBlock().getBlockData() instanceof Bed)
             {
-                //Why is this not sending right??
-                Bed tmpBed = ((Bed)bData);
-                
                 ((Bed)bData).setFacing(((Bed)blockLocation.getBlock().getBlockData()).getFacing());
                 ((Bed)bData).setPart(((Bed)blockLocation.getBlock().getBlockData()).getPart());
             }

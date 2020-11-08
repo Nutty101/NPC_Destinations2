@@ -1,13 +1,11 @@
 package net.livecar.nuttyworks.npc_destinations.thirdpartyplugins.plotsquared;
 
-import org.bukkit.entity.Player;
 import com.google.common.base.Optional;
-
 import com.intellectualcrafters.plot.flag.Flags;
 import com.intellectualcrafters.plot.object.Plot;
 import com.intellectualcrafters.plot.object.PlotPlayer;
-
 import net.citizensnpcs.api.npc.NPC;
+import org.bukkit.entity.Player;
 
 public class PlotSquared_Plugin_V3 implements PlotSquared{
 

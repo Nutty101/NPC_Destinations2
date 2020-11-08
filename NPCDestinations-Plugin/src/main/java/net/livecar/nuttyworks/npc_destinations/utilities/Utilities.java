@@ -1,25 +1,17 @@
 package net.livecar.nuttyworks.npc_destinations.utilities;
 
-import org.apache.commons.lang.Validate;
-import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.configuration.InvalidConfigurationException;
-
 import net.livecar.nuttyworks.npc_destinations.DestinationsPlugin;
+import org.apache.commons.lang.Validate;
+import org.bukkit.configuration.InvalidConfigurationException;
+import org.bukkit.configuration.file.YamlConfiguration;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
-import java.io.UnsupportedEncodingException;
+import java.io.*;
 import java.util.Arrays;
 import java.util.logging.Level;
 
 public class Utilities {
 
-    private DestinationsPlugin destRef = null;
+    private DestinationsPlugin destRef;
 
     public Utilities(DestinationsPlugin storageRef) {
         destRef = storageRef;

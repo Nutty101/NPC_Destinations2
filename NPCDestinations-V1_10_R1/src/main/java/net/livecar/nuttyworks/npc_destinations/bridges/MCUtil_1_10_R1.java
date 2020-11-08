@@ -1,8 +1,5 @@
 package net.livecar.nuttyworks.npc_destinations.bridges;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import net.minecraft.server.v1_10_R1.EntityInsentient;
 import net.minecraft.server.v1_10_R1.EntityLiving;
 import org.bukkit.Location;
@@ -15,6 +12,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.material.MaterialData;
 import org.bukkit.material.Openable;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MCUtil_1_10_R1 implements MCUtilsBridge {
 
@@ -198,6 +198,14 @@ public class MCUtil_1_10_R1 implements MCUtilsBridge {
 	}
 
 	@Override
+	public boolean isOpenable(Block oBlock)
+	{
+		BlockState oBlockState = oBlock.getState();
+		return oBlockState.getData() instanceof Openable;
+	}
+
+	
+	@Override
 	public void closeOpenable(Block oBlock) {
 		BlockState oBlockState = oBlock.getState();
 		Openable oOpenable = (Openable) oBlockState.getData();
@@ -208,17 +216,21 @@ public class MCUtil_1_10_R1 implements MCUtilsBridge {
 			oBlockState.update();
 		}
 	}
-
+	
 	@Override
-	public void openOpenable(Block oBlock) {
+	public boolean openOpenable(Block oBlock) {
 		BlockState oBlockState = oBlock.getState();
+		if (!(oBlockState.getData() instanceof Openable))
+			return false;
 		Openable oOpenable = (Openable) oBlockState.getData();
-
+		
 		if (oOpenable.isOpen()) {
 			oOpenable.setOpen(true);
 			oBlockState.setData((MaterialData) oOpenable);
 			oBlockState.update();
+			return true;
 		}
+		return false;
 	}
 
 	@Override

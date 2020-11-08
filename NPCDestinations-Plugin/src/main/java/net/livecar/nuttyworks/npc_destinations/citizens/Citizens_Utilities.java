@@ -1,22 +1,19 @@
 package net.livecar.nuttyworks.npc_destinations.citizens;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
+import net.livecar.nuttyworks.npc_destinations.DestinationsPlugin;
+
+import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
-import net.livecar.nuttyworks.npc_destinations.DestinationsPlugin;
-
 public class Citizens_Utilities {
     public static long         lastBackupTime;
 
-    private DestinationsPlugin destRef = null;
+    private DestinationsPlugin destRef;
 
     public Citizens_Utilities(DestinationsPlugin storageRef) {
         destRef = storageRef;
@@ -35,7 +32,7 @@ public class Citizens_Utilities {
                 citizensBackups.mkdirs();
 
             // Clean up backup files.
-            for (final File fileEntry : citizensBackups.listFiles()) {
+            for (final File fileEntry : Objects.requireNonNull(citizensBackups.listFiles())) {
                 if (fileEntry.lastModified() <= (new Date(System.currentTimeMillis() - TimeUnit.DAYS.toMillis(destRef.getConfig().getLong("backup-history", 30)))).getTime()) {
                     fileEntry.delete();
                 }
@@ -50,7 +47,7 @@ public class Citizens_Utilities {
         File backupFile = new File(destRef.getDataFolder() + "/CitizensBackups/" + fileDate.format(new Date()) + ".zip");
 
         try {
-            BufferedInputStream origin = null;
+            BufferedInputStream origin;
 
             FileOutputStream dest = new FileOutputStream(backupFile.toString());
             ZipOutputStream out = new ZipOutputStream(new BufferedOutputStream(dest));

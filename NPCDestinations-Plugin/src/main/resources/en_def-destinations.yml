@@ -30,14 +30,13 @@ messages:
   commands_enginestatus_processing_queue: "[{\"text\":\"[\",\"color\":\"yellow\"},{\"text\":\"NPCDest\",\"color\":\"green\"},{\"text\":\"] \",\"color\":\"yellow\"},{\"text\":\"Processing for <pathengine.currentnpc>, with <pathengine.queue.count> tasks pending\",\"color\":\"white\"}]"
   commands_allstatus_notspawned: "[{\"text\":\"&eNPC&2: &f<npc.name> &eAction&2: &fNot Spawned\",\"hoverEvent\":{\"action\":\"show_text\",\"value\":\"&eNPC Name&2: &f<npc.name> &6[&eID&2: &f<npc.id>&6]\n&eLocation&2: &fNot Spawned\",\"color\":\"white\"}}]"
   commands_allstatus_pending: "[{\"text\":\"&eNPC&2: &f<npc.name> &eAction&2: &fNavigating &6[&f<setting.pendingdestinationscount>&6 Locations] \",\"hoverEvent\":{\"action\":\"show_text\",\"value\":\"&eNPC Name&2: &f<npc.name> &6[&eID&2: &f<npc.id>&6]\n&eLocation&2: &f<npc.location>\n&eNPC Type&2: &f<npc.type>\"}}]"
-  commands_allstatus_setlocation: "[{\"text\":\"&eNPC&2: &f<npc.name> &eAction&2: &SetLocation \",\"hoverEvent\":{\"action\":\"show_text\",\"value\":\"&eNPC Name&2: &f<npc.name> &6[&eID&2: &f<npc.id>&6]\n&eLocation&2: &f<npc.location>\n&eNPC Type&2: &f<npc.type>\"}}]"
+  commands_allstatus_setlocation: "[{\"text\":\"&eNPC&2: &f<npc.name> &eAction&2: &f<setting.statusmessage>\",\"hoverEvent\":{\"action\":\"show_text\",\"value\":\"&eNPC Name&2: &f<npc.name> &6[&eID&2: &f<npc.id>&6]\n&eLocation&2: &f<npc.location>\n&eNPC Type&2: &f<npc.type>\"}}]"
   commands_allstatus_hunting: "[{\"text\":\"&eNPC&2: &f<npc.name> &eAction&2: &fpathfinding &6[&f<setting.pathtime>&6 seconds&6] \",\"hoverEvent\":{\"action\":\"show_text\",\"value\":\"&eNPC Name&2: &f<npc.name> &6[&eID&2: &f<npc.id>&6]\n&eLocation&2: &f<npc.location>\n&eNPC Type&2: &f<npc.type>\"}}]"
   commands_allstatus_random: "[{\"text\":\"&eNPC&2: &f<npc.name> &eAction&2: &fRandom Wander \",\"hoverEvent\":{\"action\":\"show_text\",\"value\":\"&eNPC Name&2: &f<npc.name> &6[&eID&2: &f<npc.id>&6]\n&eLocation&2: &f<npc.location>\n&eNPC Type&2: &f<npc.type>\"}}]"
   commands_allstatus_idle: "[{\"text\":\"&eNPC&2: &f<npc.name> &eAction&2: &fIdle\",\"hoverEvent\":{\"action\":\"show_text\",\"value\":\"&eNPC Name&2: &f<npc.name> &6[&eID&2: &f<npc.id>&6]\n&eLocation&2: &f<npc.location>\n&eNPC Type&2: &f<npc.type>\"}}]"
   commands_allstatus_idle_failure: "[{\"text\":\"&eNPC&2: &f<npc.name> &eAction&2: &fIdle / Path finding failure\",\"hoverEvent\":{\"action\":\"show_text\",\"value\":\"&eNPC Name&2: &f<npc.name> &6[&eID&2: &f<npc.id>&6]\n&eLocation&2: &f<npc.location>\n&eNPC Type&2: &f<npc.type>\"}}]"
   commands_allstatus_path_found: "[{\"text\":\"&eNPC&2: &f<npc.name> &eAction&2: &fTraversing Path &6[&f<setting.pendingdestinationscount>&6 Locations] \",\"hoverEvent\":{\"action\":\"show_text\",\"value\":\"&eNPC Name&2: &f<npc.name> &6[&eID&2: &f<npc.id>&6]\n&eLocation&2: &f<npc.location>\n&eNPC Type&2: &f<npc.type>\"}}]"
   commands_allstatus_noprocessing: "[{\"text\":\"&eNPC&2: &f<npc.name> &eAction&2: &fProcessing Disabled\",\"hoverEvent\":{\"action\":\"show_text\",\"value\":\"&eNPC Name&2: &f<npc.name> &6[&eID&2: &f<npc.id>&6]\n&eLocation&2: &f<npc.location>\n&eNPC Type&2: &f<npc.type>\"}}]"
-  commands_allstatus_setlocation: "[{\"text\":\"&eNPC&2: &f<npc.name> &eAction&2: &f<setting.statusmessage>\",\"hoverEvent\":{\"action\":\"show_text\",\"value\":\"&eNPC Name&2: &f<npc.name> &6[&eID&2: &f<npc.id>&6]\n&eLocation&2: &f<npc.location>\n&eNPC Type&2: &f<npc.type>\"}}]"
   commands_citizens_settings: "[{\"text\":\"&eCitizens settings&2:\n&7  Path Distance&2: &f<citizens.pathdistance>\n&7  Path Margin&2: &f<citizens.pathmargin>\n&7  New Pathfinder&2: &f<citizens.pathfinder>\n&7  Swims in water&2: &f<citizens.swims>\n&7  Avoids Water&2: &f<citizens.avoidwater>\n&7  Teleport On Stuck&2: &f<citizens.stuckaction>\",\"color\":\"GREEN\"}]"
   commands_citizens_invalid: "[{\"text\":\"Invalid arguments /npcdest citizens <PathDistance> <PathMargin> <Y/N new path finder> <Y/N Swimming> <Y/N Avoids Water> <Y/N Teleport on stuck> \",\"color\":\"GREEN\"}]"
   commands_commands_badargs: "[{\"text\":\"Invalid arguments /npcdest loccommands <loc#> \",\"color\":\"GREEN\"}]"
@@ -221,6 +220,7 @@ console_messages:
   commands_allstatus_idle: "&eNPC&2: &f<npc.name> &eAction&2: &fIdle"
   commands_allstatus_idle_failure: "&eNPC&2: &f<npc.name> &eAction&2: &fIdle / Path finding failure"
   commands_allstatus_path_found: "&eNPC&2: &f<npc.name> &eAction&2: &fTraversing Path &6[&f<setting.pendingdestinationscount>&6 Locations]"
+  quests_error: Quests processing error [<message>]
 
 debug_messages:
   path_processing: "[{\"text\":\"[\",\"color\":\"yellow\"},{\"text\":\"NPCDest\",\"color\":\"green\"},{\"text\":\"] \",\"color\":\"yellow\"},{\"text\":\"Processing for (<npc.id>) <npc.name>\",\"color\":\"GREEN\"}]"

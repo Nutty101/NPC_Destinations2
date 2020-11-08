@@ -1,12 +1,11 @@
 package net.livecar.nuttyworks.npc_destinations.api;
 
-import java.util.List;
-import java.util.UUID;
-
+import net.livecar.nuttyworks.npc_destinations.api.enumerations.TriBoolean;
 import org.bukkit.Location;
 import org.bukkit.inventory.ItemStack;
 
-import net.livecar.nuttyworks.npc_destinations.api.enumerations.TriBoolean;
+import java.util.List;
+import java.util.UUID;
 
 public class Destination_Setting {
 

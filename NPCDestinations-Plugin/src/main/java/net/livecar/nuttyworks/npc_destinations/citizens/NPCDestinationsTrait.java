@@ -5,20 +5,14 @@ import net.citizensnpcs.api.trait.Trait;
 import net.citizensnpcs.api.util.DataKey;
 import net.livecar.nuttyworks.npc_destinations.DestinationsPlugin;
 import net.livecar.nuttyworks.npc_destinations.api.Destination_Setting;
-
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
-import org.bukkit.block.BlockState;
-import org.bukkit.material.Openable;
 import org.bukkit.plugin.Plugin;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
 import java.time.LocalDateTime;
-import java.util.UUID;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
 import java.util.logging.Level;
 
 public class NPCDestinationsTrait extends Trait {
@@ -64,7 +58,7 @@ public class NPCDestinationsTrait extends Trait {
     public Destination_Setting       setLocation                 = new Destination_Setting();
     public Destination_Setting       lastLocation                = new Destination_Setting();
     public Destination_Setting       monitoredLocation           = null;
-    public LocalDateTime             locationLockUntil;
+    
     public List<String>              enabledPlugins              = new ArrayList<String>();
     public Boolean                   citizens_Swim               = true;
     public Boolean                   citizens_NewPathFinder      = true;
@@ -84,18 +78,25 @@ public class NPCDestinationsTrait extends Trait {
     public Long                      lastBlocksPerSec            = 0L;
 
     public Integer                   maxProcessingTime           = -1;
-
+    
+    public String                    lastDebugMessage            = "";
+    
     // Inner namespace variables
     ArrayList<Location>              pendingDestinations         = new ArrayList<Location>();
     ArrayList<Location>              processedDestinations       = new ArrayList<Location>();
     ArrayList<Block>                 openedObjects               = new ArrayList<Block>();
     en_CurrentAction                 currentAction               = en_CurrentAction.IDLE;
     en_RequestedAction               requestedAction             = en_RequestedAction.NORMAL_PROCESSING;
-    private Plugin                   monitoringPlugin            = null;
-    private LocalDateTime            timeLastPathCalc;
-
+    Plugin                           monitoringPlugin            = null;
+    LocalDateTime                    timeLastPathCalc;
+    LocalDateTime                    locationLockUntil;
+    
+    Boolean                          runningDoor                 = false;
+    Block                            lastOpenedObject            = null;
+    
     UUID                             last_Loc_Reached;
-
+    int                              requestedPauseTime;
+    
     // Public methods
     public NPCDestinationsTrait() {
         super("npcdestinations");
@@ -141,10 +142,32 @@ public class NPCDestinationsTrait extends Trait {
     }
 
     public Destination_Setting GetCurrentLocation(Boolean noNull) {
-        Destination_Setting locReturn = Citizens_Processing.trait_getCurLocation(this, noNull);
-        return locReturn;
+        return Citizens_Processing.trait_getCurLocation(this, noNull);
     }
 
+    
+    public LocalDateTime getLocationLockUntil()
+    {
+        return locationLockUntil;
+    }
+    
+    public void setLocationLockUntil(LocalDateTime lockUntil)
+    {
+        DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-mm-dd hh:mm:ss");
+        Citizens_Processing.debugMessage(Level.FINE, "NPC:" + this.npc.getId() + "|" + (lockUntil==null?"Clear":dateFormat.format(lockUntil)) + "|" + Arrays.toString(Thread.currentThread().getStackTrace()));
+        this.locationLockUntil = lockUntil;
+    }
+    
+    public void setLocationLockUntil(int seconds)
+    {
+        this.requestedPauseTime = seconds;
+    }
+    
+    public int getPendingLockSeconds()
+    {
+        return this.requestedPauseTime;
+    }
+    
     public void setRequestedAction(en_RequestedAction action) {
         Citizens_Processing.debugMessage(Level.FINE, "NPCDestinations_Trait.setRequestedAction()|NPC:" + this.npc.getId() + "|" + action.toString());
         this.requestedAction = action;
@@ -164,8 +187,10 @@ public class NPCDestinationsTrait extends Trait {
 
     public void removePendingDestination(int index) {
         Citizens_Processing.trait_removePendingDestination(this, index);
-        this.processedDestinations.add(this.pendingDestinations.get(index));
-        this.pendingDestinations.remove(index);
+        if (this.pendingDestinations.size() > index) {
+            this.processedDestinations.add(this.pendingDestinations.get(index));
+            this.pendingDestinations.remove(index);
+        }
     }
 
     public void clearPendingDestinations() {
@@ -227,20 +252,19 @@ public class NPCDestinationsTrait extends Trait {
                 iterator.remove();
             }
         }
-
-        if (npc.getEntity().getLocation().getBlock().getState().getData() instanceof Openable) {
+        
+        if (DestinationsPlugin.Instance.getMCUtils.isOpenable(npc.getEntity().getLocation().getBlock())) {
             if (!openedObjects.contains(npc.getEntity().getLocation().getBlock())) {
                 Block oBlock = npc.getEntity().getLocation().getBlock();
-                if (oBlock.getRelative(0, -1, 0).getState().getData() instanceof Openable) {
+                if (DestinationsPlugin.Instance.getMCUtils.isOpenable(oBlock.getRelative(0, -1, 0))) {
                     oBlock = oBlock.getRelative(0, -1, 0);
-                } else if (oBlock.getRelative(0, 1, 0).getState().getData() instanceof Openable) {
+                } else if (DestinationsPlugin.Instance.getMCUtils.isOpenable(oBlock.getRelative(0, 1, 0))) {
                     oBlock = oBlock.getRelative(0, 1, 0);
                 }
                 this.openOpenable(oBlock);
             }
         }
         getOpenableInFront();
-
     }
 
     private void closeOpenable(Block oBlock) {
@@ -248,22 +272,16 @@ public class NPCDestinationsTrait extends Trait {
     }
 
     private void openOpenable(Block oBlock) {
-        BlockState oBlockState = oBlock.getState();
-        Openable oOpenable = (Openable) oBlockState.getData();
-
         if (DestinationsPlugin.Instance.getMCUtils.isGate(oBlock.getType()) && OpensGates) {
-            if (!oOpenable.isOpen()) {
-                DestinationsPlugin.Instance.getMCUtils.openOpenable(oBlock);
+            if (DestinationsPlugin.Instance.getMCUtils.openOpenable(oBlock)) {
                 this.openedObjects.add(oBlock);
             }
         } else if (DestinationsPlugin.Instance.getMCUtils.isWoodDoor(oBlock.getType()) && OpensWoodDoors) {
-            if (!oOpenable.isOpen()) {
-                DestinationsPlugin.Instance.getMCUtils.openOpenable(oBlock);
+            if (DestinationsPlugin.Instance.getMCUtils.openOpenable(oBlock)) {
                 this.openedObjects.add(oBlock);
             }
         } else if (DestinationsPlugin.Instance.getMCUtils.isMetalDoor(oBlock.getType()) && OpensMetalDoors) {
-            if (!oOpenable.isOpen()) {
-                DestinationsPlugin.Instance.getMCUtils.openOpenable(oBlock);
+            if (DestinationsPlugin.Instance.getMCUtils.openOpenable(oBlock)) {
                 this.openedObjects.add(oBlock);
             }
         }
@@ -279,10 +297,9 @@ public class NPCDestinationsTrait extends Trait {
 
     private void getOpenableInFront() {
         // Validate is the NPC is in the same block as an openable
-        if (npc.getEntity().getLocation().getBlock().getState().getData() instanceof Openable) {
-            final Openable openableBlock = (Openable) npc.getEntity().getLocation().getBlock().getState().getData();
-            if (!openableBlock.isOpen()) {
-                this.openOpenable(npc.getEntity().getLocation().getBlock());
+        if (DestinationsPlugin.Instance.getMCUtils.openOpenable(npc.getEntity().getLocation().getBlock())) {
+            if (DestinationsPlugin.Instance.getMCUtils.openOpenable(npc.getEntity().getLocation().getBlock())) {
+                this.openedObjects.add(npc.getEntity().getLocation().getBlock());
                 return;
             }
         }
@@ -330,7 +347,7 @@ public class NPCDestinationsTrait extends Trait {
             final Location openableLocation = this.npc.getEntity().getLocation().add(xAxis, y, zAxis);
             final Block openableBlock = openableLocation.getBlock();
 
-            if (openableBlock.getState().getData() instanceof Openable) {
+            if (DestinationsPlugin.Instance.getMCUtils.isOpenable(openableBlock)) {
                 if (!openedObjects.contains(openableBlock)) {
                     this.openOpenable(openableBlock);
                 }

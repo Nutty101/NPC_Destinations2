@@ -4,10 +4,10 @@ import com.github.intellectualsites.plotsquared.plot.flag.Flags;
 import com.github.intellectualsites.plotsquared.plot.object.Location;
 import com.github.intellectualsites.plotsquared.plot.object.Plot;
 import com.github.intellectualsites.plotsquared.plot.object.PlotPlayer;
-import org.bukkit.entity.Player;
-import java.util.Optional;
-
 import net.citizensnpcs.api.npc.NPC;
+import org.bukkit.entity.Player;
+
+import java.util.Optional;
 
 public class PlotSquared_Plugin_V4 implements PlotSquared{
 
@@ -72,8 +72,10 @@ public class PlotSquared_Plugin_V4 implements PlotSquared{
         else
             npcPlot = Plot.getPlot(locationToPlot(npc.getStoredLocation()));
 
-        if (npcPlot == null)
+        if (npcPlot == null) {
+            //TODO change for getting local time
             return ((Long) npc.getEntity().getWorld().getTime()).intValue();
+        }
 
         if (npcPlot.hasFlag(Flags.TIME)) {
             Optional<Long> timeFlag = npcPlot.getFlag(Flags.TIME);

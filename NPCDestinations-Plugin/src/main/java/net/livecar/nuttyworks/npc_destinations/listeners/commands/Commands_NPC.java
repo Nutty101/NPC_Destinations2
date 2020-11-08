@@ -1,15 +1,5 @@
 package net.livecar.nuttyworks.npc_destinations.listeners.commands;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.time.LocalDateTime;
-
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Material;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
-
 import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.event.NPCTraitCommandAttachEvent;
 import net.citizensnpcs.api.npc.NPC;
@@ -20,7 +10,15 @@ import net.livecar.nuttyworks.npc_destinations.api.Navigation_NewDestination;
 import net.livecar.nuttyworks.npc_destinations.citizens.NPCDestinationsTrait;
 import net.livecar.nuttyworks.npc_destinations.citizens.NPCDestinationsTrait.en_RequestedAction;
 import net.livecar.nuttyworks.npc_destinations.plugins.DestinationsAddon;
-import net.livecar.nuttyworks.npc_destinations.utilities.Utilities;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.Material;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.time.LocalDateTime;
 
 public class Commands_NPC
 {
@@ -228,10 +226,10 @@ public class Commands_NPC
                 }
             }
             if (nLocNum > -1) {
-                long nLength = 0;
+                int nLength = 0;
                 if (inargs.length == 3) {
                     if (destRef.getUtilitiesClass.isNumeric(inargs[2])) {
-                        nLength = Long.parseLong(inargs[2]);
+                        nLength = Integer.parseInt(inargs[2]);
                     } else {
                         destRef.getMessageManager.sendMessage("destinations", sender,
                                 "messages.commands_goloc_badargs");
@@ -278,7 +276,7 @@ public class Commands_NPC
                 destRef.getCitizensProc.fireLocationChangedEvent(destTrait, destTrait.NPCLocations.get(nLocNum));
 
                 destTrait.currentLocation = destTrait.NPCLocations.get(nLocNum);
-                destTrait.locationLockUntil = LocalDateTime.now().plusSeconds(nLength);
+                destTrait.setLocationLockUntil(nLength);
                 destTrait.lastPositionChange = LocalDateTime.now();
                 destTrait.setRequestedAction(en_RequestedAction.SET_LOCATION);
 
@@ -359,12 +357,6 @@ public class Commands_NPC
             destRef.getMessageManager.sendMessage("destinations", sender, "messages.invalid_npc", destTrait, null);
             return true;
         }
-        if (inargs.length == 1) {
-            destRef.getMessageManager.sendMessage("destinations", sender,
-                    "messages.commands_pauseplayer_badargs", destTrait);
-            return true;
-        }
-
         if (inargs.length == 1) {
             destTrait.PauseForPlayers = -1;
             destTrait.PauseTimeout = -1;

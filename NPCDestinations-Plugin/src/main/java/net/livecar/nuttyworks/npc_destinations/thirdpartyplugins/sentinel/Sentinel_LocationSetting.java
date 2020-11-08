@@ -1,12 +1,12 @@
 package net.livecar.nuttyworks.npc_destinations.thirdpartyplugins.sentinel;
 
+import net.citizensnpcs.api.util.MemoryDataKey;
+import org.bukkit.inventory.ItemStack;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
-
-import net.citizensnpcs.api.util.MemoryDataKey;
-import org.bukkit.inventory.ItemStack;
 
 public class Sentinel_LocationSetting {
     public UUID            locationID;

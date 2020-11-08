@@ -1,15 +1,5 @@
 package net.livecar.nuttyworks.npc_destinations.listeners.commands;
 
-import java.util.ArrayList;
-import java.util.UUID;
-
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.meta.BookMeta;
-
 import net.citizensnpcs.api.npc.NPC;
 import net.citizensnpcs.api.trait.trait.Equipment;
 import net.citizensnpcs.api.trait.trait.Equipment.EquipmentSlot;
@@ -21,7 +11,15 @@ import net.livecar.nuttyworks.npc_destinations.api.Location_Added;
 import net.livecar.nuttyworks.npc_destinations.api.Location_Deleted;
 import net.livecar.nuttyworks.npc_destinations.api.Location_Updated;
 import net.livecar.nuttyworks.npc_destinations.citizens.NPCDestinationsTrait;
-import net.livecar.nuttyworks.npc_destinations.utilities.Utilities;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.Location;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.meta.BookMeta;
+
+import java.util.ArrayList;
+import java.util.UUID;
 
 public class Commands_Location
 {
@@ -362,7 +360,7 @@ public class Commands_Location
                     + 0.5, player.getLocation().getBlockY(), player.getLocation().getBlockZ() + 0.5, 0.0F, 0.0F);
 
             if (player.getLocation().getYaw() < 0)
-                oLoc.destination.setYaw(player.getLocation().getYaw()+360);
+                oLoc.destination.setYaw(Math.abs(player.getLocation().getYaw()));
 
             oLoc.destination.setPitch(player.getLocation().getPitch());
 

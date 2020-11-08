@@ -1,18 +1,17 @@
 package net.livecar.nuttyworks.npc_destinations.messages;
 
+import net.livecar.nuttyworks.npc_destinations.DestinationsPlugin;
 import net.md_5.bungee.chat.ComponentSerializer;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import net.livecar.nuttyworks.npc_destinations.DestinationsPlugin;
-
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 
 public class jsonChat {
-    private DestinationsPlugin destRef = null;
+    private DestinationsPlugin destRef;
 
     public jsonChat(DestinationsPlugin storageRef) {
         destRef = storageRef;
@@ -27,9 +26,16 @@ public class jsonChat {
     }
     
     private void sendMessage(CommandSender player, String jsonMsg) {
-        if (destRef.Version < 11200)
+        if (destRef.Version < 11200) {
             sendMessageLess12(player, jsonMsg);
-        player.spigot().sendMessage(ComponentSerializer.parse(jsonMsg));
+        } else {
+            try {
+                player.spigot().sendMessage(ComponentSerializer.parse(jsonMsg));
+            } catch (Exception error)
+            {
+                destRef.getMessageManager.logToConsole(destRef, "Json Failure: " + error.getMessage() + "\n" + jsonMsg);
+            }
+        }
     }
     
     @SuppressWarnings("rawtypes")

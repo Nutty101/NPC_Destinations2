@@ -1,12 +1,12 @@
 package net.livecar.nuttyworks.npc_destinations;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class DebugTarget {
 
@@ -16,12 +16,12 @@ public class DebugTarget {
 
     public DebugTarget(CommandSender sender, Integer npcID) {
         targetSender = sender;
-        targetIDS = new ArrayList<Integer>();
+        targetIDS = new ArrayList<>();
         if (npcID > -1) {
             targetIDS.add(npcID);
         }
         if (debugBlocksSent == null)
-            debugBlocksSent = new ArrayList<Location>();
+            debugBlocksSent = new ArrayList<>();
     }
 
     public void addNPCTarget(Integer npcID) {

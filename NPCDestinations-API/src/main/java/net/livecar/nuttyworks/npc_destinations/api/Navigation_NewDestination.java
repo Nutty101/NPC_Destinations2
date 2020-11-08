@@ -1,9 +1,9 @@
 package net.livecar.nuttyworks.npc_destinations.api;
 
+import net.citizensnpcs.api.npc.NPC;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
-import net.citizensnpcs.api.npc.NPC;
 
 public class Navigation_NewDestination extends Event implements Cancellable {
     private static final HandlerList handlers = new HandlerList();

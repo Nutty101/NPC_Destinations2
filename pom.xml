@@ -5,12 +5,14 @@
 
     <groupId>net.livecar.nuttyworks.npc_destinations</groupId>
     <artifactId>NPCDestinations-Parent</artifactId>
-    <version>2.3.0</version>
+    <version>2.4.0</version>
     <packaging>pom</packaging>
 
     <modules>
         <module>NPCDestinations-API</module>
         <module>NPCDestinations-Plugin</module>
+        <module>NPCDestinations-V1_16_R3</module>
+        <module>NPCDestinations-V1_16_R2</module>
         <module>NPCDestinations-V1_16_R1</module>
         <module>NPCDestinations-V1_15_R1</module>
         <module>NPCDestinations-V1_14_R2</module>
@@ -36,8 +38,8 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
+        <maven.compiler.source>1.8</maven.compiler.source>
     </properties>
 
     <!-- Common Repositories -->
@@ -59,16 +61,24 @@
             <url>http://maven.sk89q.com/repo/</url>
         </repository>
         <repository>
-            <id>bundabrg-repo</id>
-            <url>https://repo.worldguard.com.au/repository/maven-public/</url>
+            <id>betonquest-repo</id>
+            <url>http://amberproject.net:8082/repository/AmberProject/</url>
         </repository>
         <repository>
             <id>nuttys-repo</id>
             <url>http://repo.livecar.net/</url>
         </repository>
         <repository>
+            <id>CodeMC</id>
+            <url>https://repo.codemc.org/repository/maven-public/</url>
+        </repository>
+        <repository>
             <id>common Repo</id>
             <url>https://mvnrepository.com/artifact/org.apache.commons/commons-lang</url>
+        </repository>
+        <repository>
+            <id>bundabrg-repo</id>
+            <url>https://repo.worldguard.com.au/repository/maven-public/</url>
         </repository>
     </repositories>
 

@@ -10,14 +10,16 @@ import net.citizensnpcs.api.trait.trait.Owner;
 import net.citizensnpcs.npc.skin.Skin;
 import net.citizensnpcs.npc.skin.SkinnableEntity;
 import net.citizensnpcs.trait.waypoint.Waypoints;
+import net.livecar.nuttyworks.npc_destinations.DebugTarget;
+import net.livecar.nuttyworks.npc_destinations.DestinationsPlugin;
+import net.livecar.nuttyworks.npc_destinations.api.Destination_Setting;
+import net.livecar.nuttyworks.npc_destinations.api.Location_Added;
+import net.livecar.nuttyworks.npc_destinations.api.Location_Deleted;
+import net.livecar.nuttyworks.npc_destinations.api.Location_Updated;
 import net.livecar.nuttyworks.npc_destinations.citizens.Citizens_Utilities;
 import net.livecar.nuttyworks.npc_destinations.citizens.NPCDestinationsTrait;
 import net.livecar.nuttyworks.npc_destinations.citizens.NPCDestinationsTrait.en_RequestedAction;
-import net.livecar.nuttyworks.npc_destinations.DebugTarget;
-import net.livecar.nuttyworks.npc_destinations.DestinationsPlugin;
-import net.livecar.nuttyworks.npc_destinations.api.*;
 import net.livecar.nuttyworks.npc_destinations.plugins.DestinationsAddon;
-
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -95,12 +97,11 @@ public class CommandListener_NPCDest {
                 return true;
             } else {
                 sender.sendMessage(ChatColor.GOLD + "----- " + destRef.getDescription().getName() + " ----- V " + destRef.getDescription().getVersion());
-                for (Iterator<NPC> npcIter = net.citizensnpcs.api.CitizensAPI.getNPCRegistry().iterator(); npcIter.hasNext();) {
-                    NPC npcItem = npcIter.next();
+                for (NPC npcItem : CitizensAPI.getNPCRegistry()) {
                     if ((npcItem != null) && (npcItem.hasTrait(NPCDestinationsTrait.class))) {
                         if (!npcItem.isSpawned()) {
                             destRef.getMessageManager.sendMessage("destinations", sender, "messages.commands_allstatus_notspawned", npcItem);
-
+                
                         } else {
                             NPCDestinationsTrait oCurTrait = npcItem.getTrait(NPCDestinationsTrait.class);
                             switch (oCurTrait.getCurrentAction()) {
@@ -538,7 +539,7 @@ public class CommandListener_NPCDest {
                             trait.lastResult = "Forced location";
                             trait.setLocation = trait.NPCLocations.get(nLocNum);
                             trait.currentLocation = trait.NPCLocations.get(nLocNum);
-                            trait.locationLockUntil = LocalDateTime.now().plusSeconds(nLength);
+                            trait.setLocationLockUntil(LocalDateTime.now().plusSeconds(nLength));
                             trait.lastPositionChange = LocalDateTime.now();
                             trait.setRequestedAction(en_RequestedAction.SET_LOCATION);
                             return true;
@@ -1048,11 +1049,6 @@ public class CommandListener_NPCDest {
                         destRef.getMessageManager.sendMessage("destinations", sender, "messages.invalid_npc", trait, null);
                         return true;
                     }
-                    if (inargs.length == 1) {
-                        destRef.getMessageManager.sendMessage("destinations", sender, "messages.commands_pauseplayer_badargs", trait);
-                        return true;
-                    }
-
                     if (inargs.length == 1) {
                         trait.PauseForPlayers = -1;
                         trait.PauseTimeout = -1;

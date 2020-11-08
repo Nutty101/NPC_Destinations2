@@ -1,22 +1,14 @@
 package net.livecar.nuttyworks.npc_destinations.thirdpartyplugins.sentinel;
 
 import net.citizensnpcs.api.npc.NPC;
-import net.citizensnpcs.api.util.DataKey;
 import net.citizensnpcs.api.util.MemoryDataKey;
 import net.livecar.nuttyworks.npc_destinations.DestinationsPlugin;
-import net.livecar.nuttyworks.npc_destinations.utilities.Utilities;
-
-import java.lang.annotation.Annotation;
-import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Map;
-
 import org.bukkit.Bukkit;
 import org.bukkit.scheduler.BukkitRunnable;
-import org.mcmonkey.sentinel.SentinelTarget;
 import org.mcmonkey.sentinel.SentinelTrait;
+
+import java.lang.reflect.Field;
+import java.util.Date;
 
 public class Sentinel_Plugin {
     public DestinationsPlugin destRef           = null;

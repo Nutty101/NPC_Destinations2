@@ -1,11 +1,10 @@
 package net.livecar.nuttyworks.npc_destinations.thirdpartyplugins.sentinel;
 
-import org.bukkit.command.CommandSender;
-
 import net.citizensnpcs.api.npc.NPC;
 import net.livecar.nuttyworks.npc_destinations.DestinationsPlugin;
 import net.livecar.nuttyworks.npc_destinations.citizens.NPCDestinationsTrait;
 import net.livecar.nuttyworks.npc_destinations.listeners.commands.CommandInfo;
+import org.bukkit.command.CommandSender;
 
 public class Sentinel_Commands {
     @CommandInfo(name = "locsentinel", group = "External Plugin Commands", languageFile = "sentinel", helpMessage = "command_locsentinel_help", arguments = { "--npc|#", "<npc>|set|get|clear", "set|get|clear" }, permission = {

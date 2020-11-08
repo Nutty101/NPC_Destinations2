@@ -1,20 +1,21 @@
 package net.livecar.nuttyworks.npc_destinations.bridges;
 
+import net.minecraft.server.v1_16_R1.EntityInsentient;
+import net.minecraft.server.v1_16_R1.EntityLiving;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.Tag;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.block.data.Levelled;
 import org.bukkit.block.data.Openable;
-import org.bukkit.block.data.type.*;
+import org.bukkit.block.data.type.Bed;
+import org.bukkit.block.data.type.Slab;
+import org.bukkit.craftbukkit.v1_16_R1.entity.CraftLivingEntity;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.craftbukkit.v1_16_R1.entity.CraftLivingEntity;
-
-import net.minecraft.server.v1_16_R1.EntityInsentient;
-import net.minecraft.server.v1_16_R1.EntityLiving;
 
 public class MCUtil_1_16_R1 implements MCUtilsBridge {
 
@@ -63,10 +64,9 @@ public class MCUtil_1_16_R1 implements MCUtilsBridge {
         
         // Validate liquid on the block above
         if (b.getRelative(0, 1, 0).isLiquid()) {
-            
-            if (b.getRelative(0, 1, 0) instanceof Levelled) {
+            if (b.getRelative(0, 1, 0).getState().getBlockData() instanceof Levelled) {
                 Levelled liquidLevel = (Levelled) b.getRelative(0, 1, 0).getBlockData();
-                if (liquidLevel.getLevel() > 3)
+                if (liquidLevel.getLevel() < 4)
                     return false;
                 
                 if (b.getRelative(0, 1, 0).getType() == Material.LAVA)
@@ -140,34 +140,24 @@ public class MCUtil_1_16_R1 implements MCUtilsBridge {
     @Override
     public boolean isGate(Material mat)
     {
-        if (mat.getClass().isAssignableFrom(Gate.class))
-            return true;
-        return false;
+        return Tag.FENCE_GATES.isTagged(mat);
     }
     
     @Override
     public boolean isWoodDoor(Material mat) {
-        if (mat.getClass().isAssignableFrom(Door.class)) {
-            if (!mat.toString().contains("METAL"))
-                return true;
-        }
-        return false;
+        return Tag.WOODEN_DOORS.isTagged(mat);
     }
     
     @Override
     public boolean isMetalDoor(Material mat) {
-        if (mat.getClass().isAssignableFrom(Door.class)) {
-            if (mat.toString().contains("METAL"))
-                return true;
-        }
+        if (Tag.DOORS.isTagged(mat))
+            return !Tag.WOODEN_DOORS.isTagged(mat);
         return false;
     }
     
     public boolean isFence(Material mat)
     {
-        if (mat.getClass().isAssignableFrom(Fence.class))
-            return true;
-        return false;
+        return Tag.FENCES.isTagged(mat);
     }
     
     @Override
@@ -182,27 +172,39 @@ public class MCUtil_1_16_R1 implements MCUtilsBridge {
     }
     
     @Override
+    public boolean isOpenable(Block oBlock)
+    {
+        BlockState oBlockState = oBlock.getState();
+        return oBlockState.getBlockData() instanceof Openable;
+    }
+    
+    @Override
     public void closeOpenable(Block oBlock) {
         BlockState oBlockState = oBlock.getState();
         Openable oOpenable = (Openable) oBlockState.getBlockData();
         
         if (oOpenable.isOpen()) {
             oOpenable.setOpen(false);
-            oBlockState.setBlockData((BlockData) oOpenable);
+            oBlockState.setBlockData(oOpenable);
             oBlockState.update();
         }
     }
     
     @Override
-    public void openOpenable(Block oBlock) {
+    public boolean openOpenable(Block oBlock) {
         BlockState oBlockState = oBlock.getState();
+        if (!(oBlockState.getBlockData() instanceof Openable))
+            return false;
+        
         Openable oOpenable = (Openable) oBlockState.getBlockData();
         
         if (!oOpenable.isOpen()) {
             oOpenable.setOpen(true);
-            oBlockState.setBlockData((BlockData) oOpenable);
+            oBlockState.setBlockData(oOpenable);
             oBlockState.update();
+            return true;
         }
+        return false;
     }
     
     @Override

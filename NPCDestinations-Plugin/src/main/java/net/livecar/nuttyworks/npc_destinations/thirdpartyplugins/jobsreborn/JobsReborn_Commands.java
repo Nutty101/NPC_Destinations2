@@ -1,14 +1,13 @@
 package net.livecar.nuttyworks.npc_destinations.thirdpartyplugins.jobsreborn;
 
-import org.bukkit.Bukkit;
-import org.bukkit.command.CommandSender;
-
 import net.citizensnpcs.api.npc.NPC;
 import net.livecar.nuttyworks.npc_destinations.DestinationsPlugin;
 import net.livecar.nuttyworks.npc_destinations.api.Location_Updated;
 import net.livecar.nuttyworks.npc_destinations.citizens.NPCDestinationsTrait;
 import net.livecar.nuttyworks.npc_destinations.listeners.commands.CommandInfo;
 import net.livecar.nuttyworks.npc_destinations.utilities.Utilities;
+import org.bukkit.Bukkit;
+import org.bukkit.command.CommandSender;
 
 public class JobsReborn_Commands {
     @CommandInfo(

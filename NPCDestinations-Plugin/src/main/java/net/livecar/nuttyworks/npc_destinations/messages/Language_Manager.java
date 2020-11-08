@@ -1,7 +1,6 @@
 package net.livecar.nuttyworks.npc_destinations.messages;
 
 import net.livecar.nuttyworks.npc_destinations.DestinationsPlugin;
-
 import org.bukkit.configuration.file.FileConfiguration;
 
 import java.io.File;
@@ -9,7 +8,7 @@ import java.io.FileFilter;
 import java.util.HashMap;
 
 public class Language_Manager {
-    public HashMap<String, FileConfiguration> languageStorage = new HashMap<String, FileConfiguration>();
+    public HashMap<String, FileConfiguration> languageStorage = new HashMap<>();
     private DestinationsPlugin                destRef         = null;
 
     public Language_Manager(DestinationsPlugin storageRef) {
@@ -22,15 +21,10 @@ public class Language_Manager {
 
     public void loadLanguages(boolean silent) {
         if (languageStorage == null)
-            languageStorage = new HashMap<String, FileConfiguration>();
+            languageStorage = new HashMap<>();
         languageStorage.clear();
 
-        File[] languageFiles = destRef.languagePath.listFiles(new FileFilter() {
-            @Override
-            public boolean accept(File file) {
-                return file.getName().endsWith(".yml");
-            }
-        });
+        File[] languageFiles = destRef.languagePath.listFiles(file -> file.getName().endsWith(".yml"));
 
         for (File ymlFile : languageFiles) {
             FileConfiguration oConfig = destRef.getUtilitiesClass.loadConfiguration(ymlFile);

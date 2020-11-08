@@ -2,7 +2,6 @@ package net.livecar.nuttyworks.npc_destinations.pathing;
 
 import net.citizensnpcs.api.npc.NPC;
 import net.livecar.nuttyworks.npc_destinations.citizens.NPCDestinationsTrait;
-
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -41,9 +40,9 @@ public class PathFindingQueue {
     }
 
     public Location getPathLocation(Location source) {
-        if (blocksBelow == -1) // Means we want the absolute 0 block to find a
+        if (blocksBelow < 0) // Means we want the absolute 0 block to find a
             // path
-            return new Location(source.getWorld(), source.getX(), 0, source.getZ());
+            return new Location(source.getWorld(), source.getX(), Math.abs(blocksBelow) - 1, source.getZ());
 
         return new Location(source.getWorld(), source.getX(), source.getY() - blocksBelow, source.getZ());
     }

@@ -17,6 +17,24 @@ backup-interval: 24
 backup-history: 30
 
 #################################################
+# Time Provider to base locations on
+#################################################
+#default    = Local MC time where the NPC is located
+#realworld  = Local computer time / Real world based
+timeplugin: default
+
+#################################################
+# Realworld time settings
+#################################################
+# startdate:
+#    Base date/time to start the calculation from
+# secondsperday:
+#    1200 = 20 minutes (Normal MC day length)
+realworld:
+  startdate: 2020-01-01T00:00:00
+  secondsperday: 1200
+
+#################################################
 # Permission's supported in this plugin
 #################################################
 #

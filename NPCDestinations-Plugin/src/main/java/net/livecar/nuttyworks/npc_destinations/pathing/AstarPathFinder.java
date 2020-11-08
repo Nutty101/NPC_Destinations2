@@ -1,11 +1,10 @@
 package net.livecar.nuttyworks.npc_destinations.pathing;
 
 import net.citizensnpcs.api.npc.NPC;
-import net.livecar.nuttyworks.npc_destinations.citizens.NPCDestinationsTrait;
-import net.livecar.nuttyworks.npc_destinations.citizens.NPCDestinationsTrait.en_CurrentAction;
 import net.livecar.nuttyworks.npc_destinations.DebugTarget;
 import net.livecar.nuttyworks.npc_destinations.DestinationsPlugin;
-
+import net.livecar.nuttyworks.npc_destinations.citizens.NPCDestinationsTrait;
+import net.livecar.nuttyworks.npc_destinations.citizens.NPCDestinationsTrait.en_CurrentAction;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -29,7 +28,7 @@ public class AstarPathFinder {
 
     // 1.6
     public PathFindingQueue                         currentTask = null;
-    public LinkedHashMap<Integer, PathFindingQueue> path_Queue  = new LinkedHashMap<Integer, PathFindingQueue>();
+    public LinkedHashMap<Integer, PathFindingQueue> path_Queue  = new LinkedHashMap<>();
 
     public AstarPathFinder(DestinationsPlugin storageRef) {
         destRef = storageRef;
@@ -76,6 +75,19 @@ public class AstarPathFinder {
         if (playToPlayers != null)
             playToPlayers.clear();
 
+        //Short pathing faults
+        if (npc.getEntity().getLocation().distanceSquared(end) < 4)
+        {
+            //Just teleport the npc
+            npc.getEntity().teleport(new Location(
+                        npc.getEntity().getLocation().getWorld()
+                        ,npc.getEntity().getLocation().getBlockX()
+                        ,npc.getEntity().getLocation().getBlockY()
+                        ,npc.getEntity().getLocation().getBlockZ()));
+            return;
+        }
+        
+        
         if (destRef.debugTargets != null && destRef.debugTargets.size() > 0) {
 
             playToPlayers = new ArrayList<Player>();
@@ -164,13 +176,11 @@ public class AstarPathFinder {
             }
             path_Queue.put(npc.getId(), oQueueItem);
             destRef.getMessageManager.debugMessage(Level.FINEST, "QUEUED NPC: " + oQueueItem.npc.getId() + "|" + oQueueItem.end_X + "," + oQueueItem.end_Y + "," + oQueueItem.end_Z);
-            return;
         } else {
             currentTask = oQueueItem;
             currentTask.processingStarted = new Date();
             destRef.getMessageManager.debugMessage(Level.FINEST, "CurrentTask Idle, Processing " + currentTask.npc.getId());
             ProcessQueueItem();
-            return;
         }
     }
 
@@ -185,7 +195,7 @@ public class AstarPathFinder {
 
         if (playToPlayers != null && playToPlayers.size() > 0) {
             for (Player player : playToPlayers)
-                destRef.getParticleManager.PlayOutHeartParticle(t.getLocation(new Location(currentTask.world, currentTask.start_X, currentTask.start_Y, currentTask.start_Z)), player);
+                destRef.getParticleManager.PlayOutHeartParticle(t.getLocation(new Location(currentTask.world, currentTask.start_X, currentTask.start_Y, currentTask.start_Z).add(0.5,0,0.5)), player);
         }
     }
 
@@ -239,7 +249,7 @@ public class AstarPathFinder {
                 currentTask.npcTrait.lastResult = "Unable to find a path";
                 currentTask.npcTrait.setCurrentAction(en_CurrentAction.IDLE_FAILED);
                 currentTask.npcTrait.setLastPathCalc();
-                currentTask.npcTrait.locationLockUntil = LocalDateTime.now().plusSeconds(10);
+                currentTask.npcTrait.setLocationLockUntil(LocalDateTime.now().plusSeconds(10));
                 CleanTask();
                 return;// jump out
             }
@@ -251,15 +261,15 @@ public class AstarPathFinder {
                 currentTask.npcTrait.lastResult = "Start/End location is not walkable";
                 currentTask.npcTrait.setCurrentAction(en_CurrentAction.IDLE_FAILED);
                 currentTask.npcTrait.setLastPathCalc();
-                currentTask.npcTrait.locationLockUntil = LocalDateTime.now();
+                currentTask.npcTrait.setLocationLockUntil(LocalDateTime.now().plusSeconds(10));
 
                 // 1.6 Teleport the NPC as the start is wacked.
                 currentTask.npc.teleport(getEndLocation().add(0, 1, 0), TeleportCause.PLUGIN);
                 currentTask.npcTrait.locationReached();
                 CleanTask();
                 return;
-            } else if (destRef.getMCUtils.isLocationWalkable(getStartLocation(), currentTask.opensGates, currentTask.opensWoodDoors, currentTask.opensMetalDoors) && !destRef.getMCUtils.isLocationWalkable(getEndLocation(),
-                    currentTask.opensGates, currentTask.opensWoodDoors, currentTask.opensMetalDoors)) {
+            } else if (destRef.getMCUtils.isLocationWalkable(getStartLocation(), currentTask.opensGates, currentTask.opensWoodDoors, currentTask.opensMetalDoors) && !destRef.getMCUtils.isLocationWalkable(getEndLocation(), currentTask.opensGates,
+                    currentTask.opensWoodDoors, currentTask.opensMetalDoors)) {
                 // Cannot move the NPC at all.
                 destRef.getMessageManager.sendDebugMessage("destinations", "debug_messages.path_badendloc", currentTask.npc, currentTask.npcTrait, "E Fail [" + currentTask.end_X + "," + currentTask.end_Y + "," + currentTask.end_Z + "]");
                 destRef.getMessageManager.debugMessage(Level.INFO, "NPCDestinations_astar.ProcessQueueItem().FailedPath|NPC:" + currentTask.npc.getId() + "|Start/End No Walk|Requested: " + currentTask.requestedBy);
@@ -267,19 +277,16 @@ public class AstarPathFinder {
                 currentTask.npcTrait.lastResult = "End location is not walkable";
                 currentTask.npcTrait.setCurrentAction(en_CurrentAction.IDLE_FAILED);
                 currentTask.npcTrait.setLastPathCalc();
-                currentTask.npcTrait.locationLockUntil = LocalDateTime.now().plusSeconds(10);
+                currentTask.npcTrait.setLocationLockUntil(LocalDateTime.now().plusSeconds(10));
                 CleanTask();
                 return;
             }
 
             // 1.6: current task null, check to see if other tasks exist.
             if (path_Queue.size() > 0 && currentTask == null) {
-                destRef.getServer().getScheduler().runTask(destRef, new Runnable() {
-                    @Override
-                    public void run() {
-                        // continue sync:
-                        NextQueue();
-                    }
+                destRef.getServer().getScheduler().runTask(destRef, () -> {
+                    // continue sync:
+                    NextQueue();
                 });
                 return;
             } else if (currentTask == null) {
@@ -405,7 +412,7 @@ public class AstarPathFinder {
                 trait.lastResult = "Unable to find a path";
                 trait.setCurrentAction(en_CurrentAction.IDLE_FAILED);
                 trait.setLastPathCalc();
-                trait.locationLockUntil = LocalDateTime.now().plusSeconds(10);
+                trait.setLocationLockUntil(LocalDateTime.now().plusSeconds(10));
 
                 destRef.getMessageManager.sendDebugMessage("destinations", "debug_messages.path_timeout", currentTask.npc, trait);
                 destRef.getMessageManager.debugMessage(Level.INFO, "NPCDestinations_astar.ProcessQueueItem().FailedPath|NPC:" + currentTask.npc.getId() + "|Timeout|Requested: " + currentTask.requestedBy);
@@ -445,7 +452,7 @@ public class AstarPathFinder {
 
             trait.lastResult = "Unable to find a path";
             trait.setCurrentAction(en_CurrentAction.IDLE_FAILED);
-            trait.locationLockUntil = LocalDateTime.now().plusSeconds(10);
+            trait.setLocationLockUntil(LocalDateTime.now().plusSeconds(10));
             CleanTask();
             return;
         } else {
@@ -466,6 +473,7 @@ public class AstarPathFinder {
             for (Tile tLoc : routeTrace) {
                 locationArray.add(tLoc.getLocation(getStartLocation()));
             }
+            
             trait.setPendingDestinations(locationArray);
             long nSeconds = (currentTask.timeSpent + (new Date().getTime() - startTime)) / 1000 % 60;
             trait.lastProcessingTime = nSeconds;
@@ -665,7 +673,12 @@ public class AstarPathFinder {
                             continue;
                         }
                     }
-
+                    
+                    //Openables?
+                    if (destRef.getMCUtils.isOpenable(b) || destRef.getMCUtils.isOpenable(b.getLocation().add(0, 1, 0).getBlock()))
+                        if (x != 0 && z != 0)
+                            continue;
+                    
                     if (isOnClosedList(t)) {
                         // ignore tile
                         continue;
@@ -708,6 +721,10 @@ public class AstarPathFinder {
     }
 
     private boolean isTileWalkable(Tile t) {
+        return isTileWalkable(t,true);
+    }
+    
+    private boolean isTileWalkable(Tile t, Boolean allowDoors) {
         Location l = new Location(currentTask.world, (currentTask.start_X + t.getX()), (currentTask.start_Y + t.getY()), (currentTask.start_Z + t.getZ()));
         if (!destRef.getMCUtils.isLocationWalkable(l, currentTask.opensGates, currentTask.opensWoodDoors, currentTask.opensMetalDoors))
             return false;
@@ -718,13 +735,17 @@ public class AstarPathFinder {
             org.bukkit.block.BlockState oBlockState = b.getRelative(0, 1, 0).getState();
 
             if (destRef.getMCUtils.isGate(b.getRelative(0, 1, 0).getType())) {
-                if (currentTask.opensGates) {
+                if (!allowDoors)
+                    return false;
+                if (currentTask.opensGates ) {
                     return true;
                 } else {
                     Openable oOpenable = (Openable) oBlockState.getData();
                     return (oOpenable.isOpen() && (!b.getRelative(0, 2, 0).getType().isSolid()));
                 }
             } else if (destRef.getMCUtils.isWoodDoor(b.getRelative(0, 1, 0).getType())) {
+                if (!allowDoors)
+                    return false;
                 if (currentTask.opensWoodDoors) {
                     return true;
                 } else {
@@ -732,6 +753,8 @@ public class AstarPathFinder {
                     return (oOpenable.isOpen() && (!b.getRelative(0, 2, 0).getType().isSolid()));
                 }
             } else if (destRef.getMCUtils.isMetalDoor(b.getRelative(0, 1, 0).getType())) {
+                if (!allowDoors)
+                    return false;
                 if (currentTask.opensMetalDoors) {
                     return true;
                 } else {

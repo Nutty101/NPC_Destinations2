@@ -1,20 +1,19 @@
 package net.livecar.nuttyworks.npc_destinations.thirdpartyplugins.sentinel;
 
+import net.citizensnpcs.api.npc.NPC;
+import net.citizensnpcs.api.util.DataKey;
+import net.livecar.nuttyworks.npc_destinations.api.Destination_Setting;
+import net.livecar.nuttyworks.npc_destinations.citizens.NPCDestinationsTrait;
+import net.livecar.nuttyworks.npc_destinations.plugins.DestinationsAddon;
+import org.bukkit.Material;
+import org.bukkit.inventory.ItemStack;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
-
-import org.bukkit.Material;
-import org.bukkit.inventory.ItemStack;
-
-import net.citizensnpcs.api.npc.NPC;
-import net.citizensnpcs.api.util.DataKey;
-import net.livecar.nuttyworks.npc_destinations.api.Destination_Setting;
-import net.livecar.nuttyworks.npc_destinations.citizens.NPCDestinationsTrait;
-import net.livecar.nuttyworks.npc_destinations.plugins.DestinationsAddon;
 
 public class Sentinel_Addon extends DestinationsAddon {
     public Sentinel_Plugin                   pluginReference = null;
@@ -187,7 +186,6 @@ public class Sentinel_Addon extends DestinationsAddon {
 
         oLoc.locationID = location.LocationIdent;
         npcSetting.locations.put(location.LocationIdent, oLoc);
-        return;
     }
 
     public void onLocationSaving(NPC npc, NPCDestinationsTrait npcTrait, Destination_Setting location, DataKey storageKey) {
@@ -257,7 +255,6 @@ public class Sentinel_Addon extends DestinationsAddon {
             storageKey.setRaw("Sentinel.squad", locationConfig.squad);
             storageKey.setRaw("Sentinel.autoswitch", locationConfig.autoswitch);
         }
-        return;
     }
 
     public boolean onNavigationReached(NPC npc, NPCDestinationsTrait npcTrait, Destination_Setting location) {
@@ -275,6 +272,5 @@ public class Sentinel_Addon extends DestinationsAddon {
     }
 
     public void onEnableChanged(NPC npc, NPCDestinationsTrait npcTrait, boolean enabled) {
-        return;
     }
 }

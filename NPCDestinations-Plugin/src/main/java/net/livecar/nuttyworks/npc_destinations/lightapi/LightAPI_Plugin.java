@@ -1,13 +1,11 @@
 package net.livecar.nuttyworks.npc_destinations.lightapi;
 
-import org.bukkit.Location;
-
 import net.livecar.nuttyworks.npc_destinations.DestinationsPlugin;
+import org.bukkit.Location;
 import ru.beykerykt.lightapi.LightAPI;
 import ru.beykerykt.lightapi.chunks.ChunkInfo;
 
 public class LightAPI_Plugin {
-    @SuppressWarnings("unused")
     private DestinationsPlugin destRef = null;
 
     public LightAPI_Plugin(DestinationsPlugin storageRef) {
@@ -25,7 +23,7 @@ public class LightAPI_Plugin {
     public void DeleteLight(Location oLoc) {
         try {
             LightAPI.deleteLight(oLoc, true);
-        } catch (Exception err) {
+        } catch (Exception ignored) {
         }
 
         for (ChunkInfo info : LightAPI.collectChunks(oLoc)) {
