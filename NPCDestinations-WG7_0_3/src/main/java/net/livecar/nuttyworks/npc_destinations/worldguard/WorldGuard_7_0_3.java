@@ -111,7 +111,13 @@ public class WorldGuard_7_0_3 implements WorldGuardInterface, Listener {
 
     @EventHandler
     public void onWorldLoad(WorldLoadEvent e) {
-        RegionManager rm = getRegionManager(e.getWorld());
+        RegionManager rm = null;
+        try {
+            rm = getRegionManager(e.getWorld());
+        } catch (Exception err) {
+            // Possible fix for worldguard not having the world in it's memory
+            // yet.
+        }
         if (rm != null) {
             for (ProtectedRegion region : rm.getRegions().values()) {
                 if (region.getFlag(CHUNK_FLAG) == StateFlag.State.ALLOW) {
