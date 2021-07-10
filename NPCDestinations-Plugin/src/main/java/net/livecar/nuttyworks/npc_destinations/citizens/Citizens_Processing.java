@@ -823,22 +823,15 @@ public class Citizens_Processing {
 
             }
 
-            // if (needsOldPathing || (trait.pendingDestinations.size() < 4 &&
-            // !hasDoors)) {
+            if (destRef.Version < 11699)
+                npc.getNavigator().getLocalParameters().useNewPathfinder(false);
+            else
+                npc.getNavigator().getLocalParameters().useNewPathfinder(true);
+
             npc.getNavigator().getLocalParameters().avoidWater(true);
-            npc.getNavigator().getLocalParameters().useNewPathfinder(false);
             npc.getNavigator().getLocalParameters().stuckAction(TeleportStuckAction.INSTANCE);
             npc.getNavigator().getLocalParameters().distanceMargin(0.5D);
             npc.getNavigator().getLocalParameters().pathDistanceMargin(0.5D);
-            /*
-             * } else {
-             * npc.getNavigator().getLocalParameters().avoidWater(true);
-             * npc.getNavigator().getLocalParameters().useNewPathfinder(false);
-             * npc.getNavigator().getLocalParameters().stuckAction(
-             * TeleportStuckAction.INSTANCE);
-             * npc.getNavigator().getLocalParameters().distanceMargin(1D);
-             * npc.getNavigator().getLocalParameters().pathDistanceMargin(1D); }
-             */
 
             // Loop and validate the angle from the NPC to see how far we can go
             // on the next target, improve the goofy look all over issue
