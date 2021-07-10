@@ -5,6 +5,7 @@ import net.citizensnpcs.api.trait.trait.Equipment;
 import net.citizensnpcs.api.trait.trait.Equipment.EquipmentSlot;
 import net.citizensnpcs.npc.skin.Skin;
 import net.citizensnpcs.npc.skin.SkinnableEntity;
+import net.citizensnpcs.trait.SkinTrait;
 import net.livecar.nuttyworks.npc_destinations.DestinationsPlugin;
 import net.livecar.nuttyworks.npc_destinations.api.Destination_Setting;
 import net.livecar.nuttyworks.npc_destinations.api.Location_Added;
@@ -579,45 +580,24 @@ public class Commands_Location
                 return true;
             }
 
+            SkinTrait skins = npc.getOrAddTrait(SkinTrait.class);
+
             if (inargs[2].equalsIgnoreCase("show")) {
-                if (destTrait.NPCLocations.get(nIndex).player_Skin_UUID.trim().isEmpty() || !(npc
+                if (destTrait.NPCLocations.get(nIndex).player_Skin_Name.trim().isEmpty() || !(npc
                         .getEntity() instanceof Player)) {
                     destRef.getMessageManager.sendMessage("destinations", sender, "messages.commands_locskin_notset");
                     return true;
                 } else {
-                    npc.data().remove(NPC.PLAYER_SKIN_UUID_METADATA);
-                    npc.data().remove(NPC.PLAYER_SKIN_TEXTURE_PROPERTIES_METADATA);
-                    npc.data().remove(NPC.PLAYER_SKIN_TEXTURE_PROPERTIES_SIGN_METADATA);
-                    npc.data().remove("cached-skin-uuid-name");
-                    npc.data().remove("cached-skin-uuid");
-                    npc.data().remove(NPC.PLAYER_SKIN_UUID_METADATA);
 
+                    skins.setSkinPersistent(destTrait.NPCLocations.get(nIndex).player_Skin_Name
+                        ,destTrait.NPCLocations.get(nIndex).player_Skin_Texture_Signature
+                        ,destTrait.NPCLocations.get(nIndex).player_Skin_Texture_Metadata);
                     // Set the skin
-                    npc.data().set(NPC.PLAYER_SKIN_USE_LATEST, false);
-                    npc.data().set("cached-skin-uuid-name", destTrait.NPCLocations.get(nIndex).player_Skin_Name);
-                    npc.data().set("cached-skin-uuid", destTrait.NPCLocations.get(nIndex).player_Skin_UUID);
-                    npc.data().setPersistent(NPC.PLAYER_SKIN_UUID_METADATA, destTrait.NPCLocations.get(
-                            nIndex).player_Skin_Name);
-                    npc.data().setPersistent(NPC.PLAYER_SKIN_TEXTURE_PROPERTIES_METADATA, destTrait.NPCLocations
-                            .get(nIndex).player_Skin_Texture_Metadata);
-                    npc.data().setPersistent(NPC.PLAYER_SKIN_TEXTURE_PROPERTIES_SIGN_METADATA,
-                            destTrait.NPCLocations.get(nIndex).player_Skin_Texture_Signature);
-
-                    if (npc.isSpawned()) {
-
-                        SkinnableEntity skinnable = npc.getEntity() instanceof SkinnableEntity
-                                ? (SkinnableEntity) npc.getEntity() : null;
-                        if (skinnable != null) {
-                            Skin.get(skinnable).applyAndRespawn(skinnable);
-
-                        }
-                    }
                     destRef.getCommandManager.onCommand(sender, new String[] { "info", "--npc", Integer.toString(npc.getId()) });
                     return true;
                 }
             } else if (inargs[2].equalsIgnoreCase("clear")) {
                 destTrait.NPCLocations.get(nIndex).player_Skin_Name = "";
-                destTrait.NPCLocations.get(nIndex).player_Skin_UUID = "";
                 destTrait.NPCLocations.get(nIndex).player_Skin_Texture_Metadata = "";
                 destTrait.NPCLocations.get(nIndex).player_Skin_Texture_Signature = "";
                 // V1.39 -- Event
@@ -635,13 +615,9 @@ public class Commands_Location
                 return true;
             }
 
-            destTrait.NPCLocations.get(nIndex).player_Skin_Name = npc.data().get("cached-skin-uuid-name")
-                    .toString();
-            destTrait.NPCLocations.get(nIndex).player_Skin_UUID = npc.data().get("cached-skin-uuid").toString();
-            destTrait.NPCLocations.get(nIndex).player_Skin_Texture_Metadata = npc.data().get(
-                    NPC.PLAYER_SKIN_TEXTURE_PROPERTIES_METADATA).toString();
-            destTrait.NPCLocations.get(nIndex).player_Skin_Texture_Signature = npc.data().get(
-                    NPC.PLAYER_SKIN_TEXTURE_PROPERTIES_SIGN_METADATA).toString();
+            destTrait.NPCLocations.get(nIndex).player_Skin_Name = skins.getSkinName();
+            destTrait.NPCLocations.get(nIndex).player_Skin_Texture_Metadata = skins.getTexture();
+            destTrait.NPCLocations.get(nIndex).player_Skin_Texture_Signature = skins.getSignature();
 
             // V1.39 -- Event
             Location_Updated changedLocation = new Location_Updated(npc, destTrait.NPCLocations.get(nIndex));

@@ -5,6 +5,7 @@ import net.livecar.nuttyworks.npc_destinations.DebugTarget;
 import net.livecar.nuttyworks.npc_destinations.DestinationsPlugin;
 import net.livecar.nuttyworks.npc_destinations.citizens.NPCDestinationsTrait;
 import net.livecar.nuttyworks.npc_destinations.citizens.NPCDestinationsTrait.en_CurrentAction;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -79,11 +80,20 @@ public class AstarPathFinder {
         if (npc.getEntity().getLocation().distanceSquared(end) < 4)
         {
             //Just teleport the npc
-            npc.getEntity().teleport(new Location(
+            if (destRef.getMCUtils.isHalfBlock(npc.getEntity().getLocation().getBlock().getType()))
+            {
+                npc.getEntity().teleport(new Location(
                         npc.getEntity().getLocation().getWorld()
-                        ,npc.getEntity().getLocation().getBlockX()
-                        ,npc.getEntity().getLocation().getBlockY()
-                        ,npc.getEntity().getLocation().getBlockZ()));
+                        , npc.getEntity().getLocation().getBlockX()
+                        , npc.getEntity().getLocation().getBlockY()+1
+                        , npc.getEntity().getLocation().getBlockZ()));
+            } else {
+                npc.getEntity().teleport(new Location(
+                        npc.getEntity().getLocation().getWorld()
+                        , npc.getEntity().getLocation().getBlockX()
+                        , npc.getEntity().getLocation().getBlockY()
+                        , npc.getEntity().getLocation().getBlockZ()));
+            }
             return;
         }
         
@@ -453,6 +463,7 @@ public class AstarPathFinder {
             trait.lastResult = "Unable to find a path";
             trait.setCurrentAction(en_CurrentAction.IDLE_FAILED);
             trait.setLocationLockUntil(LocalDateTime.now().plusSeconds(10));
+            trait.setLastPathCalc();
             CleanTask();
             return;
         } else {
@@ -628,7 +639,19 @@ public class AstarPathFinder {
 
                     Tile t = new Tile((short) (current.getX() + x), (short) (current.getY() + y), (short) (current.getZ() + z), current);
                     Location l = new Location(currentTask.world, (currentTask.start_X + t.getX()), (currentTask.start_Y + t.getY()), (currentTask.start_Z + t.getZ()));
-
+    
+                    //Validate the current tile has 3 spaces open above.
+                    if (y == 1)
+                    {
+                        if (l.clone().add(0,2,0).getBlock().getType().isSolid())
+                            continue;
+                    }
+                    if (y == -1)
+                    {
+                        if (l.clone().add(x,2,z).getBlock().getType().isSolid())
+                            continue;
+                    }
+    
                     Block b = l.getBlock();
                     if (currentTask.allowedPathBlocks.size() > 0) {
                         l = new Location(currentTask.world, (currentTask.start_X + t.getX()), (currentTask.start_Y + t.getY()), (currentTask.start_Z + t.getZ()));
@@ -688,6 +711,8 @@ public class AstarPathFinder {
                     if (!isTileWalkable(t)) {
                         continue;
                     }
+                    
+                    
 
                     t.calculateBoth(currentTask.start_X, currentTask.start_Y, currentTask.start_Z, currentTask.end_X, currentTask.end_Y, currentTask.end_Z, true);
                     possible.add(t);

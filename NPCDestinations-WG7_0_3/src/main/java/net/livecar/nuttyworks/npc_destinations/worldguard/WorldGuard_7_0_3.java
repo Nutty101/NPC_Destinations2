@@ -22,7 +22,6 @@ import java.util.List;
 
 public class WorldGuard_7_0_3 implements WorldGuardInterface, Listener {
 
-    public static final StateFlag CHUNK_FLAG = new StateFlag("ndest-forcechunk", false);
     private Plugin                destRef    = null;
 
     public static boolean isValidVersion() {
@@ -53,88 +52,12 @@ public class WorldGuard_7_0_3 implements WorldGuardInterface, Listener {
     }
 
     public void registerFlags() {
-        WorldGuard.getInstance().getFlagRegistry().register(CHUNK_FLAG);
+    
     }
 
     public void unregisterFlags() {
-        // WorldGuard.getInstance().getFlagRegistry().unregisterHandler(WG_ChunkFlag.FACTORY);
     }
-
-    @SuppressWarnings("deprecation")
-    public void checkWorld() {
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                for (World world : Bukkit.getServer().getWorlds()) {
-                    RegionManager rm = getRegionManager(world);
-                    if (rm != null) {
-                        for (ProtectedRegion region : rm.getRegions().values()) {
-                            if (region.getFlag(CHUNK_FLAG) == StateFlag.State.ALLOW) {
-                                BlockVector3 min = region.getMinimumPoint();
-                                BlockVector3 max = region.getMaximumPoint();
-                                Location minLoc = new Location(world, min.getX(), min.getY(), min.getZ());
-                                Location maxLoc = new Location(world, max.getX(), max.getY(), max.getZ());
-                                for (int x = minLoc.getChunk().getX(); x <= maxLoc.getChunk().getX(); x++) {
-                                    for (int z = minLoc.getChunk().getZ(); z <= maxLoc.getChunk().getZ(); z++) {
-                                        world.getChunkAt(x, z).load();
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }.runTask(destRef);
-    }
-
-    @EventHandler
-    public void onChunkUnload(ChunkUnloadEvent e) {
-        RegionManager rm = null;
-        try {
-            rm = getRegionManager(e.getWorld());
-        } catch (Exception err) {
-            // Possible fix for worldguard not having the world in it's memory
-            // yet.
-        }
-
-        if (rm != null) {
-            ProtectedCuboidRegion chunkRegion = new ProtectedCuboidRegion("destwg_region", BlockVector3.at(e.getChunk().getX() * 16, 0, e.getChunk().getZ() * 16), BlockVector3.at(e.getChunk().getX() * 16 + 15, 255, e.getChunk().getZ() * 16
-                    + 15));
-            for (ProtectedRegion region : rm.getApplicableRegions(chunkRegion)) {
-                if (region.getFlag(CHUNK_FLAG) == StateFlag.State.ALLOW) {
-                    e.setCancelled(true);
-                    return;
-                }
-            }
-        }
-    }
-
-    @EventHandler
-    public void onWorldLoad(WorldLoadEvent e) {
-        RegionManager rm = null;
-        try {
-            rm = getRegionManager(e.getWorld());
-        } catch (Exception err) {
-            // Possible fix for worldguard not having the world in it's memory
-            // yet.
-        }
-        if (rm != null) {
-            for (ProtectedRegion region : rm.getRegions().values()) {
-                if (region.getFlag(CHUNK_FLAG) == StateFlag.State.ALLOW) {
-                    BlockVector3 min = region.getMinimumPoint();
-                    BlockVector3 max = region.getMaximumPoint();
-                    Location minLoc = new Location(e.getWorld(), min.getX(), min.getY(), min.getZ());
-                    Location maxLoc = new Location(e.getWorld(), max.getX(), max.getY(), max.getZ());
-                    for (int x = minLoc.getChunk().getX(); x <= maxLoc.getChunk().getX(); x++) {
-                        for (int z = minLoc.getChunk().getZ(); z <= maxLoc.getChunk().getZ(); z++) {
-                            e.getWorld().getChunkAt(x, z).load();
-                        }
-                    }
-                }
-            }
-        }
-    }
-
+    
     @Override
     public void registerEvents() {
         Bukkit.getPluginManager().registerEvents(this, destRef);

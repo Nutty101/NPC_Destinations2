@@ -10,6 +10,7 @@ import net.citizensnpcs.api.trait.trait.Equipment.EquipmentSlot;
 import net.citizensnpcs.api.util.DataKey;
 import net.citizensnpcs.npc.skin.Skin;
 import net.citizensnpcs.npc.skin.SkinnableEntity;
+import net.citizensnpcs.trait.SkinTrait;
 import net.livecar.nuttyworks.npc_destinations.DebugTarget;
 import net.livecar.nuttyworks.npc_destinations.DestinationsPlugin;
 import net.livecar.nuttyworks.npc_destinations.api.Destination_Setting;
@@ -482,35 +483,16 @@ public class Citizens_Processing {
 
         // V1.33 - Skins
         if (!trait.currentLocation.player_Skin_Name.isEmpty() && trait.getNPC().getEntity() instanceof Player) {
-            destRef.getMessageManager.debugMessage(Level.FINEST, "NPCDestinations_Goal.shouldExecute()|NPC:" + trait.getNPC().getId() + "|SKINCOMPARE|\r\n" + trait.getNPC().data().get(NPC.PLAYER_SKIN_TEXTURE_PROPERTIES_METADATA).toString()
-                    + "\r\n" + trait.currentLocation.player_Skin_Texture_Metadata);
+            SkinTrait skinTrait = trait.getNPC().getOrAddTrait(SkinTrait.class);
 
-            if (!trait.getNPC().data().get(NPC.PLAYER_SKIN_TEXTURE_PROPERTIES_METADATA).equals(trait.currentLocation.player_Skin_Texture_Metadata) && !trait.getNPC().data().get(NPC.PLAYER_SKIN_TEXTURE_PROPERTIES_SIGN_METADATA).equals(
-                    trait.currentLocation.player_Skin_Texture_Signature)) {
-                trait.getNPC().data().remove(NPC.PLAYER_SKIN_UUID_METADATA);
-                trait.getNPC().data().remove(NPC.PLAYER_SKIN_TEXTURE_PROPERTIES_METADATA);
-                trait.getNPC().data().remove(NPC.PLAYER_SKIN_TEXTURE_PROPERTIES_SIGN_METADATA);
-                trait.getNPC().data().remove("cached-skin-uuid-name");
-                trait.getNPC().data().remove("cached-skin-uuid");
-                trait.getNPC().data().remove(NPC.PLAYER_SKIN_UUID_METADATA);
+            destRef.getMessageManager.debugMessage(Level.FINEST, "NPCDestinations_Goal.shouldExecute()|NPC:" + trait.getNPC().getId() + "|SKINCOMPARE");
 
-                // Set the skin
-                trait.getNPC().data().set(NPC.PLAYER_SKIN_USE_LATEST, false);
-                trait.getNPC().data().set("cached-skin-uuid-name", trait.currentLocation.player_Skin_Name);
-                trait.getNPC().data().set("cached-skin-uuid", trait.currentLocation.player_Skin_UUID);
-                trait.getNPC().data().setPersistent(NPC.PLAYER_SKIN_UUID_METADATA, trait.currentLocation.player_Skin_Name);
-                trait.getNPC().data().setPersistent(NPC.PLAYER_SKIN_TEXTURE_PROPERTIES_METADATA, trait.currentLocation.player_Skin_Texture_Metadata);
-                trait.getNPC().data().setPersistent(NPC.PLAYER_SKIN_TEXTURE_PROPERTIES_SIGN_METADATA, trait.currentLocation.player_Skin_Texture_Signature);
+            if (!skinTrait.getSignature().equals(trait.currentLocation.player_Skin_Texture_Signature) ||
+                    !skinTrait.getTexture().equals(trait.currentLocation.player_Skin_Texture_Metadata)) {
 
-                if (trait.getNPC().isSpawned()) {
-
-                    SkinnableEntity skinnable = trait.getNPC().getEntity() instanceof SkinnableEntity ? (SkinnableEntity) trait.getNPC().getEntity() : null;
-                    if (skinnable != null) {
-                        
-                        Skin.get(skinnable).applyAndRespawn(skinnable);
-
-                    }
-                }
+                skinTrait.setSkinPersistent(trait.currentLocation.player_Skin_Name
+                        ,trait.currentLocation.player_Skin_Texture_Signature
+                        ,trait.currentLocation.player_Skin_Texture_Metadata);
             }
         }
     }
@@ -907,9 +889,7 @@ public class Citizens_Processing {
     
             
             Location newLocation = new Location(npc.getEntity().getWorld(),lastLocation.getBlockX()+0.5,lastLocation.getBlockY()+0.0,lastLocation.getBlockZ()+0.0);
-            if (!destRef.getMCUtils.setTargetLocation(npc.getEntity(),newLocation.getX(),lastLocation.getY(),lastLocation.getZ(),npc.getNavigator().getLocalParameters().speed())) {
-                npc.getNavigator().setTarget(newLocation);
-            }
+            npc.getNavigator().setTarget(newLocation);
             trait.lastNavigationPoint = newLocation;
             trait.lastPositionChange = LocalDateTime.now();
             return false;
@@ -1099,6 +1079,7 @@ public class Citizens_Processing {
                     if (destRef.debugTargets != null)
                         destRef.getMessageManager.sendDebugMessage("destinations", "Debug_Messages.path_novalidpath", npc, trait);
                     destRef.getMessageManager.debugMessage(Level.FINEST, "NPCDestinations_Goal.shouldExecute()|NPC:" + npc.getId() + "|NoValidPath");
+                    trait.setLastPathCalc();
                     return false;
                 }
                 trait.lastResult = "Failed to locate a valid path to destination";
@@ -1423,7 +1404,7 @@ public class Citizens_Processing {
         for (int nCnt = 0; nCnt < trait.NPCLocations.size(); nCnt++) {
             // Do not save any managed locations!
             if (trait.NPCLocations.get(i).managed_Location.length() == 0) {
-                key.setString("Destinations." + i + ".locationid", trait.NPCLocations.get(i).LocationIdent.toString());
+                key.setString("Destinations." + i + ".locationid", trait.NPCLocations.get(i).LocationIdent == null ? UUID.randomUUID().toString():trait.NPCLocations.get(i).LocationIdent.toString());
                 key.setString("Destinations." + i + ".Location.world", trait.NPCLocations.get(i).destination.getWorld().getName());
                 key.setInt("Destinations." + i + ".Location.x", trait.NPCLocations.get(i).destination.getBlockX());
                 key.setInt("Destinations." + i + ".Location.y", trait.NPCLocations.get(i).destination.getBlockY());

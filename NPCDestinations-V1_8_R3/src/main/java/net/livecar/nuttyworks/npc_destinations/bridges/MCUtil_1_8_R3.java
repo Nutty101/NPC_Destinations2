@@ -126,10 +126,6 @@ public class MCUtil_1_8_R3 implements MCUtilsBridge {
         if (b.getRelative(0, 2, 0).getType().isSolid())
             return false;
 
-        if (b.getType().toString().contains("STAIR")) {
-            return !b.getRelative(0, 3, 0).getType().isSolid();
-        }
-
         return true;
     }
 
@@ -229,16 +225,6 @@ public class MCUtil_1_8_R3 implements MCUtilsBridge {
             oOpenable.setOpen(true);
             oBlockState.setData((MaterialData) oOpenable);
             oBlockState.update();
-            return true;
-        }
-        return false;
-    }
-
-    @Override
-    public boolean setTargetLocation(Entity entity, Double x, Double y, Double z, Float speed) {
-        EntityLiving nmsEntity = ((CraftLivingEntity) entity).getHandle();
-        if (nmsEntity instanceof EntityInsentient) {
-            ((EntityInsentient) nmsEntity).getNavigation().a(x, y, z, speed);
             return true;
         }
         return false;

@@ -32,7 +32,6 @@ import net.livecar.nuttyworks.npc_destinations.thirdpartyplugins.plotsquared.Plo
 import net.livecar.nuttyworks.npc_destinations.thirdpartyplugins.sentinel.Sentinel_Plugin;
 import net.livecar.nuttyworks.npc_destinations.utilities.Utilities;
 import net.livecar.nuttyworks.npc_destinations.worldguard.*;
-import org.apache.commons.io.FileUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -40,8 +39,9 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -157,7 +157,7 @@ public class DestinationsPlugin extends org.bukkit.plugin.java.JavaPlugin implem
         if (getServer().getPluginManager().getPlugin("Quests") != null) {
             //Write out the quests addon to the quests modules folder.
             if (new File(this.getDataFolder().getParentFile(), "/Quests/modules").exists())
-                exportFile(new File(this.getDataFolder().getParentFile(), "/Quests/modules"), "NPCDestinations_Quests-2.3.0.jar");
+                exportFile(new File(this.getDataFolder().getParentFile(), "/Quests/modules"), "NPCDestinations_Quests-2.3.0.jar",true);
         }
 
     }
@@ -269,13 +269,17 @@ public class DestinationsPlugin extends org.bukkit.plugin.java.JavaPlugin implem
             getParticleManager = new PlayParticle_1_16_R3();
             getMCUtils = new MCUtil_1_16_R3();
             getMessageManager.consoleMessage(this, "destinations", "console_messages.plugin_version", getServer().getVersion().substring(getServer().getVersion().indexOf('(')));
+        } else if (Bukkit.getServer().getClass().getPackage().getName().endsWith("v1_17_R1")) {
+            Version = 11710;
+            getParticleManager = new PlayParticle_1_17_R1();
+            getMCUtils = new MCUtil_1_17_R1();
+            getMessageManager.consoleMessage(this, "destinations", "console_messages.plugin_version", getServer().getVersion().substring(getServer().getVersion().indexOf('(')));
         } else {
-            getMessageManager.consoleMessage(this, "destinations", "console_messages.plugin_unknownversion", getServer().getVersion());
+            getMessageManager.consoleMessage(this, "destinations", "console_messages.plugin_unknownversion", Bukkit.getServer().getClass().getPackage().getName());
             getServer().getPluginManager().disablePlugin(this);
             return;
         }
-    
-        
+
         //Determine the time engine
         String timePlugin = this.getConfig().getString("timeplugin","default");
         
@@ -411,7 +415,6 @@ public class DestinationsPlugin extends org.bukkit.plugin.java.JavaPlugin implem
             } else {
                 getMessageManager.consoleMessage(this, "destinations", "console_messages.worldguard_found", getServer().getPluginManager().getPlugin("WorldGuard").getDescription().getVersion());
                 this.getWorldGuardPlugin.registerEvents();
-                this.getWorldGuardPlugin.checkWorld();
             }
         }
 
@@ -524,24 +527,21 @@ public class DestinationsPlugin extends org.bukkit.plugin.java.JavaPlugin implem
         // Validate that the default package is in the MountPackages folder. If
         // not, create it.
         if (!(new File(getDataFolder(), "config.yml").exists()))
-            exportFile(getDataFolder(), "config.yml");
-        exportFile(languagePath, "en_def-destinations.yml");
-        exportFile(languagePath, "en_def-jobsreborn.yml");
-        exportFile(languagePath, "en_def-sentinel.yml");
+            exportFile(getDataFolder(), "config.yml", false);
+        exportFile(languagePath, "en_def-destinations.yml",true);
+        exportFile(languagePath, "en_def-jobsreborn.yml",true);
+        exportFile(languagePath, "en_def-sentinel.yml",true);
 
         this.getDefaultConfig = getUtilitiesClass.loadConfiguration(new File(this.getDataFolder(), "config.yml"));
     }
 
-    private void exportFile(File path, String filename) {
+    private void exportFile(File path, String filename, boolean overwrite) {
         if (getMessageManager != null)
             this.getMessageManager.debugMessage(Level.FINEST, "nuDestinationsPlugin.exportFile()|");
         File fileConfig = new File(path, filename);
         if (!fileConfig.isDirectory()) {
-            // Reader defConfigStream = null;
             try {
-                FileUtils.copyURLToFile(getClass().getResource("/" + filename), fileConfig);
-                // defConfigStream = new
-                // InputStreamReader(this.getResource(filename), "UTF8");
+                exportFile(filename, fileConfig, overwrite);
             } catch (IOException e1) {
                 if (getMessageManager != null) {
                     getMessageManager.debugMessage(Level.SEVERE, "nuDestinationsPlugin.exportFile()|FailedToExtractFile(" + filename + ")");
@@ -551,4 +551,44 @@ public class DestinationsPlugin extends org.bukkit.plugin.java.JavaPlugin implem
         }
     }
 
+    private void exportFile(String source, File destination,boolean overwrite) throws IOException {
+        //We overwrite the files anyway
+        if (!overwrite && destination.exists())
+            return;
+
+        if (destination.exists())
+            destination.delete();
+
+        if (!destination.getParentFile().exists())
+            throw new IOException("Folders missing.");
+
+        if (!destination.createNewFile())
+            throw new IOException("Failed to create a new file");
+
+        URL sourceURL = getClass().getResource("/" + source);
+        if (sourceURL == null)
+            throw new IOException("Missing resource file");
+
+        byte[] ioBuffer = new byte[1024];
+        int bytesRead = 0;
+
+        try {
+            URLConnection inputConnection = sourceURL.openConnection();
+            inputConnection.setUseCaches(false);
+
+            InputStream fileIn = inputConnection.getInputStream();
+            OutputStream fileOut = new FileOutputStream(destination);
+
+            while ((bytesRead = fileIn.read(ioBuffer)) > 0) {
+                fileOut.write(ioBuffer,0,bytesRead);
+            }
+
+            fileOut.flush();
+            fileOut.close();
+            fileIn.close();
+        } catch (Exception error)
+        {
+            throw new IOException("Failure exporting file");
+        }
+    }
 }

@@ -22,8 +22,6 @@ public interface WorldGuardInterface  {
 
     void registerEvents();
 
-    void checkWorld();
-
     List<String> getRegionList(World world);
 
     Location[] getRegionBounds(World world, String regionName);

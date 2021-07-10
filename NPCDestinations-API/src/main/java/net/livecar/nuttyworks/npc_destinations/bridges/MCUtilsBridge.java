@@ -30,8 +30,6 @@ public interface MCUtilsBridge {
     void closeOpenable(Block oBlock);
     boolean openOpenable(Block oBlock);
 
-    boolean setTargetLocation(Entity entity, Double x, Double y, Double z, Float speed);
-
     enum inHandLightSource
     {
         REDSTONE_TORCH,
