@@ -1,8 +1,8 @@
 package net.livecar.nuttyworks.npc_destinations.thirdpartyplugins.betonquest;
 
 import net.livecar.nuttyworks.npc_destinations.DestinationsPlugin;
+import org.betonquest.betonquest.BetonQuest;
 import org.bukkit.event.Listener;
-import pl.betoncraft.betonquest.BetonQuest;
 
 
 public class BetonQuest_Plugin implements Listener, BetonQuest_Interface {
@@ -11,7 +11,7 @@ public class BetonQuest_Plugin implements Listener, BetonQuest_Interface {
     @SuppressWarnings("deprecation")
     public BetonQuest_Plugin(DestinationsPlugin storageRef) {
         destRef = storageRef;
-        
+
         BetonQuest_Plugin.this.onStart();
     }
 

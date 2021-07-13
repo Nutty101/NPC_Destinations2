@@ -1,28 +1,21 @@
 package net.livecar.nuttyworks.npc_destinations.worldguard;
 
-import com.sk89q.worldedit.BlockVector;
 import com.sk89q.worldguard.bukkit.WGBukkit;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
-import com.sk89q.worldguard.protection.flags.StateFlag;
 import com.sk89q.worldguard.protection.managers.RegionManager;
-import com.sk89q.worldguard.protection.regions.ProtectedCuboidRegion;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
-import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.world.ChunkUnloadEvent;
-import org.bukkit.event.world.WorldLoadEvent;
 import org.bukkit.plugin.Plugin;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class WorldGuard_6_2_2 implements WorldGuardInterface, Listener {
-    private WorldGuardPlugin      getWorldGuardPlugin = null;
-    private Plugin                destRef             = null;
+    private WorldGuardPlugin getWorldGuardPlugin = null;
+    private Plugin destRef = null;
 
 
     public static boolean isValidVersion() {
@@ -43,10 +36,11 @@ public class WorldGuard_6_2_2 implements WorldGuardInterface, Listener {
         return getWorldGuardPlugin.getRegionManager(world);
     }
 
-    public void registerFlags() { }
+    public void registerFlags() {
+    }
 
     public void unregisterFlags() {
-    
+
     }
 
     public Location[] getRegionBounds(World world, String regionName) {
@@ -96,7 +90,6 @@ public class WorldGuard_6_2_2 implements WorldGuardInterface, Listener {
             case POLYGON:
                 return RegionShape.POLYGON;
         }
-
         return null;
     }
 

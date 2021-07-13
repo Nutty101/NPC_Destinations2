@@ -11,22 +11,13 @@
 
     <artifactId>NPCDestinations-V1_9_R2</artifactId>
 
-    <repositories>
-        <repository>
-            <id>spigot-api</id>
-            <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots</url>
-        </repository>
-    </repositories>
-
     <dependencies>
-        <!--Spigot API-->
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
             <version>1.9.4-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
-        <!--Bukkit API-->
         <dependency>
             <groupId>org.bukkit</groupId>
             <artifactId>bukkit</artifactId>
@@ -34,13 +25,11 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>org.bukkit</groupId>
-            <artifactId>craftbukkit</artifactId>
+            <groupId>org.spigotmc</groupId>
+            <artifactId>spigot</artifactId>
             <version>1.9.4-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
-
-        <!-- NPC_Destinations Core -->
         <dependency>
             <groupId>net.livecar.nuttyworks.npc_destinations</groupId>
             <artifactId>NPCDestinations-API</artifactId>
@@ -48,10 +37,4 @@
             <scope>provided</scope>
         </dependency>
     </dependencies>
-
-    <build>
-        <directory>../target</directory>
-        <finalName>${project.artifactId}-${project.parent.version}</finalName>
-    </build>
-
 </project>

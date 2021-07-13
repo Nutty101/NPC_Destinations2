@@ -1,29 +1,35 @@
 package net.livecar.nuttyworks.npc_destinations.thirdpartyplugins.plotsquared;
 
-import com.github.intellectualsites.plotsquared.plot.flag.Flags;
-import com.github.intellectualsites.plotsquared.plot.object.Location;
-import com.github.intellectualsites.plotsquared.plot.object.Plot;
-import com.github.intellectualsites.plotsquared.plot.object.PlotPlayer;
+import com.plotsquared.bukkit.util.BukkitUtil;
+import com.plotsquared.core.PlotAPI;
+import com.plotsquared.core.location.Location;
+import com.plotsquared.core.player.PlotPlayer;
+import com.plotsquared.core.plot.Plot;
+import com.plotsquared.core.plot.flag.implementations.TimeFlag;
 import net.citizensnpcs.api.npc.NPC;
 import org.bukkit.entity.Player;
 
-import java.util.Optional;
+public class PlotSquared_Plugin_V6 implements PlotSquared {
 
-public class PlotSquared_Plugin_V4 implements PlotSquared{
+    private PlotAPI plotAPI = new PlotAPI(); //For some reason you gotta instantiate?
 
-    public boolean playerHasPermissions(Player plr) {
-        if (plr.hasPermission("plots.destinations.bypass"))
+    public boolean playerHasPermissions(Player player) {
+        if (player.hasPermission("plots.destinations.bypass"))
             return true;
 
-        PlotPlayer pplr = PlotPlayer.wrap(plr);
+        PlotPlayer<?> plotPlayer = this.plotAPI.wrapPlayer(player.getUniqueId());
 
-        if (pplr.getCurrentPlot() != null) {
-            Plot curPlot = pplr.getCurrentPlot();
-            if (curPlot.isOwner(plr.getUniqueId()))
+        if (plotPlayer == null) {
+            return false;
+        }
+
+        if (plotPlayer.getCurrentPlot() != null) {
+            Plot curPlot = plotPlayer.getCurrentPlot();
+            if (curPlot.isOwner(player.getUniqueId()))
                 return true;
-            if (curPlot.getTrusted().contains(plr.getUniqueId()))
+            if (curPlot.getTrusted().contains(player.getUniqueId()))
                 return true;
-            return curPlot.getMembers().contains(plr.getUniqueId());
+            return curPlot.getMembers().contains(player.getUniqueId());
         }
 
         return false;
@@ -66,7 +72,7 @@ public class PlotSquared_Plugin_V4 implements PlotSquared{
     }
 
     public int getNPCPlotTime(NPC npc) {
-        Plot npcPlot = null;
+        Plot npcPlot;
         if (npc.isSpawned())
             npcPlot = Plot.getPlot(locationToPlot(npc.getEntity().getLocation()));
         else
@@ -77,17 +83,12 @@ public class PlotSquared_Plugin_V4 implements PlotSquared{
             return ((Long) npc.getEntity().getWorld().getTime()).intValue();
         }
 
-        if (npcPlot.hasFlag(Flags.TIME)) {
-            Optional<Long> timeFlag = npcPlot.getFlag(Flags.TIME);
-            if (timeFlag.isPresent())
-                return timeFlag.get().intValue();
-        }
+        Long timeFlag = npcPlot.getFlag(TimeFlag.class);
+        if (!(timeFlag.equals(TimeFlag.TIME_DISABLED.getValue()))) return timeFlag.intValue();
         return ((Long) npc.getEntity().getWorld().getTime()).intValue();
-
     }
 
-    private com.github.intellectualsites.plotsquared.plot.object.Location locationToPlot(org.bukkit.Location loc) {
-        return new Location(loc.getWorld().getName(),loc.getBlockX(),loc.getBlockY(),loc.getBlockZ());
+    private Location locationToPlot(org.bukkit.Location loc) {
+        return BukkitUtil.adapt(loc);
     }
-
 }

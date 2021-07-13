@@ -28,7 +28,7 @@ import net.livecar.nuttyworks.npc_destinations.thirdpartyplugins.betonquest.Beto
 import net.livecar.nuttyworks.npc_destinations.thirdpartyplugins.jobsreborn.JobsReborn_Plugin;
 import net.livecar.nuttyworks.npc_destinations.thirdpartyplugins.plotsquared.PlotSquared;
 import net.livecar.nuttyworks.npc_destinations.thirdpartyplugins.plotsquared.PlotSquared_Plugin_V3;
-import net.livecar.nuttyworks.npc_destinations.thirdpartyplugins.plotsquared.PlotSquared_Plugin_V4;
+import net.livecar.nuttyworks.npc_destinations.thirdpartyplugins.plotsquared.PlotSquared_Plugin_V6;
 import net.livecar.nuttyworks.npc_destinations.thirdpartyplugins.sentinel.Sentinel_Plugin;
 import net.livecar.nuttyworks.npc_destinations.utilities.Utilities;
 import net.livecar.nuttyworks.npc_destinations.worldguard.*;
@@ -351,7 +351,7 @@ public class DestinationsPlugin extends org.bukkit.plugin.java.JavaPlugin implem
             if (getPlotSquared == null) {
                 try {
                     Class.forName("com.github.intellectualsites.plotsquared.plot.flag.Flag");
-                    this.getPlotSquared = new PlotSquared_Plugin_V4();
+                    this.getPlotSquared = new PlotSquared_Plugin_V6();
                     getMessageManager.consoleMessage(this, "destinations", "Console_Messages.plotsquared_found","V4-" + getServer().getPluginManager().getPlugin("PlotSquared").getDescription().getVersion());
                 } catch (Exception e) {
                 }
@@ -453,7 +453,7 @@ public class DestinationsPlugin extends org.bukkit.plugin.java.JavaPlugin implem
 
         final BStat_Metrics statsReporting = new BStat_Metrics(this);
 
-        Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(this, () -> statsReporting.Start(),500L);
+        Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(this, statsReporting::Start,500L);
     }
 
     public void onDisable() {
