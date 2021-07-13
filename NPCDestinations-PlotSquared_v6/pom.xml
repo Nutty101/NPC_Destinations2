@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>NPCDestinations-PlotSquared_v4</artifactId>
+    <artifactId>NPCDestinations-PlotSquared_v6</artifactId>
     <packaging>jar</packaging>
 
     <dependencies>
@@ -18,13 +18,6 @@
             <groupId>org.bukkit</groupId>
             <artifactId>bukkit</artifactId>
             <version>1.13-R0.1-SNAPSHOT</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>net.citizensnpcs</groupId>
-            <artifactId>citizens</artifactId>
-            <version>2.0.24-SNAPSHOT</version>
-            <type>jar</type>
             <scope>provided</scope>
         </dependency>
 
@@ -37,19 +30,27 @@
             <scope>provided</scope>
         </dependency>
 
+        <!-- PlotSquared Core API -->
+        <dependency>
+            <groupId>com.plotsquared</groupId>
+            <artifactId>PlotSquared-Core</artifactId>
+            <version>6.0.6-SNAPSHOT</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- PlotSquared Bukkit API -->
+        <dependency>
+            <groupId>com.plotsquared</groupId>
+            <artifactId>PlotSquared-Bukkit</artifactId>
+            <version>6.0.6-SNAPSHOT</version>
+            <scope>provided</scope>
+        </dependency>
+
         <!-- NPC_Destinations API -->
         <dependency>
             <groupId>net.livecar.nuttyworks.npc_destinations</groupId>
             <artifactId>NPCDestinations-API</artifactId>
             <version>${project.version}</version>
-            <scope>provided</scope>
-        </dependency>
-
-        <!-- PlotSquared -->
-        <dependency>
-            <groupId>com.github.intellectualsites.plotsquared</groupId>
-            <artifactId>PlotSquared-API</artifactId>
-            <version>4.263</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>

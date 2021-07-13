@@ -11,13 +11,6 @@
 
     <artifactId>NPCDestinations-V1_9_R2</artifactId>
 
-    <repositories>
-        <repository>
-            <id>spigot-api</id>
-            <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots</url>
-        </repository>
-    </repositories>
-
     <dependencies>
         <!--Spigot API-->
         <dependency>
@@ -34,8 +27,8 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>org.bukkit</groupId>
-            <artifactId>craftbukkit</artifactId>
+            <groupId>org.spigotmc</groupId>
+            <artifactId>spigot</artifactId>
             <version>1.9.4-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>

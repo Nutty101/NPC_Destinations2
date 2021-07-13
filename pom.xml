@@ -29,9 +29,8 @@
         <module>NPCDestinations-WG7_0_3</module>
         <module>NPCDestinations-WG6_2_2</module>
         <module>NPCDestinations-PlotSquared_v3</module>
-        <module>NPCDestinations-PlotSquared_v4</module>
+        <module>NPCDestinations-PlotSquared_v6</module>
     </modules>
-
 
     <name>NPC_Destinations</name>
     <description>Parent project for NPC Destinations</description>
@@ -39,8 +38,8 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.target>1.8</maven.compiler.target>
-        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>16</maven.compiler.target>
+        <maven.compiler.source>16</maven.compiler.source>
     </properties>
 
     <!-- Common Repositories -->
@@ -51,35 +50,39 @@
         </repository>
         <repository>
             <id>citizensrepo</id>
-            <url>http://repo.citizensnpcs.co/</url>
-        </repository>
-        <repository>
-            <id>PlotSquared</id>
-            <url>http://ci.athion.net/job/PlotSquared/ws/mvn/</url>
-        </repository>
-        <repository>
-            <id>sk89q-repo</id>
-            <url>http://maven.sk89q.com/repo/</url>
-        </repository>
-        <repository>
-            <id>betonquest-repo</id>
-            <url>http://amberproject.net:8082/repository/AmberProject/</url>
-        </repository>
-        <repository>
-            <id>nuttys-repo</id>
-            <url>http://repo.livecar.net/</url>
+            <url>https://repo.citizensnpcs.co/</url>
         </repository>
         <repository>
             <id>CodeMC</id>
             <url>https://repo.codemc.org/repository/maven-public/</url>
         </repository>
         <repository>
-            <id>common Repo</id>
-            <url>https://mvnrepository.com/artifact/org.apache.commons/commons-lang</url>
+            <id>nms-repo</id>
+            <url>https://repo.codemc.io/repository/nms/</url>
         </repository>
         <repository>
             <id>bundabrg-repo</id>
             <url>https://repo.worldguard.com.au/repository/maven-public/</url>
+        </repository>
+        <repository>
+            <id>enginehub-maven</id>
+            <url>https://maven.enginehub.org/repo/</url>
+        </repository>
+        <repository>
+            <id>OSS Sonatype</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+        </repository>
+        <repository>
+            <id>IntellectualSites</id>
+            <url>https://mvn.intellectualsites.com/content/groups/public/</url>
+        </repository>
+        <repository>
+            <id>betonquest-repo</id>
+            <url>https://betonquest.org/nexus/repository/betonquest/</url>
+        </repository>
+        <repository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
         </repository>
     </repositories>
 
@@ -89,11 +92,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.0</version>
-                <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
-                </configuration>
+                <version>3.8.1</version>
             </plugin>
         </plugins>
     </build>
