@@ -13,15 +13,12 @@
     <packaging>jar</packaging>
 
     <dependencies>
-        <!--Bukkit API-->
         <dependency>
             <groupId>org.bukkit</groupId>
             <artifactId>bukkit</artifactId>
             <version>1.13-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
-
-        <!-- Citizens Reference -->
         <dependency>
             <groupId>net.citizensnpcs</groupId>
             <artifactId>citizens</artifactId>
@@ -29,24 +26,18 @@
             <type>jar</type>
             <scope>provided</scope>
         </dependency>
-
-        <!-- PlotSquared Core API -->
         <dependency>
             <groupId>com.plotsquared</groupId>
             <artifactId>PlotSquared-Core</artifactId>
             <version>6.0.6-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
-
-        <!-- PlotSquared Bukkit API -->
         <dependency>
             <groupId>com.plotsquared</groupId>
             <artifactId>PlotSquared-Bukkit</artifactId>
             <version>6.0.6-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
-
-        <!-- NPC_Destinations API -->
         <dependency>
             <groupId>net.livecar.nuttyworks.npc_destinations</groupId>
             <artifactId>NPCDestinations-API</artifactId>
@@ -54,10 +45,4 @@
             <scope>provided</scope>
         </dependency>
     </dependencies>
-
-    <build>
-        <directory>../target</directory>
-        <finalName>${project.artifactId}-${project.parent.version}</finalName>
-    </build>
-
 </project>

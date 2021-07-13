@@ -13,7 +13,6 @@
     <packaging>jar</packaging>
 
     <dependencies>
-        <!--Spigot API-->
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
@@ -26,29 +25,17 @@
             <version>1.16.1-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
-
-        <!-- NPC_Destinations API -->
         <dependency>
             <groupId>net.livecar.nuttyworks.npc_destinations</groupId>
             <artifactId>NPCDestinations-API</artifactId>
             <version>${project.version}</version>
             <scope>provided</scope>
         </dependency>
-
-        <!--Citizens API-->
         <dependency>
             <groupId>net.citizensnpcs</groupId>
             <artifactId>citizens</artifactId>
             <version>2.0.27-20200727.075707-2079</version>
-            <type>jar</type>
             <scope>provided</scope>
         </dependency>
-
     </dependencies>
-
-    <build>
-        <directory>../target</directory>
-        <finalName>${project.artifactId}-${project.parent.version}</finalName>
-    </build>
-
 </project>

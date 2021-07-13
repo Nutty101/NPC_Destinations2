@@ -13,35 +13,30 @@
     <packaging>jar</packaging>
 
     <dependencies>
-        <!-- NPC_Destinations API -->
         <dependency>
             <groupId>net.livecar.nuttyworks.npc_destinations</groupId>
             <artifactId>NPCDestinations-API</artifactId>
             <version>${project.version}</version>
             <scope>provided</scope>
         </dependency>
-        <!--Spigot API-->
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
             <version>1.13.1-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
-        <!--Bukkit API-->
         <dependency>
             <groupId>org.bukkit</groupId>
             <artifactId>bukkit</artifactId>
             <version>1.13.1-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
-        <!-- WorldEdit -->
         <dependency>
             <groupId>com.sk89q.worldedit</groupId>
             <artifactId>worldedit-bukkit</artifactId>
             <version>7.0.0-20190205.033617-62</version>
             <scope>provided</scope>
         </dependency>
-        <!-- WorldGuard -->
         <dependency>
             <groupId>com.sk89q.worldguard</groupId>
             <artifactId>worldguard-core</artifactId>
@@ -49,8 +44,4 @@
             <scope>provided</scope>
         </dependency>
     </dependencies>
-    <build>
-        <directory>../target</directory>
-        <finalName>${project.artifactId}-${project.parent.version}</finalName>
-    </build>
 </project>

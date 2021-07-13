@@ -12,7 +12,6 @@
     <artifactId>NPCDestinations-API</artifactId>
 
     <dependencies>
-        <!--Bukkit API-->
         <dependency>
             <groupId>org.bukkit</groupId>
             <artifactId>bukkit</artifactId>
@@ -25,14 +24,12 @@
             <version>2.0.28-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
-        <!-- WorldGuard -->
         <dependency>
             <groupId>com.sk89q.worldguard</groupId>
             <artifactId>worldguard-legacy</artifactId>
             <version>6.2</version>
             <scope>provided</scope>
         </dependency>
-        <!-- WorldEdit -->
         <dependency>
             <groupId>com.sk89q.worldedit</groupId>
             <artifactId>worldedit-bukkit</artifactId>
@@ -40,9 +37,4 @@
             <scope>provided</scope>
         </dependency>
     </dependencies>
-
-    <build>
-        <directory>../target</directory>
-        <finalName>${project.artifactId}-${project.parent.version}</finalName>
-    </build>
 </project>

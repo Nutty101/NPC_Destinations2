@@ -1,0 +1,17 @@
+net\livecar\nuttyworks\npc_destinations\worldguard\WorldGuardInterface.class
+net\livecar\nuttyworks\npc_destinations\bridges\MCUtilsBridge$inHandLightSource.class
+net\livecar\nuttyworks\npc_destinations\bridges\MCUtilsBridge.class
+net\livecar\nuttyworks\npc_destinations\api\Navigation_NewDestination.class
+net\livecar\nuttyworks\npc_destinations\particles\SupportedParticles.class
+net\livecar\nuttyworks\npc_destinations\api\Location_Updated.class
+net\livecar\nuttyworks\npc_destinations\api\Navigation_Failed.class
+net\livecar\nuttyworks\npc_destinations\particles\PlayParticleInterface.class
+net\livecar\nuttyworks\npc_destinations\api\enumerations$TriBoolean.class
+net\livecar\nuttyworks\npc_destinations\api\enumerations.class
+net\livecar\nuttyworks\npc_destinations\thirdpartyplugins\plotsquared\PlotSquared.class
+net\livecar\nuttyworks\npc_destinations\api\Location_Deleted.class
+net\livecar\nuttyworks\npc_destinations\api\Destination_Setting.class
+net\livecar\nuttyworks\npc_destinations\api\Navigation_Reached.class
+net\livecar\nuttyworks\npc_destinations\api\Location_Added.class
+net\livecar\nuttyworks\npc_destinations\bridges\MCUtilsBridge$SLABTYPE.class
+net\livecar\nuttyworks\npc_destinations\worldguard\WorldGuardInterface$RegionShape.class
