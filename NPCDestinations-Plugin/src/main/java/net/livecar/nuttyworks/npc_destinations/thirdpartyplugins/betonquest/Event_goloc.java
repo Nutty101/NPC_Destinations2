@@ -6,10 +6,10 @@ import net.livecar.nuttyworks.npc_destinations.api.Destination_Setting;
 import net.livecar.nuttyworks.npc_destinations.citizens.NPCDestinationsTrait;
 import net.livecar.nuttyworks.npc_destinations.citizens.NPCDestinationsTrait.en_RequestedAction;
 import org.apache.commons.lang.math.NumberUtils;
-import org.betonquest.betonquest.Instruction;
-import org.betonquest.betonquest.api.QuestEvent;
-import org.betonquest.betonquest.exceptions.InstructionParseException;
-import org.betonquest.betonquest.exceptions.QuestRuntimeException;
+import pl.betoncraft.betonquest.Instruction;
+import pl.betoncraft.betonquest.api.QuestEvent;
+import pl.betoncraft.betonquest.exceptions.InstructionParseException;
+import pl.betoncraft.betonquest.exceptions.QuestRuntimeException;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
