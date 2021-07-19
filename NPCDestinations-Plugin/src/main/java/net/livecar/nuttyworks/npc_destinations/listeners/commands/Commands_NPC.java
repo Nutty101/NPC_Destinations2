@@ -35,6 +35,10 @@ public class Commands_NPC
     )
     public boolean npcDest_AutoSet(DestinationsPlugin destRef,CommandSender sender, NPC npc, String[] inargs, boolean isOwner, NPCDestinationsTrait destTrait)
     {
+        if (npc == null) {
+            destRef.getMessageManager.sendMessage("destinations", sender, "messages.invalid_npc");
+            return true;
+        }
         // Add the trait to this NPC
         Class<? extends Trait> npcDestClass = CitizensAPI.getTraitFactory().getTraitClass("NPCDestinations");
         if (npcDestClass == null) {
