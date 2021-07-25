@@ -309,11 +309,10 @@ public class DestinationsPlugin extends org.bukkit.plugin.java.JavaPlugin implem
             getMessageManager.consoleMessage(this, "destinations", "Console_Messages.betonquest_notfound");
         } else {
             String versionString = getServer().getPluginManager().getPlugin("BetonQuest").getDescription().getVersion();
-            double version = Double.parseDouble(versionString);
-            if (version >= 2.0){
-                getBetonQuestPlugin = new net.livecar.nuttyworks.npc_destinations.thirdpartyplugins.betonquest.v2.BetonQuest_Plugin(this);
-            }else{
+            if (versionString.startsWith("1.")){
                 getBetonQuestPlugin = new net.livecar.nuttyworks.npc_destinations.thirdpartyplugins.betonquest.v1.BetonQuest_Plugin(this);
+            }else{
+                getBetonQuestPlugin = new net.livecar.nuttyworks.npc_destinations.thirdpartyplugins.betonquest.v2.BetonQuest_Plugin(this);
             }
             getMessageManager.consoleMessage(this, "destinations", "Console_Messages.betonquest_found", versionString);
             this.getMessageManager.debugMessage(Level.CONFIG, "nuNPCDestinations.onEnable()|BetonQuestFound");
