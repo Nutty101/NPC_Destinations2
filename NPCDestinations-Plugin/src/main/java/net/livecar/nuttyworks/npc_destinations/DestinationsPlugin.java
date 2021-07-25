@@ -24,7 +24,7 @@ import net.livecar.nuttyworks.npc_destinations.plugins.Plugin_Manager;
 import net.livecar.nuttyworks.npc_destinations.plugins.timemanager.DestinationsTimeManager;
 import net.livecar.nuttyworks.npc_destinations.plugins.timemanager.realworldtime.DestinationsRealWorldTimeManager;
 import net.livecar.nuttyworks.npc_destinations.thirdpartyplugins.betonquest.BetonQuest_Interface;
-import net.livecar.nuttyworks.npc_destinations.thirdpartyplugins.betonquest.BetonQuest_Plugin;
+import net.livecar.nuttyworks.npc_destinations.thirdpartyplugins.betonquest.v1.BetonQuest_Plugin;
 import net.livecar.nuttyworks.npc_destinations.thirdpartyplugins.jobsreborn.JobsReborn_Plugin;
 import net.livecar.nuttyworks.npc_destinations.thirdpartyplugins.plotsquared.PlotSquared;
 import net.livecar.nuttyworks.npc_destinations.thirdpartyplugins.plotsquared.PlotSquared_Plugin_V3;
@@ -309,8 +309,14 @@ public class DestinationsPlugin extends org.bukkit.plugin.java.JavaPlugin implem
             this.getMessageManager.debugMessage(Level.CONFIG, "nuNPCDestinations.onEnable()|BetonQuest_NotFound");
             getMessageManager.consoleMessage(this, "destinations", "Console_Messages.betonquest_notfound");
         } else {
-            getMessageManager.consoleMessage(this, "destinations", "Console_Messages.betonquest_found", getServer().getPluginManager().getPlugin("BetonQuest").getDescription().getVersion());
-            getBetonQuestPlugin = new BetonQuest_Plugin(this);
+            String versionString = getServer().getPluginManager().getPlugin("BetonQuest").getDescription().getVersion();
+            double version = Double.parseDouble(versionString);
+            if (version >= 2.0){
+                getBetonQuestPlugin = new net.livecar.nuttyworks.npc_destinations.thirdpartyplugins.betonquest.v2.BetonQuest_Plugin(this);
+            }else{
+                getBetonQuestPlugin = new net.livecar.nuttyworks.npc_destinations.thirdpartyplugins.betonquest.v1.BetonQuest_Plugin(this);
+            }
+            getMessageManager.consoleMessage(this, "destinations", "Console_Messages.betonquest_found", versionString);
             this.getMessageManager.debugMessage(Level.CONFIG, "nuNPCDestinations.onEnable()|BetonQuestFound");
         }
 

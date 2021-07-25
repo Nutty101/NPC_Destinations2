@@ -1,14 +1,14 @@
-package net.livecar.nuttyworks.npc_destinations.thirdpartyplugins.betonquest;
+package net.livecar.nuttyworks.npc_destinations.thirdpartyplugins.betonquest.v2;
 
 import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.npc.NPC;
 import net.livecar.nuttyworks.npc_destinations.api.Destination_Setting;
 import net.livecar.nuttyworks.npc_destinations.citizens.NPCDestinationsTrait;
 import org.apache.commons.lang.math.NumberUtils;
-import pl.betoncraft.betonquest.Instruction;
-import pl.betoncraft.betonquest.api.Condition;
-import pl.betoncraft.betonquest.exceptions.InstructionParseException;
-import pl.betoncraft.betonquest.exceptions.QuestRuntimeException;
+import org.betonquest.betonquest.Instruction;
+import org.betonquest.betonquest.api.Condition;
+import org.betonquest.betonquest.exceptions.InstructionParseException;
+import org.betonquest.betonquest.exceptions.QuestRuntimeException;
 
 import java.util.UUID;
 

@@ -1,7 +1,8 @@
-package net.livecar.nuttyworks.npc_destinations.thirdpartyplugins.betonquest;
+package net.livecar.nuttyworks.npc_destinations.thirdpartyplugins.betonquest.v1;
 
 import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.npc.NPC;
+import net.livecar.nuttyworks.npc_destinations.api.Destination_Setting;
 import net.livecar.nuttyworks.npc_destinations.citizens.NPCDestinationsTrait;
 import org.apache.commons.lang.math.NumberUtils;
 import pl.betoncraft.betonquest.Instruction;
@@ -11,24 +12,27 @@ import pl.betoncraft.betonquest.exceptions.QuestRuntimeException;
 
 import java.util.UUID;
 
-public class Condition_CurrentLocation extends Condition {
+public class Condition_DistanceToLocation extends Condition {
     private UUID destUUID;
     private int destID;
+    private int destDistance;
     private int targetNPC;
 
-    public Condition_CurrentLocation(Instruction instruction) throws InstructionParseException {
+    public Condition_DistanceToLocation(Instruction instruction) throws InstructionParseException {
         super(instruction, true);
         //<npcid> <loc#>
 
-        if (instruction.size() < 2) {
+        if (instruction.size() < 3) {
             throw new InstructionParseException("Not enough arguments");
         }
         if (NumberUtils.isNumber(instruction.getPart(1)) && NumberUtils.isNumber(instruction.getPart(2))) {
             targetNPC = Integer.parseInt(instruction.getPart(1));
             destID = Integer.parseInt(instruction.getPart(2));
+            destDistance = Integer.parseInt(instruction.getPart(3));
             return;
         } else if (NumberUtils.isNumber(instruction.getPart(1)) && !NumberUtils.isNumber(instruction.getPart(2))) {
             targetNPC = Integer.parseInt(instruction.getPart(1));
+            destDistance = Integer.parseInt(instruction.getPart(3));
             if (instruction.getPart(2).matches("[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}")) {
                 destID = -1;
                 destUUID = UUID.fromString(instruction.getPart(2));
@@ -36,7 +40,7 @@ public class Condition_CurrentLocation extends Condition {
             }
         }
 
-        throw new InstructionParseException("Values should be numeric (NPCID) (LOC# / OR LocationGUID)");
+        throw new InstructionParseException("Values should be numeric (NPCID) (LOC# / OR LocationGUID)(Distance)");
     }
 
     @Override
@@ -62,7 +66,17 @@ public class Condition_CurrentLocation extends Condition {
                 return false;
             }
 
-            return trait.NPCLocations.get(destID).destination.toString().equals(trait.currentLocation.destination.toString());
-        } else return trait.currentLocation.LocationIdent.toString().equalsIgnoreCase(destUUID.toString());
+            //if (trait.NPCLocations.get(destID).destination.toString().equals(trait.currentLocation.destination.toString()))
+            //{
+            return trait.NPCLocations.get(destID).destination.distance(npc.getEntity().getLocation()) <= destDistance;
+            //}
+        }
+        for (Destination_Setting destLoc : trait.NPCLocations) {
+
+            if (destLoc.LocationIdent.toString().equalsIgnoreCase(destUUID.toString()) && destLoc.destination.distance(npc.getEntity().getLocation()) <= destDistance) {
+                return true;
+            }
+        }
+        return false;
     }
 }

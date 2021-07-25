@@ -1,6 +1,7 @@
-package net.livecar.nuttyworks.npc_destinations.thirdpartyplugins.betonquest;
+package net.livecar.nuttyworks.npc_destinations.thirdpartyplugins.betonquest.v1;
 
 import net.livecar.nuttyworks.npc_destinations.DestinationsPlugin;
+import net.livecar.nuttyworks.npc_destinations.thirdpartyplugins.betonquest.BetonQuest_Interface;
 import org.bukkit.event.Listener;
 import pl.betoncraft.betonquest.BetonQuest;
 
