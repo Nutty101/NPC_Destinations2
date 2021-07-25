@@ -24,7 +24,6 @@ import net.livecar.nuttyworks.npc_destinations.plugins.Plugin_Manager;
 import net.livecar.nuttyworks.npc_destinations.plugins.timemanager.DestinationsTimeManager;
 import net.livecar.nuttyworks.npc_destinations.plugins.timemanager.realworldtime.DestinationsRealWorldTimeManager;
 import net.livecar.nuttyworks.npc_destinations.thirdpartyplugins.betonquest.BetonQuest_Interface;
-import net.livecar.nuttyworks.npc_destinations.thirdpartyplugins.betonquest.v1.BetonQuest_Plugin;
 import net.livecar.nuttyworks.npc_destinations.thirdpartyplugins.jobsreborn.JobsReborn_Plugin;
 import net.livecar.nuttyworks.npc_destinations.thirdpartyplugins.plotsquared.PlotSquared;
 import net.livecar.nuttyworks.npc_destinations.thirdpartyplugins.plotsquared.PlotSquared_Plugin_V3;
